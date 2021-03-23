@@ -17,7 +17,7 @@
 package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.Predef._
-import io.gatling.core.action.builder.PauseBuilder
+import io.gatling.core.action.builder.{ActionBuilder, PauseBuilder}
 import io.gatling.core.check.CheckBuilder
 import io.gatling.core.feeder.Random
 import io.gatling.core.structure.ChainBuilder
@@ -527,18 +527,19 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(header("Location").saveAs("scanPage"))
   }
 
-  def postScanProgressWaitPage1 : ChainBuilder = {
-    tryMax(2)
-    {pause(1.second).exec(http(" post scan progressing wait page1")
-//      .get(session => {
-//        val Location = session.get.attributes("scanPage")
-//        s"$baseUrl/$route/supporting-evidence/scan-progress/$Location"
-//      })
-      .get(s"$baseUrl" + "${scanPage}")
-      .check(status.in(303))
-      .check()
-      .check(header("Location").saveAs("selectPage")))}
+  def postScanProgressWaitPage1 : List[ActionBuilder] = {
+    asLongAs(session => session("selectPage").asOption[String].isEmpty)(
+      pause(2.second).exec(http(" post scan progressing wait page1")
+        //      .get(session => {
+        //        val Location = session.get.attributes("scanPage")
+        //        s"$baseUrl/$route/supporting-evidence/scan-progress/$Location"
+        //      })
+        .get(s"$baseUrl" + "${scanPage}")
+        .check(status.in(303, 200))
+        .check(header("Location").optional.saveAs("selectPage")))
+    ).actionBuilders
   }
+
 
   def getSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("get select supporting evidence page")

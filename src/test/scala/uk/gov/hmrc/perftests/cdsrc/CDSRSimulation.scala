@@ -16,51 +16,56 @@
 
 package uk.gov.hmrc.perftests.cdsrc
 
+import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.MRNNumberRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
+  val actions:List[ActionBuilder] = List[ActionBuilder](
+    getAuthLoginPage,
+    loginWithAuthLoginStub(),
+    getCdsrStartPage,
+    getMRNPage,
+    postMRNPage,
+    getEnterDeclarationDetails,
+    postEnterDeclarationDetails,
+    getWhoIsDeclarantPage,
+    postWhoIsDeclarantPage,
+    getEnterClaimantDetailsAsIndividualPage,
+    postEnterClaimantDetailsAsIndividualPage,
+    getEnterClaimantDetailsAsCompanyPage,
+    postEnterClaimantDetailsAsCompanyPage,
+    getEnterReasonForClaimAndBasisPage,
+    postEnterReasonForClaimAndBasisPage,
+    getEnterCommodityDetailsPage,
+    postEnterCommodityDetailsPage,
+    getSelectDutiesPage,
+    postSelectDutiesPage,
+    getStartClaimPage,
+    getEnterClaimPage,
+    postEnterClaimPage,
+    getCheckClaimPage,
+    postCheckClaimPage,
+    getEnterBankAccountDetailsPage,
+    PostEnterBankAccountDetailsPage,
+    getUploadSupportEvidencePage,
+    postUploadSupportEvidencePage,
+    getScanProgressWaitPage,
+    postScanProgressWaitPage) ++
+    postScanProgressWaitPage1 ++
+  List(
+    //      getSelectSupportingEvidencePage,
+    //      postSelectSupportingEvidencePage,
+    //      getCheckYourAnswersPage,
+    //      postCheckYourAnswersPage,
+    //      getReviewYourClaimPage,
+    //      postReviewYourClaimPage
+  )
+
   setup("Entry-number-journey", "Entry number journey") withActions
-    (
-      getAuthLoginPage,
-      loginWithAuthLoginStub(),
-      getCdsrStartPage,
-      getMRNPage,
-      postMRNPage,
-      getEnterDeclarationDetails,
-      postEnterDeclarationDetails,
-      getWhoIsDeclarantPage,
-      postWhoIsDeclarantPage,
-      getEnterClaimantDetailsAsIndividualPage,
-      postEnterClaimantDetailsAsIndividualPage,
-      getEnterClaimantDetailsAsCompanyPage,
-      postEnterClaimantDetailsAsCompanyPage,
-      getEnterReasonForClaimAndBasisPage,
-      postEnterReasonForClaimAndBasisPage,
-      getEnterCommodityDetailsPage,
-      postEnterCommodityDetailsPage,
-      getSelectDutiesPage,
-      postSelectDutiesPage,
-      getStartClaimPage,
-      getEnterClaimPage,
-      postEnterClaimPage,
-      getCheckClaimPage,
-      postCheckClaimPage,
-      getEnterBankAccountDetailsPage,
-      PostEnterBankAccountDetailsPage,
-      getUploadSupportEvidencePage,
-      postUploadSupportEvidencePage,
-      getScanProgressWaitPage,
-      postScanProgressWaitPage,
-      postScanProgressWaitPage1,
-//      getSelectSupportingEvidencePage,
-//      postSelectSupportingEvidencePage,
-//      getCheckYourAnswersPage,
-//      postCheckYourAnswersPage,
-//      getReviewYourClaimPage,
-//      postReviewYourClaimPage
+    (actions:_*
     )
   setup("MRN-journey", "Movement reference number journey") withRequests
     (

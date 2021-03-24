@@ -59,4 +59,8 @@ To run a full performance test against staging environment, implement a job buil
  sbt scalafmtCheckAll scalafmtSbtCheck
  ```
 
+performance test job on staging
+```
+https://performance.tools.staging.tax.service.gov.uk/job/cds-reimbursement-claim-performance-tests/
+```
 [Visit the official Scalafmt documentation to view a complete list of tasks which can be run.](https://scalameta.org/scalafmt/docs/installation.html#task-keys)

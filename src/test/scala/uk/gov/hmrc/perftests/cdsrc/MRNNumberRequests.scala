@@ -346,14 +346,15 @@ object MRNNumberRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/check-these-bank-details-are-correct": String)
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
+      .check(css(".govuk-button", "href").saveAs("uploadSupportingEvidencePage"))
   }
 
   def postTheMRNCheckTheseBankDetailsAreCorrectPage : HttpRequestBuilder = {
     http("post the MRN check these bank details are correct page")
-      .post(s"$baseUrl/$route/check-these-bank-details-are-correct": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route/supporting-evidence/upload-supporting-evidence": String))
+      .get(s"$baseUrl" + "${uploadSupportingEvidencePage}")
+//      .formParam("csrfToken", "${csrfToken}")
+      .check(status.is(200))
+      //.check(header("Location").is(s"/$route/supporting-evidence/upload-supporting-evidence": String))
   }
 
 

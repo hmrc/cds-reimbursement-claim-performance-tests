@@ -23,7 +23,7 @@ import uk.gov.hmrc.perftests.cdsrc.MRNNumberRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
-  val actions:List[ActionBuilder] = List[ActionBuilder](
+  val entryNumberJourney:List[ActionBuilder] = List[ActionBuilder](
     getAuthLoginPage,
     loginWithAuthLoginStub(),
     getCdsrStartPage,
@@ -55,20 +55,21 @@ class CDSRSimulation extends PerformanceTestRunner {
     getScanProgressWaitPage,
     postScanProgressWaitPage) ++
     postScanProgressWaitPage1 ++
-  List(
-    //      getSelectSupportingEvidencePage,
-    //      postSelectSupportingEvidencePage,
-    //      getCheckYourAnswersPage,
-    //      postCheckYourAnswersPage,
-    //      getReviewYourClaimPage,
-    //      postReviewYourClaimPage
+    List[ActionBuilder](
+           getSelectSupportingEvidencePage,
+          postSelectSupportingEvidencePage,
+          getCheckYourAnswersPage,
+          postCheckYourAnswersPage,
+          getCheckAnswersAcceptSendPage,
+          postCheckAnswersAcceptSendPage,
+          getClaimSubmittedPage
   )
 
   setup("Entry-number-journey", "Entry number journey") withActions
-    (actions:_*
+    (entryNumberJourney:_*
     )
-  setup("MRN-journey", "Movement reference number journey") withRequests
-    (
+
+  val MRNJourney:List[ActionBuilder] = List[ActionBuilder](
       getMRNAuthLoginPage,
       loginWithAuthLoginStubMRN(),
       getMRNCdsrStartPage,
@@ -98,10 +99,24 @@ class CDSRSimulation extends PerformanceTestRunner {
       getTheMRNCheckClaimPage,
       postTheMRNCheckClaimPage,
       getTheMRNCheckTheseBankDetailsAreCorrectPage,
-      postTheMRNCheckTheseBankDetailsAreCorrectPage,
-
+//      postTheMRNCheckTheseBankDetailsAreCorrectPage,
+      getUploadSupportEvidencePage,
+      postUploadSupportEvidencePage,
+      getScanProgressWaitPage,
+      postScanProgressWaitPage) ++
+      postScanProgressWaitPage1 ++
+    List[ActionBuilder](
+      getSelectSupportingEvidencePage,
+      postSelectSupportingEvidencePage,
+      getCheckYourAnswersPage,
+      postCheckYourAnswersPage,
+      getCheckAnswersAcceptSendPage,
+      postCheckAnswersAcceptSendPage,
+      getClaimSubmittedPage
     )
-
+  setup("MRN-journey", "Movement reference number journey") withActions
+    (MRNJourney:_*
+      )
 
   runSimulation()
 }

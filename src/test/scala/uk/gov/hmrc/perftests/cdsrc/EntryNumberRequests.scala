@@ -351,82 +351,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(header("Location").is(s"/$route/enter-bank-account-details": String))
   }
 
-
-//  def getEnterUkDutyAmountsPage : HttpRequestBuilder = {
-//    http("get select duty amounts page")
-//      .get(s"$baseUrl/$route/select-duties": String)
-//      .check(saveCsrfToken())
-//      .check(status.is(200))
-//      .check(regex("Select the duties you want to claim for"))
-//  }
-//
-//  def postEnterUkDutyAmountsPage : HttpRequestBuilder = {
-//    http("post select duty amounts page")
-//      .post(s"$baseUrl/$route/select-duties": String)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .formParam("select-duties[]", "0")
-//      .formParam("select-duties[]", "1")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"/$route/start-claim": String))
-//  }
-//
-//  def
-//
-
-
-//  def getEnterEuDutyAmountsPage : HttpRequestBuilder = {
-//    http("get enter eu duty amounts page")
-//      .get(s"$baseUrl/$route/enter-eu-duty-amounts": String)
-//      .check(saveCsrfToken())
-//      .check(status.is(200))
-//      .check(regex("Enter EU duty amounts to calculate your claim"))
-//  }
-//
-//  def postEnterEuDutyAmountsPage : HttpRequestBuilder = {
-//    http("post enter eu duty amounts page")
-//      .post(s"$baseUrl/$route/enter-eu-duty-amounts": String)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .formParam("enter-duty-and-claim-amounts-eu[0].tax-code", "0")
-//      .formParam("enter-duty-and-claim-amounts-eu[0].paid", "1000")
-//      .formParam("enter-duty-and-claim-amounts-eu[0].claim", "10")
-//      .formParam("enter-duty-and-claim-amounts-eu[1].tax-code", "1")
-//      .formParam("enter-duty-and-claim-amounts-eu[1].paid", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[1].claim", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[2].tax-code", "2")
-//      .formParam("enter-duty-and-claim-amounts-eu[2].paid", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[2].claim", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[3].tax-code", "3")
-//      .formParam("enter-duty-and-claim-amounts-eu[3].paid", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[3].claim", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[4].tax-code", "4")
-//      .formParam("enter-duty-and-claim-amounts-eu[4].paid", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[4].claim", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[5].tax-code", "5")
-//      .formParam("enter-duty-and-claim-amounts-eu[5].paid", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[5].claim", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[6].tax-code", "6")
-//      .formParam("enter-duty-and-claim-amounts-eu[6].paid", "")
-//      .formParam("enter-duty-and-claim-amounts-eu[6].claim", "")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"/$route/check-reimbursement-claim-total": String))
-//  }
-
-//  def getCheckReimbursementClaimTotalPage : HttpRequestBuilder = {
-//    http("get check reimbursement claim total page")
-//      .get(s"$baseUrl/$route/check-reimbursement-claim-total": String)
-//      .check(saveCsrfToken())
-//      .check(status.is(200))
-//      .check(regex("Your reimbursement claim total"))
-//  }
-
-//  def postCheckReimbursementClaimTotalPage : HttpRequestBuilder = {
-//    http("post check reimbursement claim total page")
-//      .post(s"$baseUrl/$route/check-reimbursement-claim-total": String)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"/$route/enter-bank-account-details": String))
-//  }
-
   def getEnterBankAccountDetailsPage : HttpRequestBuilder = {
     http("get enter bank account details page")
       .get(s"$baseUrl/$route/enter-bank-account-details": String)
@@ -517,10 +441,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def postScanProgressWaitPage : HttpRequestBuilder = {
     http("post scan progress wait page")
-//      .post(session => {
-//        val Location = session.get.attributes("actionlll")
-//        s"$baseUrl$Location"
-//      })
       .post(s"$baseUrl" + "${actionlll}")
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
@@ -530,10 +450,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postScanProgressWaitPage1 : List[ActionBuilder] = {
     asLongAs(session => session("selectPage").asOption[String].isEmpty)(
       pause(2.second).exec(http(" post scan progressing wait page1")
-        //      .get(session => {
-        //        val Location = session.get.attributes("scanPage")
-        //        s"$baseUrl/$route/supporting-evidence/scan-progress/$Location"
-        //      })
         .get(s"$baseUrl" + "${scanPage}")
         .check(status.in(303, 200))
         .check(header("Location").optional.saveAs("selectPage")))
@@ -546,13 +462,14 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl" + "${selectPage}")
       .check(status.is(200))
       .check(regex("Select the description of the file you just uploaded"))
+      .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 
   def postSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("post select supporting evidence page")
-      .post(s"$baseUrl/$route/upload-supporting-evidence/select-supporting-evidence-type?id={action1}": String)
+      .post(s"$baseUrl" + "${supportEvidencePageType}")
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "3")
+      .formParam("supporting-evidence.choose-document-type", "5")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/supporting-evidence/check-your-answers": String))
   }
@@ -573,7 +490,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(header("Location").is(s"/$route/check-answers-accept-send": String))
   }
 
-  def getReviewYourClaimPage : HttpRequestBuilder = {
+  def getCheckAnswersAcceptSendPage : HttpRequestBuilder = {
     http("get check answers and send page")
       .get(s"$baseUrl/$route/check-answers-accept-send": String)
       .check(saveCsrfToken())
@@ -581,7 +498,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(regex("Check your answers before sending your application"))
   }
 
-  def postReviewYourClaimPage : HttpRequestBuilder = {
+  def postCheckAnswersAcceptSendPage : HttpRequestBuilder = {
     http("post check answers and send page")
       .post(s"$baseUrl/$route/check-answers-accept-send": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -589,18 +506,14 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(header("Location").is(s"/$route/claim-submitted": String))
   }
 
-  def getSubmittedPage : HttpRequestBuilder = {
+  def getClaimSubmittedPage : HttpRequestBuilder = {
     http(("get submitted page"))
       .get(s"$baseUrl/$route/claim-submitted": String)
-      .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Claim submitted"))
       .check(regex("Your claim reference number"))
   }
 
-
-
   //Todo signOut page
   //Todo feedback survey page
-
 }

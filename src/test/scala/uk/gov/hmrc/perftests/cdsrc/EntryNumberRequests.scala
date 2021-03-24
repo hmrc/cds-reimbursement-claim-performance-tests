@@ -19,8 +19,6 @@ package uk.gov.hmrc.perftests.cdsrc
 import io.gatling.core.Predef._
 import io.gatling.core.action.builder.{ActionBuilder, PauseBuilder}
 import io.gatling.core.check.CheckBuilder
-import io.gatling.core.feeder.Random
-import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.check.HttpCheck
 import io.gatling.http.request.builder.HttpRequestBuilder
@@ -128,7 +126,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      //.check(header("Location").is(s"$baseUrl/$route/enter-movement-reference-number": String))
   }
 
   def getMRNPage : HttpRequestBuilder = {
@@ -211,7 +208,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .formParam("nonUkAddress-line3", "")
       .formParam("nonUkAddress-line4", "London")
       .formParam("postcode", "ne7 7ty")
-      //.formParam("countryCode-name", "Australia")
       .formParam("countryCode", "AU")
       .formParam("enter-claimant-details-individual.add-company-details", "true")
       .check(status.is(303))
@@ -238,7 +234,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .formParam("nonUkAddress-line3", "")
       .formParam("nonUkAddress-line4", "Denver")
       .formParam("postcode", "cv4 4ah")
-      //.formParam("countryCode-name", "Italy")
       .formParam("countryCode", "IT")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/enter-reason-for-claim-and-basis": String))
@@ -292,7 +287,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .post(s"$baseUrl/$route/select-duties": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duties[0]", "0")
-      //.formParam("select-duties[1]", "1")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/start-claim": String))
 
@@ -302,9 +296,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get start claim page")
       .get(s"$baseUrl/$route/start-claim": String)
       .check(status.is(303))
-      //.check(regex("""form action="(.*)" method""").saveAs("action3"))
       .check(header("Location").saveAs("action3"))
-     // .check(regex("""/claim-for-reimbursement-of-import-duties/enter-claim/(.*)">""").saveAs("action4"))
   }
 
   def getEnterClaimPage : HttpRequestBuilder = {
@@ -313,12 +305,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
         val Location = session.get.attributes("action3")
         s"$baseUrl$Location"
       })
-      //.get(s"$baseUrl/{action3}": String)
-      //.check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the claim amount for duty A00 - Customs Duty"))
-     // .check(header("Location").saveAs("action4"))
-    // .check(regex("""/claim-for-reimbursement-of-import-duties/enter-claim/(.*)">""").saveAs("action4"))
   }
 
   def postEnterClaimPage : HttpRequestBuilder = {
@@ -337,7 +325,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def getCheckClaimPage : HttpRequestBuilder = {
     http("get check claim page")
       .get(s"$baseUrl/$route/check-claim": String)
-      //.check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Your reimbursement claim totals"))
 
@@ -514,6 +501,4 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(regex("Your claim reference number"))
   }
 
-  //Todo signOut page
-  //Todo feedback survey page
 }

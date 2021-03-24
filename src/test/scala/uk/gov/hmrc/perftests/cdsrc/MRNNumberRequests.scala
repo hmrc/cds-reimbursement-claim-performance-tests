@@ -352,46 +352,6 @@ object MRNNumberRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNCheckTheseBankDetailsAreCorrectPage : HttpRequestBuilder = {
     http("post the MRN check these bank details are correct page")
       .get(s"$baseUrl" + "${uploadSupportingEvidencePage}")
-//      .formParam("csrfToken", "${csrfToken}")
       .check(status.is(200))
-      //.check(header("Location").is(s"/$route/supporting-evidence/upload-supporting-evidence": String))
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

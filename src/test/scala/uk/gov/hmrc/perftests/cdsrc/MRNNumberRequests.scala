@@ -311,7 +311,7 @@ object MRNNumberRequests extends ServicesConfiguration with RequestUtils {
         s"$baseUrl$Location"
       })
       .check(status.is(200))
-      .check(regex("Enter the claim amount for duty A80 - Definitive Anti-Dumping Duty"))
+      .check(regex("Enter the claim amount for duty Definitive Anti-Dumping Duty - Code A80"))
   }
 
   def postTheMRNEnterClaimPage : HttpRequestBuilder = {

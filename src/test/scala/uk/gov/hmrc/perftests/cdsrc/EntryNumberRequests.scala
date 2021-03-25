@@ -306,7 +306,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
         s"$baseUrl$Location"
       })
       .check(status.is(200))
-      .check(regex("Enter the claim amount for duty A00 - Customs Duty"))
+      .check(regex("Enter the claim amount for duty Customs Duty - Code A00"))
   }
 
   def postEnterClaimPage : HttpRequestBuilder = {

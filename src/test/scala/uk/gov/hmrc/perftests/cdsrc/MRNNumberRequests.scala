@@ -63,7 +63,7 @@ object MRNNumberRequests extends ServicesConfiguration with RequestUtils {
       .formParam("oauthTokens.idToken", "")
       .formParam("additionalInfo.profile", "")
       .formParam("additionalInfo.groupProfile", "")
-      .formParam("additionalInfo.emailVerified", "")
+      .formParam("additionalInfo.emailVerified", "N/A")
       .formParam("nino", "")
       .formParam("groupIdentifier", "")
       .formParam("agent.agentId", "")
@@ -107,20 +107,20 @@ object MRNNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def getMRNCdsrStartPage : HttpRequestBuilder = {
       http("post cdsr start page")
-        .get(s"$baseUrl/$route/start": String)
+        .get(s"$baseUrl/$route/start/": String)
         .check(status.is(303))
   }
 
   def getTheMRNCheckEoriDetailsPage : HttpRequestBuilder = {
-    http("get the MRN check eori details page")
+    http("get check eori details page")
       .get(s"$baseUrl/$route/check-eori-details": String)
-      //.check(saveCsrfToken())
+      .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check if this is the correct EORI"))
   }
 
   def postTheMRNCheckEoriDetailsPage : HttpRequestBuilder = {
-    http("post the MRN  check eori details page")
+    http("post check eori details page")
       .post(s"$baseUrl/$route/check-eori-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-eori-details", "0")

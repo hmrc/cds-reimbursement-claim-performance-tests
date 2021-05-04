@@ -121,6 +121,23 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(status.is(303))
   }
 
+  def getEnterCheckEoriDetailsPage : HttpRequestBuilder = {
+    http("get the MRN check eori details page")
+      .get(s"$baseUrl/$route/check-eori-details": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Check if this is the correct EORI"))
+  }
+
+  def postEnterCheckEoriDetailsPage : HttpRequestBuilder = {
+    http("post the MRN  check eori details page")
+      .post(s"$baseUrl/$route/check-eori-details": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("check-eori-details", "0")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/enter-movement-reference-number": String))
+  }
+
   def getStartMRNPage : HttpRequestBuilder = {
     http("get MRN page")
       .get(s"$baseUrl/$route/enter-movement-reference-number": String)

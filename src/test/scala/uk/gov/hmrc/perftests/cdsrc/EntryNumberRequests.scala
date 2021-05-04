@@ -185,50 +185,49 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-who-is-making-the-claim", "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/enter-claimant-details-as-individual": String))
+      .check(header("Location").is(s"/$route/enter-your-details-as-registered-with-cds": String))
   }
 
-  def getEnterClaimantDetailsAsIndividualPage : HttpRequestBuilder = {
-    http("get enter claimant details as individual page")
-      .get(s"$baseUrl/$route/enter-claimant-details-as-individual": String)
+  def getEnterYourDetailsAsRegisteredWithCdsPage : HttpRequestBuilder = {
+    http("get enter your details as registered with cds page")
+      .get(s"$baseUrl/$route/enter-your-details-as-registered-with-cds": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter your claimant details"))
+      .check(regex("Enter your details as registered with CDS"))
   }
 
-  def postEnterClaimantDetailsAsIndividualPage : HttpRequestBuilder = {
-    http("post enter claimant details as individual page")
-      .post(s"$baseUrl/$route/enter-claimant-details-as-individual": String)
+  def postEnterYourDetailsAsRegisteredWithCdsPage : HttpRequestBuilder = {
+    http("post enter your details as registered with cds page")
+      .post(s"$baseUrl/$route/enter-your-details-as-registered-with-cds": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-claimant-details-individual.individual-full-name", "James")
-      .formParam("enter-claimant-details-individual.individual-email", "james@test.com")
-      .formParam("enter-claimant-details-individual.individual-phone-number", "07836362762")
+      .formParam("enter-claimant-details-as-registered-with-cds.individual-full-name", "James")
+      .formParam("enter-claimant-details-as-registered-with-cds.individual-email", "james@test.com")
       .formParam("nonUkAddress-line1", "Wharry court")
       .formParam("nonUkAddress-line2", "")
       .formParam("nonUkAddress-line3", "")
       .formParam("nonUkAddress-line4", "London")
       .formParam("postcode", "ne7 7ty")
-      .formParam("countryCode", "AU")
-      .formParam("enter-claimant-details-individual.add-company-details", "true")
+      .formParam("countryCode", "GB")
+      .formParam("enter-claimant-details-as-registered-with-cds.add-company-details", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/enter-claimant-details-as-company": String))
+      .check(header("Location").is(s"/$route/enter-your-contact-details": String))
   }
 
-  def getEnterClaimantDetailsAsCompanyPage : HttpRequestBuilder = {
-    http("get enter claimant details as company page")
-      .get(s"$baseUrl/$route/enter-claimant-details-as-company": String)
+  def getEnterYourContactDetailsPage : HttpRequestBuilder = {
+    http("get enter your contact details page")
+      .get(s"$baseUrl/$route/enter-your-contact-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter your claimant details as an importer company"))
+      .check(regex("Enter your contact details"))
   }
 
-  def postEnterClaimantDetailsAsCompanyPage : HttpRequestBuilder = {
-    http("post enter claimant details as company")
-      .post(s"$baseUrl/$route/enter-claimant-details-as-company": String)
+  def postEnterYourContactDetailsPage : HttpRequestBuilder = {
+    http("post enter your contact details page")
+      .post(s"$baseUrl/$route/enter-your-contact-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-claimant-details-importer-company.importer-company-name", "Infotech")
-      .formParam("enter-claimant-details-importer-company.importer-email", "test@test.com")
-      .formParam("enter-claimant-details-importer-company.importer-phone-number", "00371790133")
+      .formParam("enter-your-contact-details.contact-name", "Infotech")
+      .formParam("enter-your-contact-details.contact-email", "test@test.com")
+      .formParam("enter-your-contact-details.contact-phone-number", "00371790133")
       .formParam("nonUkAddress-line1", " 39 street")
       .formParam("nonUkAddress-line2", "")
       .formParam("nonUkAddress-line3", "")

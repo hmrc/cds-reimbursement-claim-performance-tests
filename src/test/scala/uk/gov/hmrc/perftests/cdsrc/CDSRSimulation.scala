@@ -18,8 +18,8 @@ package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
-import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
-import uk.gov.hmrc.perftests.cdsrc.MRNNumberRequests._
+import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests.{getSelectNumberOfClaimsPage, postSelectNumberOfClaimsPage, _}
+import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
@@ -27,8 +27,10 @@ class CDSRSimulation extends PerformanceTestRunner {
     getAuthLoginPage,
     loginWithAuthLoginStub(),
     getCdsrStartPage,
-    getEnterCheckEoriDetailsPage,
-    postEnterCheckEoriDetailsPage,
+    getCheckEoriDetailsPage,
+    postCheckEoriDetailsPage,
+    getSelectNumberOfClaimsPage,
+    postSelectNumberOfClaimsPage,
     getMRNPage,
     postMRNPage,
     getEnterDeclarationDetails,
@@ -73,10 +75,12 @@ class CDSRSimulation extends PerformanceTestRunner {
 
   val MRNJourney:List[ActionBuilder] = List[ActionBuilder](
       getMRNAuthLoginPage,
-      loginWithAuthLoginStubMRN(),
+      loginWithAuthLoginStubMRN("GB000000000000001"),
       getMRNCdsrStartPage,
       getTheMRNCheckEoriDetailsPage,
       postTheMRNCheckEoriDetailsPage,
+      getTheSelectNumberOfClaimsPage,
+      postTheSelectNumberOfClaimsPage,
       getTheMRNPage,
       postTheMRNPage,
       getTheMRNImporterEoriEntryPage,
@@ -91,8 +95,14 @@ class CDSRSimulation extends PerformanceTestRunner {
       postTheMRNEnterYourDetailsAsRegisteredCdsPage,
       getTheMRNEnterYourContactDetailsPage,
       postTheMRNEnterYourContactDetailsPage,
+      getTheMRNClaimNorthernIrelandPage,
+      postTheMRNClaimNorthernIrelandPage,
       getTheMRNChooseBasisOfClaimPage,
       postTheMRNChooseBasisOfClaimPage,
+      getTheDuplicateMRNPage,
+      postTheDuplicateMRNPage,
+      getTheMRNCheckDuplicateDeclarationPage,
+      postTheMRNCheckDuplicateDeclarationPage,
       getTheMRNEnterCommodityDetailsPage,
       postTheMRNEnterCommodityDetailsPage,
       getTheMRNSelectDutiesPage,

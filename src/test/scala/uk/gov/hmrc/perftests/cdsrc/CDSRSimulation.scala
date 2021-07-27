@@ -18,7 +18,7 @@ package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
-import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests.{getSelectNumberOfClaimsPage, postSelectNumberOfClaimsPage, _}
+import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {

@@ -227,7 +227,14 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-who-is-making-the-claim", "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-your-details-as-registered-with-cds": String))
+      .check(header("Location").is(s"/$route/single/claimant-details": String))
+  }
+
+  def getTheMrnClaimantDetailsPage : HttpRequestBuilder = {
+    http("get the MRN claimant details page")
+      .get(s"$baseUrl/$route/single/claimant-details": String)
+      .check(status.is(200))
+      .check(regex("Check your details as registered with CDS"))
   }
 
   def getTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {

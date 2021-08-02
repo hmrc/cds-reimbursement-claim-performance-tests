@@ -233,7 +233,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def getTheMrnClaimantDetailsPage : HttpRequestBuilder = {
     http("get the MRN claimant details page")
       .get(s"$baseUrl/$route/single/claimant-details": String)
-      //.check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check your details as registered with CDS"))
   }

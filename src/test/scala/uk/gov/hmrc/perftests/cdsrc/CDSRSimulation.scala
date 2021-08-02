@@ -23,55 +23,55 @@ import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
-  val entryNumberJourney:List[ActionBuilder] = List[ActionBuilder](
-    getAuthLoginPage,
-    loginWithAuthLoginStub(),
-    getCdsrStartPage,
-    getCheckEoriDetailsPage,
-    postCheckEoriDetailsPage,
-    getSelectNumberOfClaimsPage,
-    postSelectNumberOfClaimsPage,
-    getMRNPage,
-    postMRNPage,
-    getEnterDeclarationDetails,
-    postEnterDeclarationDetails,
-    getWhoIsDeclarantPage,
-    postWhoIsDeclarantPage,
-    getEnterYourDetailsAsRegisteredWithCdsPage,
-    postEnterYourDetailsAsRegisteredWithCdsPage,
-    getEnterYourContactDetailsPage,
-    postEnterYourContactDetailsPage,
-    getEnterReasonForClaimAndBasisPage,
-    postEnterReasonForClaimAndBasisPage,
-    getEnterCommodityDetailsPage,
-    postEnterCommodityDetailsPage,
-    getSelectDutiesPage,
-    postSelectDutiesPage,
-    getStartClaimPage,
-    getEnterClaimPage,
-    postEnterClaimPage,
-    getCheckClaimPage,
-    postCheckClaimPage,
-    getEnterBankAccountDetailsPage,
-    PostEnterBankAccountDetailsPage,
-    getUploadSupportEvidencePage,
-    postUploadSupportEvidencePage,
-    getScanProgressWaitPage,
-    postScanProgressWaitPage) ++
-    postScanProgressWaitPage1 ++
-    List[ActionBuilder](
-           getSelectSupportingEvidencePage,
-          postSelectSupportingEvidencePage,
-          getCheckYourAnswersPage,
-          postCheckYourAnswersPage,
-          getCheckAnswersAcceptSendPage,
-          postCheckAnswersAcceptSendPage,
-          getClaimSubmittedPage
-  )
-
-  setup("Entry-number-journey", "Entry number journey") withActions
-    (entryNumberJourney:_*
-    )
+//  val entryNumberJourney:List[ActionBuilder] = List[ActionBuilder](
+//    getAuthLoginPage,
+//    loginWithAuthLoginStub(),
+//    getCdsrStartPage,
+//    getCheckEoriDetailsPage,
+//    postCheckEoriDetailsPage,
+//    getSelectNumberOfClaimsPage,
+//    postSelectNumberOfClaimsPage,
+//    getMRNPage,
+//    postMRNPage,
+//    getEnterDeclarationDetails,
+//    postEnterDeclarationDetails,
+//    getWhoIsDeclarantPage,
+//    postWhoIsDeclarantPage,
+//    getEnterYourDetailsAsRegisteredWithCdsPage,
+//    postEnterYourDetailsAsRegisteredWithCdsPage,
+//    getEnterYourContactDetailsPage,
+//    postEnterYourContactDetailsPage,
+//    getEnterReasonForClaimAndBasisPage,
+//    postEnterReasonForClaimAndBasisPage,
+//    getEnterCommodityDetailsPage,
+//    postEnterCommodityDetailsPage,
+//    getSelectDutiesPage,
+//    postSelectDutiesPage,
+//    getStartClaimPage,
+//    getEnterClaimPage,
+//    postEnterClaimPage,
+//    getCheckClaimPage,
+//    postCheckClaimPage,
+//    getEnterBankAccountDetailsPage,
+//    PostEnterBankAccountDetailsPage,
+//    getUploadSupportEvidencePage,
+//    postUploadSupportEvidencePage,
+//    getScanProgressWaitPage,
+//    postScanProgressWaitPage) ++
+//    postScanProgressWaitPage1 ++
+//    List[ActionBuilder](
+//           getSelectSupportingEvidencePage,
+//          postSelectSupportingEvidencePage,
+//          getCheckYourAnswersPage,
+//          postCheckYourAnswersPage,
+//          getCheckAnswersAcceptSendPage,
+//          postCheckAnswersAcceptSendPage,
+//          getClaimSubmittedPage
+//  )
+//
+//  setup("Entry-number-journey", "Entry number journey") withActions
+//    (entryNumberJourney:_*
+//    )
 
   val MRNJourney:List[ActionBuilder] = List[ActionBuilder](
       getMRNAuthLoginPage,
@@ -91,6 +91,7 @@ class CDSRSimulation extends PerformanceTestRunner {
       postTheMRNCheckDeclarationPage,
       getTheMRNWhoIsDeclarantPage,
       postTheMRNWhoIsDeclarantPage,
+      getTheMrnClaimantDetailsPage,
       getTheMRNEnterYourDetailsAsRegisteredCdsPage,
       postTheMRNEnterYourDetailsAsRegisteredCdsPage,
       getTheMRNEnterYourContactDetailsPage,

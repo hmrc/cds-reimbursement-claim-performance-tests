@@ -237,6 +237,15 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(regex("Check your details as registered with CDS"))
   }
 
+  def postTheMrnClaimantDetailsPage : HttpRequestBuilder = {
+    http("post the MRN who is declarant page")
+      .post(s"$baseUrl/$route/single/claimant-details": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("claimant-details", "0")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/single/enter-your-details-as-registered-with-cds": String))
+  }
+
   def getTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
     http("get the MRN enter your details as registered with cds")
       .get(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)

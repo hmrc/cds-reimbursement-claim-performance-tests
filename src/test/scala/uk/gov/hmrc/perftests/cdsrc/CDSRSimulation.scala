@@ -92,6 +92,7 @@ class CDSRSimulation extends PerformanceTestRunner {
       getTheMRNWhoIsDeclarantPage,
       postTheMRNWhoIsDeclarantPage,
       getTheMrnClaimantDetailsPage,
+      postTheMrnClaimantDetailsPage,
       getTheMRNEnterYourDetailsAsRegisteredCdsPage,
       postTheMRNEnterYourDetailsAsRegisteredCdsPage,
       getTheMRNEnterYourContactDetailsPage,

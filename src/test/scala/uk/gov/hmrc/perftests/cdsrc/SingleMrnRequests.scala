@@ -150,7 +150,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/single/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("What is your Movement Reference Number (MRN)?"))
+      .check(regex("Enter the Movement Reference Number (.*)"))
   }
 
   def postTheMRNPage : HttpRequestBuilder = {
@@ -239,7 +239,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postTheMrnClaimantDetailsPage : HttpRequestBuilder = {
     http("post the MRN who is declarant page")
-      .post(s"$baseUrl/$route/single/claimant-details": String)
+      .post(s"$baseUrl/$route/single/change-claimant-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("claimant-details", "0")
       .check(status.is(303))
@@ -450,6 +450,40 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
       .check(css(".govuk-button", "href").saveAs("uploadSupportingEvidencePage"))
+  }
+
+  def getTheMRNBankAccountTypePage : HttpRequestBuilder = {
+    http("get the MRN bank account type")
+      .get(s"$baseUrl/$route/single/bank-account-type": String)
+      .check(status.is(200))
+      .check(regex("What type of account details are you providing?"))
+  }
+
+  def postTheMRNBankAccountTypePage : HttpRequestBuilder = {
+    http("post the MRN bank account type")
+      .post(s"$baseUrl/$route/single/bank-account-type": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-bank-account-type", "0")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/single/enter-bank-account-details": String))
+  }
+
+  def getTheMRNEnterBankAccountDetailsPage : HttpRequestBuilder = {
+    http("get the MRN enter bank account details page")
+      .get(s"$baseUrl/$route/single/enter-bank-account-details": String)
+      .check(status.is(200))
+      .check(regex("Enter bank account details"))
+  }
+
+  def postTheMRNEnterBankAccountDetailsPage : HttpRequestBuilder = {
+    http("post the MRN enter bank account details page")
+      .post(s"$baseUrl/$route/single/enter-bank-account-details": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-bank-details.account-name", "Halifax")
+      .formParam("enter-bank-details.sort-code", "123456")
+      .formParam("enter-bank-details.account-number", "23456789")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/single/supporting-evidence/upload-supporting-evidence": String))
   }
 
   def postTheMRNCheckTheseBankDetailsAreCorrectPage : HttpRequestBuilder = {

@@ -414,7 +414,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 //      //.check(header("Location").saveAs("action"))
 //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
 //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
-      .check(regex("Upload files to support your claim"))
+      .check(regex("Add documents to support your claim"))
   }
 
   def postUploadSupportEvidencePage : HttpRequestBuilder = {
@@ -453,7 +453,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get("${UpscanResponseSuccess}")
       .check(status.is(200))
       .check(saveCsrfToken())
-      .check(regex("Wait a few seconds and then select ‘continue’"))
+      .check(regex("We are checking your document"))
       .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
 
@@ -500,13 +500,14 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/single/supporting-evidence/check-your-answers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Confirm these are the files you want to submit"))
+      .check(regex("You have added 1 document to your claim"))
   }
 
   def postCheckYourAnswersPage : HttpRequestBuilder = {
     http("post check your answers page")
       .post(s"$baseUrl/$route/single/supporting-evidence/check-your-answers": String)
       .formParam("csrfToken", "${csrfToken}")
+      .formParam("supporting-evidence.check-your-answers", "false")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/check-answers-accept-send": String))
   }

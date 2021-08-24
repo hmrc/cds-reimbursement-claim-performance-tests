@@ -237,64 +237,89 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(regex("Check your details as registered with CDS"))
   }
 
+  def getTheMrnDetailsContactPage : HttpRequestBuilder = {
+    http("get the MRN details contact page")
+      .get(s"$baseUrl/$route/single/claimant-details/details-contact": String)
+      .check(status.is(200))
+      .check(regex("Change contact details"))
+  }
+
+  def postTheMrnDetailsContactpage : HttpRequestBuilder = {
+    http("post the MRN details contact page")
+      .post(s"$baseUrl/$route/single/claimant-details/details-contact": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
+      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
+      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/single/claimant-details":String))
+  }
+
+  def getTheMrnClaimantDetailsPage1 : HttpRequestBuilder = {
+    http("get the MRN claimant details page from details contact page")
+      .get(s"$baseUrl/$route/single/claimant-details": String)
+      .check(status.is(200))
+      .check(regex("Check your details as registered with CDS"))
+  }
+
   def postTheMrnClaimantDetailsPage : HttpRequestBuilder = {
     http("post the MRN who is declarant page")
       .post(s"$baseUrl/$route/single/change-claimant-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("claimant-details", "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-your-details-as-registered-with-cds": String))
-  }
-
-  def getTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
-    http("get the MRN enter your details as registered with cds")
-      .get(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Enter your details as registered with CDS"))
-  }
-
-  def postTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
-    http("post the MRN enter your details as registered with cds")
-      .post(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-claimant-details-as-registered-with-cds.individual-full-name", "IT Solutions LTD")
-      .formParam("enter-claimant-details-as-registered-with-cds.individual-email", "someemail@mail.com")
-      .formParam("nonUkAddress-line1", "19 Bricks Road")
-      .formParam("nonUkAddress-line2", "")
-      .formParam("nonUkAddress-line3", "")
-      .formParam("nonUkAddress-line4", "Newcastle")
-      .formParam("postcode", "NE12 5BT")
-      .formParam("countryCode", "GB")
-      .formParam("enter-claimant-details-as-registered-with-cds.add-company-details", "true")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-your-contact-details": String))
-  }
-
-  def getTheMRNEnterYourContactDetailsPage : HttpRequestBuilder = {
-    http("get the MRN enter your contact details page")
-      .get(s"$baseUrl/$route/single/enter-your-contact-details": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Enter your contact details"))
-  }
-
-  def postTheMRNEnterYourContactDetailsPage : HttpRequestBuilder = {
-    http("post the MRN enter your contact details page")
-      .post(s"$baseUrl/$route/single/enter-your-contact-details": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-your-contact-details.contact-name", "Online Sales LTD")
-      .formParam("enter-your-contact-details.contact-email", "someemail@mail.com")
-      .formParam("enter-your-contact-details.contact-phone-number", "+4420723934397")
-      .formParam("nonUkAddress-line1", "11 Mount Road")
-      .formParam("nonUkAddress-line2", "")
-      .formParam("nonUkAddress-line3", "")
-      .formParam("nonUkAddress-line4", "London")
-      .formParam("postcode", "E10 7PP")
-      .formParam("countryCode", "GB")
-      .check(status.is(303))
       .check(header("Location").is(s"/$route/single/claim-northern-ireland": String))
   }
+
+//  def getTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
+//    http("get the MRN enter your details as registered with cds")
+//      .get(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
+//      .check(saveCsrfToken())
+//      .check(status.is(200))
+//      .check(regex("Enter your details as registered with CDS"))
+//  }
+//
+//  def postTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
+//    http("post the MRN enter your details as registered with cds")
+//      .post(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
+//      .formParam("csrfToken", "${csrfToken}")
+//      .formParam("enter-claimant-details-as-registered-with-cds.individual-full-name", "IT Solutions LTD")
+//      .formParam("enter-claimant-details-as-registered-with-cds.individual-email", "someemail@mail.com")
+//      .formParam("nonUkAddress-line1", "19 Bricks Road")
+//      .formParam("nonUkAddress-line2", "")
+//      .formParam("nonUkAddress-line3", "")
+//      .formParam("nonUkAddress-line4", "Newcastle")
+//      .formParam("postcode", "NE12 5BT")
+//      .formParam("countryCode", "GB")
+//      .formParam("enter-claimant-details-as-registered-with-cds.add-company-details", "true")
+//      .check(status.is(303))
+//      .check(header("Location").is(s"/$route/single/enter-your-contact-details": String))
+//  }
+//
+//  def getTheMRNEnterYourContactDetailsPage : HttpRequestBuilder = {
+//    http("get the MRN enter your contact details page")
+//      .get(s"$baseUrl/$route/single/enter-your-contact-details": String)
+//      .check(saveCsrfToken())
+//      .check(status.is(200))
+//      .check(regex("Enter your contact details"))
+//  }
+//
+//  def postTheMRNEnterYourContactDetailsPage : HttpRequestBuilder = {
+//    http("post the MRN enter your contact details page")
+//      .post(s"$baseUrl/$route/single/enter-your-contact-details": String)
+//      .formParam("csrfToken", "${csrfToken}")
+//      .formParam("enter-your-contact-details.contact-name", "Online Sales LTD")
+//      .formParam("enter-your-contact-details.contact-email", "someemail@mail.com")
+//      .formParam("enter-your-contact-details.contact-phone-number", "+4420723934397")
+//      .formParam("nonUkAddress-line1", "11 Mount Road")
+//      .formParam("nonUkAddress-line2", "")
+//      .formParam("nonUkAddress-line3", "")
+//      .formParam("nonUkAddress-line4", "London")
+//      .formParam("postcode", "E10 7PP")
+//      .formParam("countryCode", "GB")
+//      .check(status.is(303))
+//      .check(header("Location").is(s"/$route/single/claim-northern-ireland": String))
+//  }
 
   def getTheMRNClaimNorthernIrelandPage : HttpRequestBuilder = {
     http("get the claim northern ireland page")
@@ -483,7 +508,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("enter-bank-details.sort-code", "123456")
       .formParam("enter-bank-details.account-number", "23456789")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/supporting-evidence/upload-supporting-evidence": String))
+      .check(header("Location").is(s"/$route/single/check-these-bank-details-are-correct": String))
   }
 
   def postTheMRNCheckTheseBankDetailsAreCorrectPage : HttpRequestBuilder = {

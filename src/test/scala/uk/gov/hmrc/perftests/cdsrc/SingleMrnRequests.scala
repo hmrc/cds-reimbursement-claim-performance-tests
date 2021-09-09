@@ -271,56 +271,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(header("Location").is(s"/$route/single/claim-northern-ireland": String))
   }
 
-//  def getTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
-//    http("get the MRN enter your details as registered with cds")
-//      .get(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
-//      .check(saveCsrfToken())
-//      .check(status.is(200))
-//      .check(regex("Enter your details as registered with CDS"))
-//  }
-//
-//  def postTheMRNEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
-//    http("post the MRN enter your details as registered with cds")
-//      .post(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .formParam("enter-claimant-details-as-registered-with-cds.individual-full-name", "IT Solutions LTD")
-//      .formParam("enter-claimant-details-as-registered-with-cds.individual-email", "someemail@mail.com")
-//      .formParam("nonUkAddress-line1", "19 Bricks Road")
-//      .formParam("nonUkAddress-line2", "")
-//      .formParam("nonUkAddress-line3", "")
-//      .formParam("nonUkAddress-line4", "Newcastle")
-//      .formParam("postcode", "NE12 5BT")
-//      .formParam("countryCode", "GB")
-//      .formParam("enter-claimant-details-as-registered-with-cds.add-company-details", "true")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"/$route/single/enter-your-contact-details": String))
-//  }
-//
-//  def getTheMRNEnterYourContactDetailsPage : HttpRequestBuilder = {
-//    http("get the MRN enter your contact details page")
-//      .get(s"$baseUrl/$route/single/enter-your-contact-details": String)
-//      .check(saveCsrfToken())
-//      .check(status.is(200))
-//      .check(regex("Enter your contact details"))
-//  }
-//
-//  def postTheMRNEnterYourContactDetailsPage : HttpRequestBuilder = {
-//    http("post the MRN enter your contact details page")
-//      .post(s"$baseUrl/$route/single/enter-your-contact-details": String)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .formParam("enter-your-contact-details.contact-name", "Online Sales LTD")
-//      .formParam("enter-your-contact-details.contact-email", "someemail@mail.com")
-//      .formParam("enter-your-contact-details.contact-phone-number", "+4420723934397")
-//      .formParam("nonUkAddress-line1", "11 Mount Road")
-//      .formParam("nonUkAddress-line2", "")
-//      .formParam("nonUkAddress-line3", "")
-//      .formParam("nonUkAddress-line4", "London")
-//      .formParam("postcode", "E10 7PP")
-//      .formParam("countryCode", "GB")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"/$route/single/claim-northern-ireland": String))
-//  }
-
   def getTheMRNClaimNorthernIrelandPage : HttpRequestBuilder = {
     http("get the claim northern ireland page")
       .get(s"$baseUrl/$route/single/claim-northern-ireland": String)

@@ -18,6 +18,7 @@ package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
+import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 
@@ -96,10 +97,6 @@ class CDSRSimulation extends PerformanceTestRunner {
       getTheMrnDetailsContactPage,
       postTheMrnDetailsContactpage,
       getTheMrnClaimantDetailsPage1,
-//      getTheMRNEnterYourDetailsAsRegisteredCdsPage,
-//      postTheMRNEnterYourDetailsAsRegisteredCdsPage,
-//      getTheMRNEnterYourContactDetailsPage,
-//      postTheMRNEnterYourContactDetailsPage,
       getTheMRNClaimNorthernIrelandPage,
       postTheMRNClaimNorthernIrelandPage,
       getTheMRNChooseBasisOfClaimPage,
@@ -141,5 +138,67 @@ class CDSRSimulation extends PerformanceTestRunner {
     (MRNJourney:_*
       )
 
+
+    val MultipleClaimsScheduledMRNJourney:List[ActionBuilder] = List[ActionBuilder](
+        getMRNAuthLoginPage,
+        loginWithAuthLoginStubMRN("GB000000000000001"),
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getTheSelectNumberOfClaimsPage,
+        postBulkScheduledSelectNumberOfClaimsPage,
+        getBulkScheduledMrnPage,
+        postBulkScheduledMrnPage,
+        getBulkScheduledMrnCheckDeclarationPage,
+        postBulkScheduledMrnCheckDeclarationPage,
+        getScheduledDocumentUploadPage,
+        postScheduledDocumentUploadPage,
+        getScheduledDocumentUploadProgressPage,
+        postScheduledDocumentUploadProgressPage) ++
+        postScheduledDocumentUploadProgressPage1 ++
+      List[ActionBuilder](
+        getScheduledDocumentUploadReviewPage,
+        postScheduledDocumentUploadReviewPage,
+          getScheduledMrnWhoIsDeclarantPage,
+          postScheduledMrnWhoIsDeclarantPage,
+          getClaimantDetailsPage,
+          getDetailsContactPage,
+          //postDetailsContactPage,
+          postChangeClaimantDetailsPage,
+          getScheduledMrnClaimNorthernIrelandPage,
+          postScheduledMrnClaimNorthernIrelandPage,
+          getScheduledMrnChooseBasisOfClaimPage,
+          postScheduledMrnChooseBasisOfClaimPage,
+          getScheduledMrnEnterCommodityDetailsPage,
+          postScheduledMrnEnterCommodityDetailsPage,
+          getScheduledMrnSelectDutiesPage,
+          postScheduledMrnSelectDutiesPage,
+          getScheduledMrnStartClaimPage,
+          getScheduledMrnEnterClaimPage,
+          postScheduledMrnEnterClaimPage,
+          getScheduledMrnCheckClaimPage,
+          postScheduledMrnCheckClaimPage,
+          getScheduledMrnCheckTheseBankDetailsAreCorrectPage,
+          getScheduledMRNBankAccountTypePage,
+          postScheduledMRNBankAccountTypePage,
+          getScheduledMRNEnterBankAccountDetailsPage,
+          postScheduledEnterBankAccountDetailsPage,
+          getScheduledUploadSupportEvidencePage,
+          postScheduledUploadSupportEvidencePage,
+          getScheduledScanProgressWaitPage,
+          postScheduledScanProgressWaitPage) ++
+          postScheduledScanProgressWaitPage1 ++
+      List[ActionBuilder](
+          getScheduledSelectSupportingEvidencePage,
+          postScheduledSelectSupportingEvidencePage,
+          getScheduledCheckYourAnswersPage,
+          postScheduledCheckYourAnswersPage,
+          getScheduledCheckAnswersAcceptSendPage,
+          postScheduledCheckAnswersAcceptSendPage,
+          getScheduledClaimSubmittedPage
+      )
+    setup("Multiple-Claims-Scheduled-MRN-journey", "Multiple claims Scheduled document MRN journey") withActions
+      (MultipleClaimsScheduledMRNJourney:_*
+        )
   runSimulation()
 }

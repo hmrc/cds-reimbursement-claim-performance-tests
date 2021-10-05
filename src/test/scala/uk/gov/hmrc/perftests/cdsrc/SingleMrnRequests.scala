@@ -39,7 +39,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("Navigate to auth login stub page")
       .get(s"$authUrl/auth-login-stub/gg-sign-in")
       .check(status.is(200))
-      .check(saveCsrfToken())
       .check(regex("Authority Wizard").exists)
       .check(regex("CredID").exists)
   }
@@ -48,7 +47,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def loginWithAuthLoginStubMRN(eoriValue: String =  "", enrolmentKey: String = "", identifierName: String = "", identifierValue: String = ""): HttpRequestBuilder = {
     http("Login with user credentials")
       .post(s"$authUrl/auth-login-stub/gg-sign-in")
-      .formParam("csrfToken", "${csrfToken}")
       .formParam("authorityId", "")
       .formParam("gatewayToken", "")
       .formParam("redirectionUrl", redirect1)
@@ -128,16 +126,16 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(header("Location").is(s"/$route/choose-how-many-mrns": String))
   }
 
-  def getTheSelectNumberOfClaimsPage : HttpRequestBuilder = {
-    http("get the select number of claims page")
+  def getChooseHowManyMrnsPage : HttpRequestBuilder = {
+    http("get the choose how many mrns page")
       .get(s"$baseUrl/$route/choose-how-many-mrns": String)
       .check(status.is(200))
       .check(saveCsrfToken())
       .check(regex("How many MRNs do you want to submit in this claim?"))
   }
 
-  def postTheSelectNumberOfClaimsPage : HttpRequestBuilder = {
-    http("post the select number of claims page")
+  def postChooseHowManyMrnsPage : HttpRequestBuilder = {
+    http("post the choose how many mrns page")
       .post(s"$baseUrl/$route/choose-how-many-mrns": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-number-of-claims", "0")

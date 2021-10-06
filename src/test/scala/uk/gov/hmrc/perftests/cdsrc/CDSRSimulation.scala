@@ -18,6 +18,7 @@ package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
+import uk.gov.hmrc.perftests.cdsrc.MultipleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
@@ -74,70 +75,118 @@ class CDSRSimulation extends PerformanceTestRunner {
 //    (entryNumberJourney:_*
 //    )
 
-  val MRNJourney:List[ActionBuilder] = List[ActionBuilder](
-      getMRNAuthLoginPage,
-      loginWithAuthLoginStubMRN("GB000000000000001"),
-      getMRNCdsrStartPage,
-      getTheMRNCheckEoriDetailsPage,
-      postTheMRNCheckEoriDetailsPage,
-      getTheSelectNumberOfClaimsPage,
-      postTheSelectNumberOfClaimsPage,
-      getTheMRNPage,
-      postTheMRNPage,
-      getTheMRNImporterEoriEntryPage,
-      postTheMRNImporterEoriEntryPage,
-      getTheMRNDeclarantEoriEntryPage,
-      postTheMRNDeclarantEoriEntryPage,
-      getTheMRNCheckDeclarationPage,
-      postTheMRNCheckDeclarationPage,
-      getTheMRNWhoIsDeclarantPage,
-      postTheMRNWhoIsDeclarantPage,
-      getTheMrnClaimantDetailsCheckPage,
-      getTheMrnChangeContactDetailsPage,
-      postTheMrnChangeContactDetailsPage,
-      getTheMrnClaimantDetailsCheckPage1,
-      postTheMrnClaimantDetailsCheckPage,
-      getTheMRNClaimNorthernIrelandPage,
-      postTheMRNClaimNorthernIrelandPage,
-      getTheMRNChooseBasisOfClaimPage,
-      postTheMRNChooseBasisOfClaimPage,
-      getTheDuplicateMRNPage,
-      postTheDuplicateMRNPage,
-      getTheMRNCheckDuplicateDeclarationPage,
-      postTheMRNCheckDuplicateDeclarationPage,
-      getTheMRNEnterCommodityDetailsPage,
-      postTheMRNEnterCommodityDetailsPage,
-      getTheMRNSelectDutiesPage,
-      postTheMRNSelectDutiesPage,
-      getTheMRNStartClaimPage,
-      getTheMRNEnterClaimPage,
-      postTheMRNEnterClaimPage,
-      getTheMRNCheckClaimPage,
-      postTheMRNCheckClaimPage,
-      getTheMRNCheckTheseBankDetailsAreCorrectPage,
-      getTheMRNBankAccountTypePage,
-      postTheMRNBankAccountTypePage,
-      getTheMRNEnterBankAccountDetailsPage,
-      postTheMRNEnterBankAccountDetailsPage,
-//      postTheMRNCheckTheseBankDetailsAreCorrectPage,
-      getUploadSupportEvidencePage,
-      postUploadSupportEvidencePage,
-      getScanProgressWaitPage,
-      postScanProgressWaitPage) ++
-      postScanProgressWaitPage1 ++
-    List[ActionBuilder](
-      getSelectSupportingEvidencePage,
-      postSelectSupportingEvidencePage,
-      getCheckYourAnswersPage,
-      postCheckYourAnswersPage,
-      getCheckAnswersAcceptSendPage,
-      postCheckAnswersAcceptSendPage,
-      getClaimSubmittedPage
-    )
-  setup("MRN-journey", "Movement reference number journey") withActions
-    (MRNJourney:_*
+    val MRNJourney:List[ActionBuilder] = List[ActionBuilder](
+        getMRNAuthLoginPage,
+        loginWithAuthLoginStubMRN("GB000000000000001"),
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getChooseHowManyMrnsPage,
+        postChooseHowManyMrnsPage,
+        getTheMRNPage,
+        postTheMRNPage,
+        getTheMRNImporterEoriEntryPage,
+        postTheMRNImporterEoriEntryPage,
+        getTheMRNDeclarantEoriEntryPage,
+        postTheMRNDeclarantEoriEntryPage,
+        getTheMRNCheckDeclarationPage,
+        postTheMRNCheckDeclarationPage,
+        getTheMRNWhoIsDeclarantPage,
+        postTheMRNWhoIsDeclarantPage,
+        getTheMrnClaimantDetailsCheckPage,
+        getTheMrnChangeContactDetailsPage,
+        postTheMrnChangeContactDetailsPage,
+        getTheMrnClaimantDetailsCheckPage1,
+        postTheMrnClaimantDetailsCheckPage,
+        getTheMRNClaimNorthernIrelandPage,
+        postTheMRNClaimNorthernIrelandPage,
+        getTheMRNChooseBasisOfClaimPage,
+        postTheMRNChooseBasisOfClaimPage,
+        getTheDuplicateMRNPage,
+        postTheDuplicateMRNPage,
+        getTheMRNCheckDuplicateDeclarationPage,
+        postTheMRNCheckDuplicateDeclarationPage,
+        getTheMRNEnterCommodityDetailsPage,
+        postTheMRNEnterCommodityDetailsPage,
+        getTheMRNSelectDutiesPage,
+        postTheMRNSelectDutiesPage,
+        getTheMRNStartClaimPage,
+        getTheMRNEnterClaimPage,
+        postTheMRNEnterClaimPage,
+        getTheMRNCheckClaimPage,
+        postTheMRNCheckClaimPage,
+        getTheMRNCheckTheseBankDetailsAreCorrectPage,
+        getTheMRNBankAccountTypePage,
+        postTheMRNBankAccountTypePage,
+        getTheMRNEnterBankAccountDetailsPage,
+        postTheMRNEnterBankAccountDetailsPage,
+        getUploadSupportEvidencePage,
+        postUploadSupportEvidencePage,
+        getScanProgressWaitPage,
+        postScanProgressWaitPage) ++
+        postScanProgressWaitPage1 ++
+      List[ActionBuilder](
+        getSelectSupportingEvidencePage,
+        postSelectSupportingEvidencePage,
+        getCheckYourAnswersPage,
+        postCheckYourAnswersPage,
+        getCheckAnswersAcceptSendPage,
+        postCheckAnswersAcceptSendPage,
+        getClaimSubmittedPage
       )
+    setup("MRN-journey", "Movement reference number journey") withActions
+      (MRNJourney:_*
+        )
 
+    val MultipleMRNJourney:List[ActionBuilder] = List[ActionBuilder](
+        getMRNAuthLoginPage,
+        loginWithAuthLoginStubMRN("GB000000000000001"),
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getChooseHowManyMrnsPage,
+        postMultipleChooseHowManyMrnsPage,
+        getMultipleMrnPage,
+        postMultipleMrnPage,
+        getMultipleMrnCheckDeclarationPage,
+        postMultipleMrnCheckDeclarationPage,
+        getMultipleEnterMRNPage2,
+        postSubmitMRNPage,
+        getMultipleMrnWhoIsDeclarantPage,
+        postMultipleClaimMrnWhoIsDeclarantPage,
+        getMultipleClaimantDetailsCheckPage,
+        getMultipleChangeContactDetailsPage,
+        postMultipleChangeContactDetailsPage,
+        getMultipleClaimantDetailsCheckPage1,
+        postMultipleClaimantDetailsCheckPage,
+        getMultipleClaimMrnClaimNorthernIrelandPage,
+        postMultipleClaimNorthernIrelandPage,
+        getMultipleChooseBasisOfClaimPage,
+        postMultipleChooseBasisOfClaimPage,
+        getMultipleEnterCommodityDetailsPage,
+        postMultipleEnterCommodityDetailsPage,
+        getMultipleCheckTheseBankDetailsAreCorrectPage,
+        getMultipleBankAccountTypePage,
+        postMultipleBankAccountTypePage,
+        getMultipleEnterBankAccountDetailsPage,
+        postMultipleEnterBankAccountDetailsPage,
+        getMultipleUploadSupportEvidencePage,
+        postMultipleUploadSupportEvidencePage,
+        getMultipleScanProgressWaitPage,
+        postMultipleScanProgressWaitPage) ++
+        postMultipleScanProgressWaitPage1 ++
+      List[ActionBuilder](
+          getMultipleSelectSupportingEvidencePage,
+          postMultipleSelectSupportingEvidencePage,
+          getMultipleCheckYourAnswersPage,
+          postMultipleCheckYourAnswersPage,
+          getMultipleCheckAnswersAcceptSendPage,
+          postMultipleCheckAnswersAcceptSendPage,
+          getMultipleClaimSubmittedPage
+      )
+    setup("Multiple-MRN-journey", "Multiple claims MRN journey") withActions
+      (MultipleMRNJourney:_*
+        )
 
     val MultipleClaimsScheduledMRNJourney:List[ActionBuilder] = List[ActionBuilder](
         getMRNAuthLoginPage,
@@ -145,7 +194,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
-        getTheSelectNumberOfClaimsPage,
+        getChooseHowManyMrnsPage,
         postBulkScheduledSelectNumberOfClaimsPage,
         getBulkScheduledMrnPage,
         postBulkScheduledMrnPage,
@@ -159,46 +208,46 @@ class CDSRSimulation extends PerformanceTestRunner {
       List[ActionBuilder](
         getScheduledDocumentUploadReviewPage,
         postScheduledDocumentUploadReviewPage,
-          getScheduledMrnWhoIsDeclarantPage,
-          postScheduledMrnWhoIsDeclarantPage,
-          getClaimantDetailsPage,
-          getDetailsContactPage,
-          //postDetailsContactPage,
-          postChangeClaimantDetailsPage,
-          getScheduledMrnClaimNorthernIrelandPage,
-          postScheduledMrnClaimNorthernIrelandPage,
-          getScheduledMrnChooseBasisOfClaimPage,
-          postScheduledMrnChooseBasisOfClaimPage,
-          getScheduledMrnEnterCommodityDetailsPage,
-          postScheduledMrnEnterCommodityDetailsPage,
-          getScheduledMrnSelectDutiesPage,
-          postScheduledMrnSelectDutiesPage,
-          getScheduledMrnStartClaimPage,
-          getScheduledMrnEnterClaimPage,
-          postScheduledMrnEnterClaimPage,
-          getScheduledMrnCheckClaimPage,
-          postScheduledMrnCheckClaimPage,
-          getScheduledMrnCheckTheseBankDetailsAreCorrectPage,
-          getScheduledMRNBankAccountTypePage,
-          postScheduledMRNBankAccountTypePage,
-          getScheduledMRNEnterBankAccountDetailsPage,
-          postScheduledEnterBankAccountDetailsPage,
-          getScheduledUploadSupportEvidencePage,
-          postScheduledUploadSupportEvidencePage,
-          getScheduledScanProgressWaitPage,
-          postScheduledScanProgressWaitPage) ++
-          postScheduledScanProgressWaitPage1 ++
+        getScheduledMrnWhoIsDeclarantPage,
+        postScheduledMrnWhoIsDeclarantPage,
+        getClaimantDetailsPage,
+        getDetailsContactPage,
+        //postDetailsContactPage,
+        postChangeClaimantDetailsPage,
+        getScheduledMrnClaimNorthernIrelandPage,
+        postScheduledMrnClaimNorthernIrelandPage,
+        getScheduledMrnChooseBasisOfClaimPage,
+        postScheduledMrnChooseBasisOfClaimPage,
+        getScheduledMrnEnterCommodityDetailsPage,
+        postScheduledMrnEnterCommodityDetailsPage,
+        getScheduledMrnSelectDutiesPage,
+        postScheduledMrnSelectDutiesPage,
+        getScheduledMrnStartClaimPage,
+        getScheduledMrnEnterClaimPage,
+        postScheduledMrnEnterClaimPage,
+        getScheduledMrnCheckClaimPage,
+        postScheduledMrnCheckClaimPage,
+        getScheduledMrnCheckTheseBankDetailsAreCorrectPage,
+        getScheduledMRNBankAccountTypePage,
+        postScheduledMRNBankAccountTypePage,
+        getScheduledMRNEnterBankAccountDetailsPage,
+        postScheduledEnterBankAccountDetailsPage,
+        getScheduledUploadSupportEvidencePage,
+        postScheduledUploadSupportEvidencePage,
+        getScheduledScanProgressWaitPage,
+        postScheduledScanProgressWaitPage) ++
+        postScheduledScanProgressWaitPage1 ++
       List[ActionBuilder](
-          getScheduledSelectSupportingEvidencePage,
-          postScheduledSelectSupportingEvidencePage,
-          getScheduledCheckYourAnswersPage,
-          postScheduledCheckYourAnswersPage,
-          getScheduledCheckAnswersAcceptSendPage,
-          postScheduledCheckAnswersAcceptSendPage,
-          getScheduledClaimSubmittedPage
+        getScheduledSelectSupportingEvidencePage,
+        postScheduledSelectSupportingEvidencePage,
+        getScheduledCheckYourAnswersPage,
+        postScheduledCheckYourAnswersPage,
+        getScheduledCheckAnswersAcceptSendPage,
+        postScheduledCheckAnswersAcceptSendPage,
+        getScheduledClaimSubmittedPage
       )
     setup("Multiple-Claims-Scheduled-MRN-journey", "Multiple claims Scheduled document MRN journey") withActions
       (MultipleClaimsScheduledMRNJourney:_*
         )
-  runSimulation()
+    runSimulation()
 }

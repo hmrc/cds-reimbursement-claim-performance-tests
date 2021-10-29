@@ -115,6 +115,8 @@ class CDSRSimulation extends PerformanceTestRunner {
         postTheMRNEnterClaimPage,
         getTheMRNCheckClaimPage,
         postTheMRNCheckClaimPage,
+        getSelectReimbursementMethodPage,
+        postSelectReimbursementMethodPage,
         getTheMRNCheckTheseBankDetailsAreCorrectPage,
         getTheMRNBankAccountTypePage,
         postTheMRNBankAccountTypePage,

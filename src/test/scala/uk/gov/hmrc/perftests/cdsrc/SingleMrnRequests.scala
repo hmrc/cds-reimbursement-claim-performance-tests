@@ -114,14 +114,14 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check if this is the correct EORI"))
+      .check(regex("Check the EORI associated with the user ID is correct"))
   }
 
   def postTheMRNCheckEoriDetailsPage : HttpRequestBuilder = {
     http("post check eori details page")
       .post(s"$baseUrl/$route/check-eori-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-eori-details", "0")
+      .formParam("check-eori-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/choose-how-many-mrns": String))
   }
@@ -157,12 +157,12 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-movement-reference-number", "10ABCDEFGHIJKLMNO0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/importer-eori-entry": String))
+      .check(header("Location").is(s"/$route/single/enter-importer-eori": String))
   }
 
   def getTheMRNImporterEoriEntryPage : HttpRequestBuilder = {
     http("get the MRN importer eori entry page")
-      .get(s"$baseUrl/$route/single/importer-eori-entry": String)
+      .get(s"$baseUrl/$route/single/enter-importer-eori": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the importer’s EORI number"))
@@ -170,16 +170,16 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postTheMRNImporterEoriEntryPage : HttpRequestBuilder = {
     http("post the MRN importer eori entry page")
-      .post(s"$baseUrl/$route/single/importer-eori-entry": String)
+      .post(s"$baseUrl/$route/single/enter-importer-eori": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-importer-eori-number", "GB123456789012345")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/declarant-eori-entry": String))
+      .check(header("Location").is(s"/$route/single/enter-declarant-eori": String))
   }
 
   def getTheMRNDeclarantEoriEntryPage : HttpRequestBuilder = {
     http("get the MRN declarant eori entry page")
-      .get(s"$baseUrl/$route/single/declarant-eori-entry": String)
+      .get(s"$baseUrl/$route/single/enter-declarant-eori": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the declarant’s EORI number"))
@@ -187,7 +187,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postTheMRNDeclarantEoriEntryPage : HttpRequestBuilder = {
     http("post the MRN declarant eori entry page")
-      .post(s"$baseUrl/$route/single/declarant-eori-entry": String)
+      .post(s"$baseUrl/$route/single/enter-declarant-eori": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-declarant-eori-number", "GB123456789012345")
       .check(status.is(303))
@@ -206,7 +206,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post the MRN check declaration details page")
       .post(s"$baseUrl/$route/single/check-declaration-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-declaration-details", "0")
+      .formParam("check-declaration-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/who-is-the-declarant": String))
   }
@@ -264,7 +264,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post the MRN claimant details check page")
       .post(s"$baseUrl/$route/single/claimant-details/check": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("claimant-details", "0")
+      .formParam("claimant-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/claim-northern-ireland": String))
   }
@@ -367,7 +367,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post the MRN select duties page")
       .post(s"$baseUrl/$route/single/select-duties": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-duties[]", "A80")
+      .formParam("select-duties[]", "A95")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/start-claim": String))
   }
@@ -386,7 +386,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
         s"$baseUrl$Location"
       })
       .check(status.is(200))
-      .check(regex("Enter the claim amount for duty A80 - Definitive Anti-Dumping Duty"))
+      .check(regex("Enter the claim amount for duty A95 - Provisional Countervailing Duty"))
   }
 
   def postTheMRNEnterClaimPage : HttpRequestBuilder = {
@@ -405,14 +405,30 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get the MRN check claim page")
       .get(s"$baseUrl/$route/single/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the reimbursement claim totals for all MRNs"))
+      .check(regex("Check the reimbursement claim totals for your MRN"))
   }
 
   def postTheMRNCheckClaimPage : HttpRequestBuilder = {
     http("post the MRN check claim page")
       .post(s"$baseUrl/$route/single/check-claim": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-claim-summary", "0")
+      .formParam("check-claim-summary", "true")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/single/select-reimbursement-method": String))
+  }
+
+  def getSelectReimbursementMethodPage : HttpRequestBuilder = {
+    http("get select reimbursement method page")
+      .get(s"$baseUrl/$route/single/select-reimbursement-method": String)
+      .check(status.is(200))
+      .check(regex("Select reimbursement method"))
+  }
+
+  def postSelectReimbursementMethodPage: HttpRequestBuilder = {
+    http("post select reimbursement method page")
+      .post(s"$baseUrl/$route/single/select-reimbursement-method": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("reimbursement-method", "1")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/check-these-bank-details-are-correct": String))
   }

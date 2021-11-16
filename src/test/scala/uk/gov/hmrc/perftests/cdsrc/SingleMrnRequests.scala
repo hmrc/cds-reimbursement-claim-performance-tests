@@ -386,7 +386,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
         s"$baseUrl$Location"
       })
       .check(status.is(200))
-      .check(regex("Enter the claim amount for duty A95 - Provisional Countervailing Duty"))
+      .check(regex("Claim details for A95 - Provisional Countervailing Duty"))
   }
 
   def postTheMRNEnterClaimPage : HttpRequestBuilder = {

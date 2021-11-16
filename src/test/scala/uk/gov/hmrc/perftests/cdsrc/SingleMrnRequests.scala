@@ -281,7 +281,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post the claim northern ireland page")
       .post(s"$baseUrl/$route/single/claim-northern-ireland": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("claim-northern-ireland", "0")
+      .formParam("claim-northern-ireland", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/choose-basis-for-claim": String))
 

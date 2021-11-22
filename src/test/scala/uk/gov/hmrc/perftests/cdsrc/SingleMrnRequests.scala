@@ -326,14 +326,14 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/single/check-duplicate-declaration-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check these declaration details are correct"))
+      .check(regex("Check these declaration details are correct for the duplicate MRN"))
   }
 
   def postTheMRNCheckDuplicateDeclarationPage : HttpRequestBuilder = {
     http("post the MRN duplicate check declaration details page")
       .post(s"$baseUrl/$route/single/check-duplicate-declaration-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-declaration-details", "0")
+      .formParam("check-declaration-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/enter-commodity-details": String))
   }
@@ -405,7 +405,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get the MRN check claim page")
       .get(s"$baseUrl/$route/single/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the reimbursement claim totals for your MRN"))
+      .check(regex("Check the reimbursement claim total for your MRN"))
   }
 
   def postTheMRNCheckClaimPage : HttpRequestBuilder = {

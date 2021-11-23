@@ -40,7 +40,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
   def postBulkScheduledSelectNumberOfClaimsPage : HttpRequestBuilder = {
     http("post the select number of claims page")
-      .post(s"$baseUrl/$route/select-number-of-claims": String)
+      .post(s"$baseUrl/$route/choose-how-many-mrns": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-number-of-claims", "2")
       .check(status.is(303))
@@ -52,7 +52,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .get(s"$baseUrl/$route/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the lead Movement Reference Number (.*)"))
+      .check(regex("Tell us your lead Movement Reference Number (.*)"))
   }
 
   def postBulkScheduledMrnPage : HttpRequestBuilder = {
@@ -65,18 +65,18 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   }
 
   def getBulkScheduledMrnCheckDeclarationPage : HttpRequestBuilder = {
-    http("get Scheduled MRN check declaration details page")
+    http("get Scheduled check declaration details page")
       .get(s"$baseUrl/$route/scheduled/check-declaration-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check these details are correct"))
+      .check(regex("Check these declaration details are correct"))
   }
 
   def postBulkScheduledMrnCheckDeclarationPage : HttpRequestBuilder = {
-    http("post Scheduled MRN check declaration details page")
+    http("post Scheduled check declaration details page")
       .post(s"$baseUrl/$route/scheduled/check-declaration-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-declaration-details", "0")
+      .formParam("check-declaration-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/scheduled-document-upload/upload": String))
   }
@@ -99,7 +99,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
-      .check(regex("Add a scheduled document"))
+      .check(regex("Add a document which shows all the MRNs in this claim"))
   }
 
   def postScheduledDocumentUploadPage : HttpRequestBuilder = {
@@ -163,7 +163,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get scheduled document upload review page")
       .get(s"$baseUrl" + "${selectPage}")
       .check(status.is(200))
-      .check(regex("You have successfully uploaded a scheduled document"))
+      .check(regex("You have successfully uploaded a document showing all the MRNs in this claim"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 
@@ -177,7 +177,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
 
   def getScheduledMrnWhoIsDeclarantPage : HttpRequestBuilder = {
-    http("get Scheduled MRN who is declarant page")
+    http("get Scheduled who is declarant page")
       .get(s"$baseUrl/$route/scheduled/who-is-the-declarant": String)
       .check(saveCsrfToken())
       .check(status.is(200))
@@ -185,117 +185,75 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   }
 
   def postScheduledMrnWhoIsDeclarantPage : HttpRequestBuilder = {
-    http("post Scheduled MRN who is declarant page")
+    http("post Scheduled who is declarant page")
       .post(s"$baseUrl/$route/scheduled/who-is-the-declarant": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-who-is-making-the-claim", "1")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/claimant-details": String))
+      .check(header("Location").is(s"/$route/scheduled/claimant-details/check": String))
   }
 
-  def getClaimantDetailsPage : HttpRequestBuilder = {
-    http("get scheduled MRN claimant details page")
-      .get(s"$baseUrl/$route/scheduled/claimant-details": String)
+  def getScheduledClaimantDetailsPage : HttpRequestBuilder = {
+    http("get scheduled claimant details check page")
+      .get(s"$baseUrl/$route/scheduled/claimant-details/check": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check your details as registered with CDS"))
   }
 
-  def getDetailsContactPage : HttpRequestBuilder = {
-    http("get scheduled MRN details contact page")
-      .get(s"$baseUrl/$route/scheduled/claimant-details/details-contact": String)
-      .check(saveCsrfToken())
+  def getScheduledMrnChangeContactDetailsPage : HttpRequestBuilder = {
+    http("get scheduled change contact details page")
+      .get(s"$baseUrl/$route/scheduled/claimant-details/change-contact-details": String)
       .check(status.is(200))
       .check(regex("Change contact details"))
   }
 
-  def postDetailsContactPage : HttpRequestBuilder = {
-    http("post scheduled MRN details contact page")
-      .post(s"$baseUrl/$route/scheduled/claimant-details/details-contact": String)
+  def postScheduledMrnChangeContactDetailsPage : HttpRequestBuilder = {
+    http("post scheduled change contact details page")
+      .post(s"$baseUrl/$route/scheduled/claimant-details/change-contact-details": String)
       .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
+      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
+      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/claimant-details": String))
+      .check(header("Location").is(s"/$route/scheduled/claimant-details/check": String))
   }
 
-  def postChangeClaimantDetailsPage : HttpRequestBuilder = {
-    http("post change claimant details page")
-      .post(s"$baseUrl/$route/scheduled/change-claimant-details":String)
+  def getScheduledMrnClaimantDetailsCheckPage1 : HttpRequestBuilder = {
+    http("get scheduled claimant details page from details contact page")
+      .get(s"$baseUrl/$route/scheduled/claimant-details/check": String)
+      .check(status.is(200))
+      .check(regex("Check your details as registered with CDS"))
+  }
+
+  def postScheduledMrnClaimantDetailsCheckPage : HttpRequestBuilder = {
+    http("post scheduled claimant details check page")
+      .post(s"$baseUrl/$route/scheduled/claimant-details/check": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("claimant-details", "0")
+      .formParam("claimant-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/claim-northern-ireland": String))
   }
-
-  //  def getBulkScheduledMrnEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
-//    http("get Scheduled MRN enter your details as registered with cds")
-//      .get(s"$baseUrl/$route/single/claimant-details": String)
-//      .check(saveCsrfToken())
-//      .check(status.is(200))
-//      .check(regex("Enter your details as registered with CDS"))
-//  }
-//
-//  def postBulkScheduledMrnEnterYourDetailsAsRegisteredCdsPage : HttpRequestBuilder = {
-//    http("post Scheduled MRN enter your details as registered with cds")
-//      .post(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .formParam("enter-claimant-details-as-registered-with-cds.individual-full-name", "IT Solutions LTD")
-//      .formParam("enter-claimant-details-as-registered-with-cds.individual-email", "someemail@mail.com")
-//      .formParam("nonUkAddress-line1", "19 Bricks Road")
-//      .formParam("nonUkAddress-line2", "")
-//      .formParam("nonUkAddress-line3", "")
-//      .formParam("nonUkAddress-line4", "Newcastle")
-//      .formParam("postcode", "NE12 5BT")
-//      .formParam("countryCode", "GB")
-//      .formParam("enter-claimant-details-as-registered-with-cds.add-company-details", "true")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"/$route/single/enter-your-contact-details": String))
-//  }
-//
-//  def getBulkScheduledMrnEnterYourContactDetailsPage : HttpRequestBuilder = {
-//    http("get Scheduled MRN enter your contact details page")
-//      .get(s"$baseUrl/$route/single/enter-your-contact-details": String)
-//      .check(saveCsrfToken())
-//      .check(status.is(200))
-//      .check(regex("Enter your contact details"))
-//  }
-//
-//  def postBulkScheduledMrnEnterYourContactDetailsPage : HttpRequestBuilder = {
-//    http("post Scheduled MRN enter your contact details page")
-//      .post(s"$baseUrl/$route/single/enter-your-contact-details": String)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .formParam("enter-your-contact-details.contact-name", "Online Sales LTD")
-//      .formParam("enter-your-contact-details.contact-email", "someemail@mail.com")
-//      .formParam("enter-your-contact-details.contact-phone-number", "+4420723934397")
-//      .formParam("nonUkAddress-line1", "11 Mount Road")
-//      .formParam("nonUkAddress-line2", "")
-//      .formParam("nonUkAddress-line3", "")
-//      .formParam("nonUkAddress-line4", "London")
-//      .formParam("postcode", "E10 7PP")
-//      .formParam("countryCode", "GB")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"/$route/scheduled/claim-northern-ireland": String))
-//  }
 
   def getScheduledMrnClaimNorthernIrelandPage : HttpRequestBuilder = {
     http("get Scheduled claim northern ireland page")
       .get(s"$baseUrl/$route/scheduled/claim-northern-ireland": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Were your commodities (.*) imported or moved through Northern Ireland?"))
+      .check(regex("Were your goods imported to or moved through Northern Ireland?"))
   }
 
   def postScheduledMrnClaimNorthernIrelandPage : HttpRequestBuilder = {
     http("post Scheduled claim northern ireland page")
       .post(s"$baseUrl/$route/scheduled/claim-northern-ireland": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("claim-northern-ireland", "0")
+      .formParam("claim-northern-ireland", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/choose-basis-for-claim": String))
-
   }
 
   def getScheduledMrnChooseBasisOfClaimPage : HttpRequestBuilder = {
-    http("get Scheduled MRN choose basis of claim page")
+    http("get Scheduled choose basis of claim page")
       .get(s"$baseUrl/$route/scheduled/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
@@ -303,7 +261,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   }
 
   def postScheduledMrnChooseBasisOfClaimPage : HttpRequestBuilder = {
-    http("post Scheduled MRN choose basis of claim page")
+    http("post Scheduled choose basis of claim page")
       .post(s"$baseUrl/$route/scheduled/choose-basis-for-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-basis-for-claim", "3")
@@ -312,7 +270,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   }
 
   def getScheduledMrnEnterCommodityDetailsPage : HttpRequestBuilder = {
-    http("get Scheduled MRN enter commodity details page")
+    http("get Scheduled enter commodity details page")
       .get(s"$baseUrl/$route/scheduled/enter-commodity-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
@@ -320,79 +278,510 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   }
 
   def postScheduledMrnEnterCommodityDetailsPage : HttpRequestBuilder = {
-    http("post Scheduled MRN enter commodity details page")
-      .post(s"$baseUrl/$route/single/enter-commodity-details": String)
+    http("post Scheduled enter commodity details page")
+      .post(s"$baseUrl/$route/scheduled/enter-commodity-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-commodities-details", "No reason")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/select-duties": String))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/select-duty-types": String))
   }
 
   def getScheduledMrnSelectDutiesPage : HttpRequestBuilder = {
-    http("get Scheduled MRN select duties page")
-      .get(s"$baseUrl/$route/single/select-duties": String)
+    http("get Scheduled select duty types page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/select-duty-types": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Select the duties you want to claim for"))
+      .check(regex("Select the duty types you want to claim for all MRNs in the file you uploaded"))
   }
 
   def postScheduledMrnSelectDutiesPage : HttpRequestBuilder = {
-    http("post Scheduled MRN select duties page")
-      .post(s"$baseUrl/$route/single/select-duties": String)
+    http("post scheduled select duty types page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/select-duty-types": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-duties[]", "A85")
+      .formParam("select-duty-types[]", "uk-duty")
+      .formParam("select-duty-types[]", "eu-duty")
+      .formParam("select-duty-types[]", "beer")
+      .formParam("select-duty-types[]", "wine")
+      .formParam("select-duty-types[]", "made-wine")
+      .formParam("select-duty-types[]", "low-alcohol-beverages")
+      .formParam("select-duty-types[]", "spirits")
+      .formParam("select-duty-types[]", "cider-perry")
+      .formParam("select-duty-types[]", "hydrocarbon-oils")
+      .formParam("select-duty-types[]", "biofuels")
+      .formParam("select-duty-types[]", "miscellaneous-road-fuels")
+      .formParam("select-duty-types[]", "tobacco")
+      .formParam("select-duty-types[]", "climate-change-levy")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/start-claim": String))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/start": String))
   }
 
   def getScheduledMrnStartClaimPage : HttpRequestBuilder = {
-    http("get Scheduled MRN start claim page")
-      .get(s"$baseUrl/$route/single/start-claim": String)
+    http("get Scheduled select duties start page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/start": String)
       .check(status.is(303))
       .check(header("Location").saveAs("action3"))
   }
 
-  def getScheduledMrnEnterClaimPage : HttpRequestBuilder = {
-    http("get Scheduled MRN enter claim page")
+  def getScheduledMrnSelectDutiesUkDutyPage : HttpRequestBuilder = {
+    http("get Scheduled enter claim page")
       .get(session => {
         val Location = session.get.attributes("action3")
         s"$baseUrl$Location"
       })
       .check(status.is(200))
-      .check(regex("Enter the claim amount for duty A85 - Provisional Anti-Dumping Duty"))
+      .check(regex("Select the UK duties you want to claim for all MRNs in the file you uploaded"))
   }
 
-  def postScheduledMrnEnterClaimPage : HttpRequestBuilder = {
-    http("post Scheduled MRN enter claim page")
+  def postScheduledMrnSelectDutiesUkDutyPage : HttpRequestBuilder = {
+    http("post Scheduled enter claim page")
       .post(session => {
         val Location = session.get.attributes("action3")
         s"$baseUrl$Location"
       })
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-claim", "39")
+      .formParam("select-duty-codes[]", "A00")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/check-claim": String))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/eu-duty": String))
+  }
+
+  def getScheduledMrnSelectDutiesEuDutyPage : HttpRequestBuilder = {
+    http("get Scheduled check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/eu-duty": String)
+      .check(status.is(200))
+      .check(regex("Select the EU duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesEuDutyPage : HttpRequestBuilder = {
+    http("post Scheduled check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/eu-duty": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "A50")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/beer": String))
+  }
+
+  def getScheduledMrnSelectDutiesBeerPage : HttpRequestBuilder = {
+    http("get Scheduled check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/beer": String)
+      .check(status.is(200))
+      .check(regex("Select the beer duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesBeerPage : HttpRequestBuilder = {
+    http("post Scheduled check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/beer": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "440")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/wine": String))
+  }
+
+  def getScheduledMrnSelectDutiesWinePage : HttpRequestBuilder = {
+    http("get Scheduled check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/wine": String)
+      .check(status.is(200))
+      .check(regex("Select the wine duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesWinePage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/wine": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "413")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/made-wine": String))
+  }
+
+  def getScheduledMrnSelectDutiesMadeWinePage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/made-wine": String)
+      .check(status.is(200))
+      .check(regex("Select the made-wine duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesMadeWinePage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/made-wine": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "423")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/low-alcohol-beverages": String))
+  }
+
+  def getScheduledMrnSelectDutiesLowAlcoholBeveragesPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/low-alcohol-beverages": String)
+      .check(status.is(200))
+      .check(regex("Select the low alcohol beverages duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesLowAlcoholBeveragesPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/low-alcohol-beverages": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "435")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/spirits": String))
+  }
+
+  def getScheduledMrnSelectDutiesSpiritsPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/spirits": String)
+      .check(status.is(200))
+      .check(regex("Select the spirits duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesSpiritsPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/spirits": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "462")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/cider-perry": String))
+  }
+
+  def getScheduledMrnSelectDutiesCiderPerryPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/cider-perry": String)
+      .check(status.is(200))
+      .check(regex("Select the cider and perry duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesCiderPerryPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/cider-perry": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "483")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/hydrocarbon-oils": String))
+  }
+
+  def getScheduledMrnSelectDutiesHydrocarbonOilsPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/hydrocarbon-oils": String)
+      .check(status.is(200))
+      .check(regex("Select the hydrocarbon oils duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesHydrocarbonOilsPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/hydrocarbon-oils": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "551")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/biofuels": String))
+  }
+
+  def getScheduledMrnSelectDutiesBiofuelsPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/biofuels": String)
+      .check(status.is(200))
+      .check(regex("Select the biofuels duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesBiofuelsPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/biofuels": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "589")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/miscellaneous-road-fuels": String))
+  }
+
+  def getScheduledMrnSelectDutiesMiscellaneousPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/miscellaneous-road-fuels": String)
+      .check(status.is(200))
+      .check(regex("Select the miscellaneous road fuels duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesMiscellaneousPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/miscellaneous-road-fuels": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "592")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/tobacco": String))
+  }
+
+  def getScheduledMrnSelectDutiesTobaccoPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/tobacco": String)
+      .check(status.is(200))
+      .check(regex("Select the tobacco products duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesTobaccoPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/tobacco": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "611")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/climate-change-levy": String))
+  }
+
+  def getScheduledMrnSelectDutiesClimatePage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/climate-change-levy": String)
+      .check(status.is(200))
+      .check(regex("Select the Climate Change Levy duties you want to claim for all MRNs in the file you uploaded"))
+  }
+
+  def postScheduledMrnSelectDutiesClimatePage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/climate-change-levy": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duty-codes[]", "99A")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/reimbursement-claim/start": String))
+  }
+
+  def getScheduledMrnStartPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/reimbursement-claim/start": String)
+      .check(status.is(303))
+  }
+
+  def getScheduledMrnUkDutyPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/uk-duty/A00": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under UK Duty A00"))
+  }
+
+  def postScheduledMrnUkDutyPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/uk-duty/A00": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "3.50")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/eu-duty/A50": String))
+  }
+
+  def getScheduledMrnEuDutyPage: HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/eu-duty/A50": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under EU Duty A50"))
+  }
+
+  def postScheduledMrnEuDutyPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/eu-duty/A50": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "4.50")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/beer/440": String))
+  }
+
+  def getScheduledMrnBeerPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/beer/440": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Beer 440"))
+  }
+
+  def postScheduledMrnBeerPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/beer/440": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/wine/413": String))
+  }
+
+  def getScheduledMrnWinePage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/wine/413": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Wine 413"))
+  }
+
+  def postScheduledMrnWinePage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/wine/413": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/made-wine/423": String))
+  }
+
+  def getScheduledMrnMadeWinePage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/made-wine/423": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Made-wine 423"))
+  }
+
+  def postScheduledMrnMadeWinePage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/made-wine/423": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/low-alcohol-beverages/435": String))
+  }
+
+  def getScheduledMrnLowAlcoholPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/low-alcohol-beverages/435": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Low alcohol beverages 435"))
+  }
+
+  def postScheduledMrnLowAlcoholPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/low-alcohol-beverages/435": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/spirits/462": String))
+  }
+
+  def getScheduledMrnSpiritsPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/spirits/462": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Spirits 462"))
+  }
+
+  def postScheduledMrnSpiritsPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/spirits/462": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/cider-perry/483": String))
+  }
+
+  def getScheduledMrnCiderPerryPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/cider-perry/483": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Cider and perry 483"))
+  }
+
+  def postScheduledMrnCiderPerryPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/cider-perry/483": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/hydrocarbon-oils/551": String))
+  }
+
+  def getScheduledMrnHydroOilsPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/hydrocarbon-oils/551": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Hydrocarbon oils 551"))
+  }
+
+  def postScheduledMrnHydroOilsPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/hydrocarbon-oils/551": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/biofuels/589": String))
+  }
+
+  def getScheduledMrnBiofuelsPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/biofuels/589": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Biofuels 589"))
+  }
+
+  def postScheduledMrnBiofuelsPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/biofuels/589": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/miscellaneous-road-fuels/592": String))
+  }
+
+  def getScheduledMrnRoadFuelsPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/miscellaneous-road-fuels/592": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Miscellaneous road fuels 592"))
+  }
+
+  def postScheduledMrnRoadFuelsPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/miscellaneous-road-fuels/592": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/tobacco/611": String))
+  }
+
+  def getScheduledMrnTobaccoPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/tobacco/611": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Tobacco products 611"))
+  }
+
+  def postScheduledMrnTobaccoPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/tobacco/611": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/select-duties/climate-change-levy/99A": String))
+  }
+
+  def getScheduledMrnClimateLevyPage : HttpRequestBuilder = {
+    http("get Scheduled MRN check claim page")
+      .get(s"$baseUrl/$route/scheduled/select-duties/climate-change-levy/99A": String)
+      .check(status.is(200))
+      .check(regex("Claim details for all MRNS under Climate Change Levy 99A"))
+  }
+
+  def postScheduledMrnClimateLevyPage : HttpRequestBuilder = {
+    http("post Scheduled MRN check claim page")
+      .post(s"$baseUrl/$route/scheduled/select-duties/climate-change-levy/99A": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-scheduled-claim.amount-paid", "10")
+      .formParam("enter-scheduled-claim.amount-should-of-paid", "2")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/scheduled/check-claim": String))
   }
 
   def getScheduledMrnCheckClaimPage : HttpRequestBuilder = {
     http("get Scheduled MRN check claim page")
-      .get(s"$baseUrl/$route/single/check-claim": String)
+      .get(s"$baseUrl/$route/scheduled/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the reimbursement claim totals for all MRNs"))
+      .check(regex("Check the reimbursement claim totals for your MRN"))
   }
 
   def postScheduledMrnCheckClaimPage : HttpRequestBuilder = {
     http("post Scheduled MRN check claim page")
-      .post(s"$baseUrl/$route/single/check-claim": String)
+      .post(s"$baseUrl/$route/scheduled/check-claim": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-claim-summary", "0")
+      .formParam("check-claim-summary", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/check-these-bank-details-are-correct": String))
   }
 
   def getScheduledMrnCheckTheseBankDetailsAreCorrectPage : HttpRequestBuilder = {
     http("get Scheduled MRN check these bank details are correct page")
-      .get(s"$baseUrl/$route/single/check-these-bank-details-are-correct": String)
+      .get(s"$baseUrl/$route/scheduled/check-these-bank-details-are-correct": String)
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
       .check(css(".govuk-button", "href").saveAs("uploadSupportingEvidencePage"))

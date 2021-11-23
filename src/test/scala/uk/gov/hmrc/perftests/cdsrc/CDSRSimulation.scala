@@ -19,7 +19,7 @@ package uk.gov.hmrc.perftests.cdsrc
 import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
 import uk.gov.hmrc.perftests.cdsrc.MultipleMrnRequests._
-import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
+import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests.{getScheduledMrnSelectDutiesPage, _}
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 
@@ -212,10 +212,11 @@ class CDSRSimulation extends PerformanceTestRunner {
         postScheduledDocumentUploadReviewPage,
         getScheduledMrnWhoIsDeclarantPage,
         postScheduledMrnWhoIsDeclarantPage,
-        getClaimantDetailsPage,
-        getDetailsContactPage,
-        //postDetailsContactPage,
-        postChangeClaimantDetailsPage,
+          getScheduledClaimantDetailsPage,
+          getScheduledMrnChangeContactDetailsPage,
+          postScheduledMrnChangeContactDetailsPage,
+          getScheduledMrnClaimantDetailsCheckPage1,
+          postScheduledMrnClaimantDetailsCheckPage,
         getScheduledMrnClaimNorthernIrelandPage,
         postScheduledMrnClaimNorthernIrelandPage,
         getScheduledMrnChooseBasisOfClaimPage,
@@ -225,28 +226,54 @@ class CDSRSimulation extends PerformanceTestRunner {
         getScheduledMrnSelectDutiesPage,
         postScheduledMrnSelectDutiesPage,
         getScheduledMrnStartClaimPage,
-        getScheduledMrnEnterClaimPage,
-        postScheduledMrnEnterClaimPage,
-        getScheduledMrnCheckClaimPage,
-        postScheduledMrnCheckClaimPage,
-        getScheduledMrnCheckTheseBankDetailsAreCorrectPage,
-        getScheduledMRNBankAccountTypePage,
-        postScheduledMRNBankAccountTypePage,
-        getScheduledMRNEnterBankAccountDetailsPage,
-        postScheduledEnterBankAccountDetailsPage,
-        getScheduledUploadSupportEvidencePage,
-        postScheduledUploadSupportEvidencePage,
-        getScheduledScanProgressWaitPage,
-        postScheduledScanProgressWaitPage) ++
-        postScheduledScanProgressWaitPage1 ++
-      List[ActionBuilder](
-        getScheduledSelectSupportingEvidencePage,
-        postScheduledSelectSupportingEvidencePage,
-        getScheduledCheckYourAnswersPage,
-        postScheduledCheckYourAnswersPage,
-        getScheduledCheckAnswersAcceptSendPage,
-        postScheduledCheckAnswersAcceptSendPage,
-        getScheduledClaimSubmittedPage
+        getScheduledMrnSelectDutiesUkDutyPage,
+        postScheduledMrnSelectDutiesUkDutyPage,
+          getScheduledMrnSelectDutiesEuDutyPage,
+          postScheduledMrnSelectDutiesEuDutyPage,
+          getScheduledMrnSelectDutiesBeerPage,
+          postScheduledMrnSelectDutiesBeerPage,
+          getScheduledMrnSelectDutiesWinePage,
+          postScheduledMrnSelectDutiesWinePage,
+          getScheduledMrnSelectDutiesMadeWinePage,
+          postScheduledMrnSelectDutiesMadeWinePage,
+          getScheduledMrnSelectDutiesLowAlcoholBeveragesPage,
+          postScheduledMrnSelectDutiesLowAlcoholBeveragesPage,
+          getScheduledMrnSelectDutiesSpiritsPage,
+          postScheduledMrnSelectDutiesSpiritsPage,
+          getScheduledMrnSelectDutiesCiderPerryPage,
+          postScheduledMrnSelectDutiesCiderPerryPage,
+          getScheduledMrnSelectDutiesHydrocarbonOilsPage,
+          postScheduledMrnSelectDutiesHydrocarbonOilsPage,
+          getScheduledMrnSelectDutiesBiofuelsPage,
+          postScheduledMrnSelectDutiesBiofuelsPage,
+          getScheduledMrnSelectDutiesMiscellaneousPage,
+          postScheduledMrnSelectDutiesMiscellaneousPage,
+          getScheduledMrnSelectDutiesTobaccoPage,
+          postScheduledMrnSelectDutiesTobaccoPage,
+          getScheduledMrnSelectDutiesClimatePage,
+          postScheduledMrnSelectDutiesClimatePage,
+          getScheduledMrnStartPage
+
+//        getScheduledMrnCheckClaimPage,
+//        postScheduledMrnCheckClaimPage,
+//        getScheduledMrnCheckTheseBankDetailsAreCorrectPage,
+//        getScheduledMRNBankAccountTypePage,
+//        postScheduledMRNBankAccountTypePage,
+//        getScheduledMRNEnterBankAccountDetailsPage,
+//        postScheduledEnterBankAccountDetailsPage,
+//        getScheduledUploadSupportEvidencePage,
+//        postScheduledUploadSupportEvidencePage,
+//        getScheduledScanProgressWaitPage,
+//        postScheduledScanProgressWaitPage) ++
+//        postScheduledScanProgressWaitPage1 ++
+//      List[ActionBuilder](
+//        getScheduledSelectSupportingEvidencePage,
+//        postScheduledSelectSupportingEvidencePage,
+//        getScheduledCheckYourAnswersPage,
+//        postScheduledCheckYourAnswersPage,
+//        getScheduledCheckAnswersAcceptSendPage,
+//        postScheduledCheckAnswersAcceptSendPage,
+//        getScheduledClaimSubmittedPage
       )
     setup("Multiple-Claims-Scheduled-MRN-journey", "Multiple claims Scheduled document MRN journey") withActions
       (MultipleClaimsScheduledMRNJourney:_*

@@ -893,19 +893,19 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(status.is(303))
       .check(header("Location").saveAs("scanPage"))
   }
-
+//To store the session //how to unset the selectpage key?
   def postScheduledScanProgressWaitPage1 : List[ActionBuilder] = {
-    asLongAs(session => session("selectPage").asOption[String].isEmpty)(
+    asLongAs(session => session("scheduledScanSelectPage").asOption[String].isEmpty)(
       pause(2.second).exec(http(" post scan progressing wait page1")
         .get(s"$baseUrl" + "${scanPage}")
         .check(status.in(303, 200))
-        .check(header("Location").optional.saveAs("selectPage")))
+        .check(header("Location").optional.saveAs("scheduledScanSelectPage")))
     ).actionBuilders
   }
 
   def getScheduledSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("get select supporting evidence page")
-      .get(s"$baseUrl" + "${selectPage}")
+      .get(s"$baseUrl" + "${scheduledScanSelectPage}")
       .check(status.is(200))
       .check(regex("Select the description of the file you just uploaded"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))

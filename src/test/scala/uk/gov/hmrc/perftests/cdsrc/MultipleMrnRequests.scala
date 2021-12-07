@@ -76,23 +76,41 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post multiple MRN check declaration details page")
       .post(s"$baseUrl/$route/multiple/check-declaration-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-declaration-details", "0")
+      .formParam("check-declaration-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/enter-movement-reference-number/2": String))
   }
 
-  def getMultipleEnterMRNPage2 : HttpRequestBuilder = {
+  def getMultipleEnterSecondMRNPage : HttpRequestBuilder = {
     http("get multiple second MRN page")
       .get(s"$baseUrl/$route/multiple/enter-movement-reference-number/2": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us your 2 Movement Reference Number (.*)"))
+      .check(regex("Tell us your second Movement Reference Number (.*)"))
   }
 
-  def postSubmitMRNPage : HttpRequestBuilder = {
-    http("post multiple MRN page")
-      .post(s"$baseUrl/$route/multiple/submit-movement-reference-number": String)
+  def postMultipleEnterSecondMRNPage : HttpRequestBuilder = {
+    http("post multiple second MRN page")
+      .post(s"$baseUrl/$route/multiple/enter-movement-reference-number/2": String)
       .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-associated-mrn", "20AAAAAAAAAAAAAAA1")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/multiple/check-movement-reference-numbers": String))
+  }
+
+  def getMultipleCheckMRNPage : HttpRequestBuilder = {
+    http("get multiple check MRN page")
+      .get(s"$baseUrl/$route/multiple/check-movement-reference-numbers": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("All your MRNs entered in this claim"))
+  }
+
+  def postMultipleCheckMRNPage : HttpRequestBuilder = {
+    http("post multiple check MRN page")
+      .post(s"$baseUrl/$route/multiple/check-movement-reference-numbers": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("check-movement-reference-numbers", "false")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/who-is-the-declarant": String))
   }
@@ -151,7 +169,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post multiple claimant details check page")
       .post(s"$baseUrl/$route/multiple/claimant-details/check": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("claimant-details", "0")
+      .formParam("claimant-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/claim-northern-ireland": String))
   }
@@ -169,7 +187,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post multiple claim northern ireland page")
       .post(s"$baseUrl/$route/multiple/claim-northern-ireland": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("claim-northern-ireland", "0")
+      .formParam("claim-northern-ireland", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/choose-basis-for-claim": String))
 
@@ -206,68 +224,91 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-commodities-details", "No reason")
       .check(status.is(303))
-      //.check(header("Location").is(s"/$route/single/select-duties": String))
+      .check(header("Location").is(s"/$route/multiple/select-duties/1": String))
   }
 
   //Single journey select duties
-  def getBulkClaimMrnSelectDutiesPage : HttpRequestBuilder = {
-    http("get Claim MRN select duties page")
-      .get(s"$baseUrl/$route/multiple/select-duties": String)
+  def getMultipleSelectDutiesOnePage : HttpRequestBuilder = {
+    http("get multiple MRN select duties one page")
+      .get(s"$baseUrl/$route/multiple/select-duties/1": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Select the duties you want to claim for"))
+      .check(regex("Select the duties you want to claim for under lead MRN"))
   }
 
-  def postBulkClaimMrnSelectDutiesPage : HttpRequestBuilder = {
-    http("post Claim MRN select duties page")
-      .post(s"$baseUrl/$route/single/select-duties": String)
+  def postMultipleSelectDutiesOnePage : HttpRequestBuilder = {
+    http("post multiple MRN select duties one page")
+      .post(s"$baseUrl/$route/multiple/select-duties/1": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("select-duties[]", "A95")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/multiple/select-duties/1/A95": String))
+  }
+
+  def getMultipleSelectDutiesOneDutyPage : HttpRequestBuilder = {
+    http("get multiple MRN select duties one duty page")
+      .get(s"$baseUrl/$route/multiple/select-duties/1/A95": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Claim details for A95 - Provisional Countervailing Duty under lead MRN"))
+  }
+
+  def postMultipleSelectDutiesOneDutyPage : HttpRequestBuilder = {
+    http("post multiple MRN select duties one duty page")
+      .post(s"$baseUrl/$route/multiple/select-duties/1/A95": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("multiple-enter-claim", "16.70")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route/multiple/select-duties/2": String))
+  }
+
+  def getMultipleSelectDutiesSecondPage : HttpRequestBuilder = {
+    http("get multiple MRN select duties second page")
+      .get(s"$baseUrl/$route/multiple/select-duties/2": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Select the duties you want to claim for under second MRN"))
+  }
+
+  def postMultipleSelectDutiesSecondPage : HttpRequestBuilder = {
+    http("post multiple MRN select duties second page")
+      .post(s"$baseUrl/$route/multiple/select-duties/2": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duties[]", "A85")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/start-claim": String))
+      .check(header("Location").is(s"/$route/multiple/select-duties/2/A85": String))
   }
 
-  def getBulkClaimMrnStartClaimPage : HttpRequestBuilder = {
-    http("get Claim MRN start claim page")
-      .get(s"$baseUrl/$route/single/start-claim": String)
-      .check(status.is(303))
-      .check(header("Location").saveAs("action3"))
-  }
-
-  def getBulkClaimMrnEnterClaimPage : HttpRequestBuilder = {
-    http("get Claim MRN enter claim page")
-      .get(session => {
-        val Location = session.get.attributes("action3")
-        s"$baseUrl$Location"
-      })
+  def getMultipleSelectDutiesSecondDutyPage : HttpRequestBuilder = {
+    http("get multiple MRN select duties second duty page")
+      .get(s"$baseUrl/$route/multiple/select-duties/2/A95": String)
+      .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the claim amount for duty A85 - Provisional Anti-Dumping Duty"))
+      .check(regex("Claim details for A85 - Provisional Anti-Dumping Duty under second MRN"))
   }
 
-  def postBulkClaimMrnEnterClaimPage : HttpRequestBuilder = {
-    http("post Claim MRN enter claim page")
-      .post(session => {
-        val Location = session.get.attributes("action3")
-        s"$baseUrl$Location"
-      })
+  def postMultipleSelectDutiesSecondDutyPage : HttpRequestBuilder = {
+    http("post multiple MRN select duties second duty page")
+      .post(s"$baseUrl/$route/multiple/select-duties/1/A95": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-claim", "39")
+      .formParam("multiple-enter-claim", "14.70")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/check-claim": String))
+      .check(header("Location").is(s"/$route/multiple/check-claim": String))
   }
 
-  def getBulkClaimMrnCheckClaimPage : HttpRequestBuilder = {
-    http("get Scheduled MRN check claim page")
-      .get(s"$baseUrl/$route/single/check-claim": String)
+  def getMultipleCheckClaimPage : HttpRequestBuilder = {
+    http("get multiple MRN check claim page")
+      .get(s"$baseUrl/$route/multiple/check-claim": String)
+      .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check the reimbursement claim totals for all MRNs"))
   }
 
-  def postBulkClaimMrnCheckClaimPage : HttpRequestBuilder = {
-    http("post Claim MRN check claim page")
-      .post(s"$baseUrl/$route/single/check-claim": String)
+  def postMultipleCheckClaimPage : HttpRequestBuilder = {
+    http("post multiple MRN check claim page")
+      .post(s"$baseUrl/$route/multiple/check-claim": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-claim-summary", "0")
+      .formParam("multiple-check-claim-summary", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/check-these-bank-details-are-correct": String))
   }
@@ -378,9 +419,6 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(regex("We are checking your document"))
       .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
-
-  def constPause = new PauseBuilder(60 seconds, None)
-
 
   def postMultipleScanProgressWaitPage : HttpRequestBuilder = {
     http("post scan progress wait page")

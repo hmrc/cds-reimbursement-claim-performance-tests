@@ -52,7 +52,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .get(s"$baseUrl/$route/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us your lead Movement Reference Number (.*)"))
+      .check(regex("Enter the lead MRN"))
   }
 
   def postBulkScheduledMrnPage : HttpRequestBuilder = {
@@ -546,7 +546,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties uk duty tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/uk-duty/A00": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under UK Duty A00"))
+      .check(regex("Claim details for all MRNs under UK Duty A00"))
   }
 
   def postScheduledMrnUkDutyPage : HttpRequestBuilder = {
@@ -563,7 +563,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties eu duty tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/eu-duty/A50": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under EU Duty A50"))
+      .check(regex("Claim details for all MRNs under EU Duty A50"))
   }
 
   def postScheduledMrnEuDutyPage : HttpRequestBuilder = {
@@ -580,7 +580,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties beer tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/beer/440": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Beer 440"))
+      .check(regex("Claim details for all MRNs under Beer 440"))
   }
 
   def postScheduledMrnBeerPage : HttpRequestBuilder = {
@@ -597,7 +597,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties wine tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/wine/413": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Wine 413"))
+      .check(regex("Claim details for all MRNs under Wine 413"))
   }
 
   def postScheduledMrnWinePage : HttpRequestBuilder = {
@@ -614,7 +614,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties made wine tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/made-wine/423": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Made-wine 423"))
+      .check(regex("Claim details for all MRNs under Made-wine 423"))
   }
 
   def postScheduledMrnMadeWinePage : HttpRequestBuilder = {
@@ -631,7 +631,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties alcohol tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/low-alcohol-beverages/435": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Low alcohol beverages 435"))
+      .check(regex("Claim details for all MRNs under Low alcohol beverages 435"))
   }
 
   def postScheduledMrnLowAlcoholPage : HttpRequestBuilder = {
@@ -648,7 +648,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties spirits tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/spirits/462": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Spirits 462"))
+      .check(regex("Claim details for all MRNs under Spirits 462"))
   }
 
   def postScheduledMrnSpiritsPage : HttpRequestBuilder = {
@@ -665,7 +665,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties cider tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/cider-perry/483": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Cider and perry 483"))
+      .check(regex("Claim details for all MRNs under Cider and perry 483"))
   }
 
   def postScheduledMrnCiderPerryPage : HttpRequestBuilder = {
@@ -682,7 +682,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties hydrocarbon oils tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/hydrocarbon-oils/551": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Hydrocarbon oil 551"))
+      .check(regex("Claim details for all MRNs under Hydrocarbon oil 551"))
   }
 
   def postScheduledMrnHydroOilsPage : HttpRequestBuilder = {
@@ -699,7 +699,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties biofuels tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/biofuels/589": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Biofuels 589"))
+      .check(regex("Claim details for all MRNs under Biofuels 589"))
   }
 
   def postScheduledMrnBiofuelsPage : HttpRequestBuilder = {
@@ -716,7 +716,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties miscellaneous road tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/miscellaneous-road-fuels/592": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Miscellaneous road fuels 592"))
+      .check(regex("Claim details for all MRNs under Miscellaneous road fuels 592"))
   }
 
   def postScheduledMrnRoadFuelsPage : HttpRequestBuilder = {
@@ -733,7 +733,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties tobacco tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/tobacco/611": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Tobacco products 611"))
+      .check(regex("Claim details for all MRNs under Tobacco products 611"))
   }
 
   def postScheduledMrnTobaccoPage : HttpRequestBuilder = {
@@ -750,7 +750,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get select duties climate change tax page")
       .get(s"$baseUrl/$route/scheduled/select-duties/climate-change-levy/99A": String)
       .check(status.is(200))
-      .check(regex("Claim details for all MRNS under Climate Change Levy 99A"))
+      .check(regex("Claim details for all MRNs under Climate Change Levy 99A"))
   }
 
   def postScheduledMrnClimateLevyPage : HttpRequestBuilder = {
@@ -915,7 +915,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("post select supporting evidence page")
       .post(s"$baseUrl" + "${supportEvidencePageType}")
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "5")
+      .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/supporting-evidence/check-your-answers": String))
   }

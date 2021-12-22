@@ -52,7 +52,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us your lead Movement Reference Number (.*)"))
+      .check(regex("Enter the lead MRN"))
   }
 
   def postMultipleMrnPage : HttpRequestBuilder = {
@@ -86,7 +86,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/enter-movement-reference-number/2": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us your second Movement Reference Number (.*)"))
+      .check(regex("Tell us the second MRN"))
   }
 
   def postMultipleEnterSecondMRNPage : HttpRequestBuilder = {
@@ -103,7 +103,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/check-movement-reference-numbers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("All your MRNs entered in this claim"))
+      .check(regex("All the MRNs entered in this claim"))
   }
 
   def postMultipleCheckMRNPage : HttpRequestBuilder = {
@@ -450,7 +450,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post select supporting evidence page")
       .post(s"$baseUrl" + "${supportEvidencePageType}")
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "5")
+      .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/supporting-evidence/check-your-answers": String))
   }

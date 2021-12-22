@@ -114,7 +114,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check the EORI associated with the user ID is correct"))
+      .check(regex("Check these EORI details are correct"))
   }
 
   def postTheMRNCheckEoriDetailsPage : HttpRequestBuilder = {
@@ -131,7 +131,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/choose-how-many-mrns": String)
       .check(status.is(200))
       .check(saveCsrfToken())
-      .check(regex("How many MRNs do you want to submit in this claim?"))
+      .check(regex("Choose how many MRNs you want to submit in this claim"))
   }
 
   def postChooseHowManyMrnsPage : HttpRequestBuilder = {
@@ -148,7 +148,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/single/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us your Movement Reference Number (.*)"))
+      .check(regex("Enter the MRN"))
   }
 
   def postTheMRNPage : HttpRequestBuilder = {
@@ -309,7 +309,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/single/enter-duplicate-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us your duplicate Movement Reference Number (.*)"))
+      .check(regex("Enter the duplicate MRN"))
   }
 
   def postTheDuplicateMRNPage : HttpRequestBuilder = {
@@ -405,7 +405,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get the MRN check claim page")
       .get(s"$baseUrl/$route/single/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the reimbursement claim total for your MRN"))
+      .check(regex("Check the claim total for the MRN"))
   }
 
   def postTheMRNCheckClaimPage : HttpRequestBuilder = {
@@ -421,7 +421,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get select reimbursement method page")
       .get(s"$baseUrl/$route/single/select-reimbursement-method": String)
       .check(status.is(200))
-      .check(regex("Select reimbursement method"))
+      .check(regex("Select repayment method"))
   }
 
   def postSelectReimbursementMethodPage: HttpRequestBuilder = {

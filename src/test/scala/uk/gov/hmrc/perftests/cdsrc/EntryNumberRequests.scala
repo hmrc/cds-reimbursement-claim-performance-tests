@@ -490,7 +490,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("post select supporting evidence page")
       .post(s"$baseUrl" + "${supportEvidencePageType}")
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "5")
+      .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/supporting-evidence/check-your-answers": String))
   }

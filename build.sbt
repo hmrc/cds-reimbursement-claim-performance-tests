@@ -3,8 +3,8 @@ lazy val root = (project in file("."))
   .enablePlugins(SbtAutoBuildPlugin)
   .settings(
     name := "cds-reimbursement-claim-performance-tests",
-    version := "0.1.0-SNAPSHOT",
-    scalaVersion := "2.12.12",
+    version := "0.1.0",
+    scalaVersion := "2.12.13",
     //implicitConversions & postfixOps are Gatling recommended -language settings
     scalacOptions ++= Seq("-feature", "-language:implicitConversions", "-language:postfixOps"),
     // Enabling sbt-auto-build plugin provides DefaultBuildSettings with default `testOptions` from `sbt-settings` plugin.

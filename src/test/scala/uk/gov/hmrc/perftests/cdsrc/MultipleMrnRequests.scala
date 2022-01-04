@@ -19,9 +19,9 @@ package uk.gov.hmrc.perftests.cdsrc
 import io.gatling.core.Predef._
 import io.gatling.core.check.CheckBuilder
 import io.gatling.http.Predef._
-import io.gatling.http.check.HttpCheck
 import io.gatling.http.request.builder.HttpRequestBuilder
-import io.gatling.core.action.builder.{ActionBuilder, PauseBuilder}
+import io.gatling.core.action.builder.ActionBuilder
+import io.gatling.core.check.regex.RegexCheckType
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 import scala.concurrent.duration.DurationInt
@@ -36,7 +36,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
   val redirect1 = s"$baseUrl/$route/start"
   val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[HttpCheck, Response, CharSequence, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
   def postMultipleChooseHowManyMrnsPage : HttpRequestBuilder = {
     http("post the choose how many mrns page")

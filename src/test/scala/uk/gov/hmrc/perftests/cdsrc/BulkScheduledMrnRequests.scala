@@ -19,8 +19,8 @@ package uk.gov.hmrc.perftests.cdsrc
 import io.gatling.core.Predef._
 import io.gatling.core.action.builder.ActionBuilder
 import io.gatling.core.check.CheckBuilder
+import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
-import io.gatling.http.check.HttpCheck
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
@@ -36,7 +36,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   val redirect1 = s"$baseUrl/$route/start"
   val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[HttpCheck, Response, CharSequence, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
   def postBulkScheduledSelectNumberOfClaimsPage : HttpRequestBuilder = {
     http("post the select number of claims page")
@@ -325,7 +325,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   def getScheduledMrnSelectDutiesUkDutyPage : HttpRequestBuilder = {
     http("get select duties uk duty page")
       .get(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .check(status.is(200))
@@ -335,7 +335,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   def postScheduledMrnSelectDutiesUkDutyPage : HttpRequestBuilder = {
     http("post select duties uk duty page")
       .post(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .formParam("csrfToken", "${csrfToken}")

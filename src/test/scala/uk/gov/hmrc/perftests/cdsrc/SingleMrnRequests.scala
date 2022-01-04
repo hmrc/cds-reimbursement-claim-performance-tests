@@ -18,8 +18,8 @@ package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.Predef._
 import io.gatling.core.check.CheckBuilder
+import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
-import io.gatling.http.check.HttpCheck
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
@@ -33,7 +33,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   val redirect1 = s"$baseUrl/$route/start"
   val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[HttpCheck, Response, CharSequence, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
   def getMRNAuthLoginPage : HttpRequestBuilder = {
     http("Navigate to auth login stub page")
@@ -382,7 +382,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def getTheMRNEnterClaimPage : HttpRequestBuilder = {
     http("get the MRN enter claim page")
       .get(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .check(status.is(200))
@@ -392,7 +392,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNEnterClaimPage : HttpRequestBuilder = {
     http("post the MRN enter claim page")
       .post(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .formParam("csrfToken", "${csrfToken}")

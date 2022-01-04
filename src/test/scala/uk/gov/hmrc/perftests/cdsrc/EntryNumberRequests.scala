@@ -21,7 +21,6 @@ import io.gatling.core.action.builder.{ActionBuilder, PauseBuilder}
 import io.gatling.core.check.CheckBuilder
 import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
-import io.gatling.http.check.HttpCheck
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 

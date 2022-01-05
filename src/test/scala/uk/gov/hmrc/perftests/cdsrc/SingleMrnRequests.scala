@@ -123,8 +123,27 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-eori-details", "true")
       .check(status.is(303))
+      .check(header("Location").is(s"/$route/select-claim-type": String))
+  }
+
+  def getSelectClaimTypePage : HttpRequestBuilder = {
+    http("get select claim type page")
+      .get(s"$baseUrl/$route/select-claim-type": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Choose type of claim"))
+  }
+
+  def postSelectClaimTypePage : HttpRequestBuilder = {
+    http("post select claim type page")
+      .post(s"$baseUrl/$route/select-claim-type": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("choose-claim-type",  "C285")
+      .check(status.is(303))
       .check(header("Location").is(s"/$route/choose-how-many-mrns": String))
   }
+
+
 
   def getChooseHowManyMrnsPage : HttpRequestBuilder = {
     http("get the choose how many mrns page")

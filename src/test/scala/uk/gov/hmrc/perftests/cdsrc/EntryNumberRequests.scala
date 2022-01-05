@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package uk.gov.hmrc.perftests.cdsrc
 import io.gatling.core.Predef._
 import io.gatling.core.action.builder.{ActionBuilder, PauseBuilder}
 import io.gatling.core.check.CheckBuilder
+import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
-import io.gatling.http.check.HttpCheck
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
@@ -36,7 +36,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     val redirect1 = s"$baseUrl/$route/start"
     val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[HttpCheck, Response, CharSequence, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
     def getAuthLoginPage : HttpRequestBuilder = {
       http("Navigate to auth login stub page")
@@ -335,7 +335,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def getEnterClaimPage : HttpRequestBuilder = {
     http("get enter claim page")
       .get(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .check(status.is(200))
@@ -345,7 +345,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postEnterClaimPage : HttpRequestBuilder = {
     http("post enter claim page")
       .post(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .formParam("csrfToken", "${csrfToken}")

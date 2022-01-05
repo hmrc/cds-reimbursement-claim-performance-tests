@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.Predef._
 import io.gatling.core.check.CheckBuilder
+import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
-import io.gatling.http.check.HttpCheck
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
@@ -33,7 +33,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   val redirect1 = s"$baseUrl/$route/start"
   val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[HttpCheck, Response, CharSequence, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
   def getMRNAuthLoginPage : HttpRequestBuilder = {
     http("Navigate to auth login stub page")
@@ -123,8 +123,27 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-eori-details", "true")
       .check(status.is(303))
+      .check(header("Location").is(s"/$route/select-claim-type": String))
+  }
+
+  def getSelectClaimTypePage : HttpRequestBuilder = {
+    http("get select claim type page")
+      .get(s"$baseUrl/$route/select-claim-type": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Choose type of claim"))
+  }
+
+  def postSelectClaimTypePage : HttpRequestBuilder = {
+    http("post select claim type page")
+      .post(s"$baseUrl/$route/select-claim-type": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("choose-claim-type",  "C285")
+      .check(status.is(303))
       .check(header("Location").is(s"/$route/choose-how-many-mrns": String))
   }
+
+
 
   def getChooseHowManyMrnsPage : HttpRequestBuilder = {
     http("get the choose how many mrns page")
@@ -382,7 +401,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def getTheMRNEnterClaimPage : HttpRequestBuilder = {
     http("get the MRN enter claim page")
       .get(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .check(status.is(200))
@@ -392,7 +411,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNEnterClaimPage : HttpRequestBuilder = {
     http("post the MRN enter claim page")
       .post(session => {
-        val Location = session.get.attributes("action3")
+        val Location = session.attributes("action3")
         s"$baseUrl$Location"
       })
       .formParam("csrfToken", "${csrfToken}")

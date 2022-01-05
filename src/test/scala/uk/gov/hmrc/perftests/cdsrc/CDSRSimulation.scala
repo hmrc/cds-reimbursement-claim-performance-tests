@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     getMRNCdsrStartPage,
     getTheMRNCheckEoriDetailsPage,
     postTheMRNCheckEoriDetailsPage,
+    getSelectClaimTypePage,
+    postSelectClaimTypePage,
     getChooseHowManyMrnsPage,
     postChooseHowManyMrnsPage,
     getTheMRNPage,
@@ -146,6 +148,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     getMRNCdsrStartPage,
     getTheMRNCheckEoriDetailsPage,
     postTheMRNCheckEoriDetailsPage,
+    getSelectClaimTypePage,
+    postSelectClaimTypePage,
     getChooseHowManyMrnsPage,
     postMultipleChooseHowManyMrnsPage,
     getMultipleMrnPage,
@@ -206,6 +210,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     getMRNCdsrStartPage,
     getTheMRNCheckEoriDetailsPage,
     postTheMRNCheckEoriDetailsPage,
+    getSelectClaimTypePage,
+    postSelectClaimTypePage,
     getChooseHowManyMrnsPage,
     postBulkScheduledSelectNumberOfClaimsPage,
     getBulkScheduledMrnPage,

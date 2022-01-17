@@ -332,7 +332,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post multiple bank account type")
       .post(s"$baseUrl/$route/multiple/bank-account-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-bank-account-type", "0")
+      .formParam("select-bank-account-type", "Business")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/enter-bank-account-details": String))
   }

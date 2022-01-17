@@ -798,7 +798,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("post scheduled bank account type")
       .post(s"$baseUrl/$route/scheduled/bank-account-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-bank-account-type", "0")
+      .formParam("select-bank-account-type", "Personal")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/enter-bank-account-details": String))
   }

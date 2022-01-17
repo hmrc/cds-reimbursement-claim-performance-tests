@@ -471,7 +471,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post the MRN bank account type")
       .post(s"$baseUrl/$route/single/bank-account-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-bank-account-type", "0")
+      .formParam("select-bank-account-type", "Personal")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/enter-bank-account-details": String))
   }

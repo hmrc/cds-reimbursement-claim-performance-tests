@@ -137,7 +137,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/claimant-details/check": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check your details as registered with CDS"))
+      .check(regex("How we will contact you about this claim"))
   }
 
   def getMultipleChangeContactDetailsPage : HttpRequestBuilder = {
@@ -162,7 +162,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get multiple claimant details page from details contact page")
       .get(s"$baseUrl/$route/multiple/claimant-details/check": String)
       .check(status.is(200))
-      .check(regex("Check your details as registered with CDS"))
+      .check(regex("How we will contact you about this claim"))
   }
 
   def postMultipleClaimantDetailsCheckPage : HttpRequestBuilder = {
@@ -180,7 +180,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/claim-northern-ireland": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Were your goods imported to or moved through Northern Ireland?"))
+      .check(regex("Were your goods moved through or imported to Northern Ireland?"))
   }
 
   def postMultipleClaimNorthernIrelandPage : HttpRequestBuilder = {

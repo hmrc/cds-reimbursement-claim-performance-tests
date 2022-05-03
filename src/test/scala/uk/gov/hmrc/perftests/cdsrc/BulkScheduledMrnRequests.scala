@@ -172,30 +172,13 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .post(s"$baseUrl" + "${supportEvidencePageType}")
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/who-is-the-declarant": String))
+      .check(header("Location").is(s"/$route/scheduled/claimant-details": String))
   }
 
 
-  def getScheduledMrnWhoIsDeclarantPage : HttpRequestBuilder = {
-    http("get Scheduled who is declarant page")
-      .get(s"$baseUrl/$route/scheduled/who-is-the-declarant": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Who is making this claim?"))
-  }
-
-  def postScheduledMrnWhoIsDeclarantPage : HttpRequestBuilder = {
-    http("post Scheduled who is declarant page")
-      .post(s"$baseUrl/$route/scheduled/who-is-the-declarant": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-who-is-making-the-claim", "1")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/claimant-details/check": String))
-  }
-
-  def getScheduledClaimantDetailsPage : HttpRequestBuilder = {
-    http("get scheduled claimant details check page")
-      .get(s"$baseUrl/$route/scheduled/claimant-details/check": String)
+  def getScheduledMrnClaimantDetailsPage : HttpRequestBuilder = {
+    http("get Scheduled  claimant details page")
+      .get(s"$baseUrl/$route/scheduled/claimant-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("How we will contact you about this claim"))
@@ -216,19 +199,19 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .formParam("enter-contact-details.contact-email", "someemail@mail.com")
       .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/claimant-details/check": String))
+      .check(header("Location").is(s"/$route/scheduled/claimant-details": String))
   }
 
   def getScheduledMrnClaimantDetailsCheckPage1 : HttpRequestBuilder = {
     http("get scheduled claimant details page from details contact page")
-      .get(s"$baseUrl/$route/scheduled/claimant-details/check": String)
+      .get(s"$baseUrl/$route/scheduled/claimant-details": String)
       .check(status.is(200))
       .check(regex("How we will contact you about this claim"))
   }
 
   def postScheduledMrnClaimantDetailsCheckPage : HttpRequestBuilder = {
     http("post scheduled claimant details check page")
-      .post(s"$baseUrl/$route/scheduled/claimant-details/check": String)
+      .post(s"$baseUrl/$route/scheduled/claimant-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("claimant-details", "true")
       .check(status.is(303))
@@ -767,7 +750,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get Scheduled MRN check claim page")
       .get(s"$baseUrl/$route/scheduled/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the reimbursement claim totals for all MRNs"))
+      .check(regex("Check the repayment claim totals for all MRNs"))
   }
 
   def postScheduledMrnCheckClaimPage : HttpRequestBuilder = {
@@ -807,7 +790,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("get scheduled enter bank account details page")
       .get(s"$baseUrl/$route/scheduled/enter-bank-account-details": String)
       .check(status.is(200))
-      .check(regex("Enter bank account details"))
+      .check(regex("Enter your bank account details"))
   }
 
   def postScheduledEnterBankAccountDetailsPage : HttpRequestBuilder = {
@@ -905,7 +888,8 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
   def getScheduledSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("get select supporting evidence page")
-      .get(s"$baseUrl" + "${scheduledScanSelectPage}")
+      //.get(s"$baseUrl" + "${scheduledScanSelectPage}")
+      .get(s"$baseUrl/$route/scheduled/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
       .check(regex("Select the description of the file you just uploaded"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
@@ -913,11 +897,12 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
   def postScheduledSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("post select supporting evidence page")
-      .post(s"$baseUrl" + "${supportEvidencePageType}")
+      //.post(s"$baseUrl" + "${supportEvidencePageType}")
+      .post(s"$baseUrl/$route/scheduled/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/supporting-evidence/check-your-answers": String))
+      .check(header("Location").is(s"/$route/scheduled/supporting-evidence/upload-supporting-evidence": String))
   }
 
   def getScheduledCheckYourAnswersPage : HttpRequestBuilder = {

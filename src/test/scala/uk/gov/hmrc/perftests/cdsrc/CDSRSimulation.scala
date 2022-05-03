@@ -19,9 +19,10 @@ package uk.gov.hmrc.perftests.cdsrc
 import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
 import uk.gov.hmrc.perftests.cdsrc.MultipleMrnRequests._
-import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests.{getScheduledMrnSelectDutiesPage, _}
+import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
+import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
@@ -93,9 +94,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     postTheMRNDeclarantEoriEntryPage,
     getTheMRNCheckDeclarationPage,
     postTheMRNCheckDeclarationPage,
-    getTheMRNWhoIsDeclarantPage,
-    postTheMRNWhoIsDeclarantPage,
-    getTheMrnClaimantDetailsCheckPage,
+    getTheMRNClaimantDetailsPage,
     getTheMrnChangeContactDetailsPage,
     postTheMrnChangeContactDetailsPage,
     getTheMrnClaimantDetailsCheckPage1,
@@ -124,6 +123,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     postTheMRNBankAccountTypePage,
     getTheMRNEnterBankAccountDetailsPage,
     postTheMRNEnterBankAccountDetailsPage,
+    getSelectSupportingEvidencePage,
+    postSelectSupportingEvidencePage,
     getUploadSupportEvidencePage,
     postUploadSupportEvidencePage,
     getScanProgressWaitPage,
@@ -131,8 +132,6 @@ class CDSRSimulation extends PerformanceTestRunner {
   ) ++
     postScanProgressWaitPage1 ++
     List[ActionBuilder](
-      getSelectSupportingEvidencePage,
-      postSelectSupportingEvidencePage,
       getCheckYourAnswersPage,
       postCheckYourAnswersPage,
       getCheckAnswersAcceptSendPage,
@@ -160,9 +159,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     postMultipleEnterSecondMRNPage,
     getMultipleCheckMRNPage,
     postMultipleCheckMRNPage,
-    getMultipleMrnWhoIsDeclarantPage,
-    postMultipleClaimMrnWhoIsDeclarantPage,
-    getMultipleClaimantDetailsCheckPage,
+    getMultipleMrnClaimantDetailsPage,
     getMultipleChangeContactDetailsPage,
     postMultipleChangeContactDetailsPage,
     getMultipleClaimantDetailsCheckPage1,
@@ -186,6 +183,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     postMultipleBankAccountTypePage,
     getMultipleEnterBankAccountDetailsPage,
     postMultipleEnterBankAccountDetailsPage,
+    getMultipleSelectSupportingEvidencePage,
+    postMultipleSelectSupportingEvidencePage,
     getMultipleUploadSupportEvidencePage,
     postMultipleUploadSupportEvidencePage,
     getMultipleScanProgressWaitPage,
@@ -193,8 +192,6 @@ class CDSRSimulation extends PerformanceTestRunner {
   ) ++
     postMultipleScanProgressWaitPage1 ++
     List[ActionBuilder](
-      getMultipleSelectSupportingEvidencePage,
-      postMultipleSelectSupportingEvidencePage,
       getMultipleCheckYourAnswersPage,
       postMultipleCheckYourAnswersPage,
       getMultipleCheckAnswersAcceptSendPage,
@@ -227,9 +224,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     List[ActionBuilder](
       getScheduledDocumentUploadReviewPage,
       postScheduledDocumentUploadReviewPage,
-      getScheduledMrnWhoIsDeclarantPage,
-      postScheduledMrnWhoIsDeclarantPage,
-      getScheduledClaimantDetailsPage,
+      getScheduledMrnClaimantDetailsPage,
       getScheduledMrnChangeContactDetailsPage,
       postScheduledMrnChangeContactDetailsPage,
       getScheduledMrnClaimantDetailsCheckPage1,
@@ -303,6 +298,8 @@ class CDSRSimulation extends PerformanceTestRunner {
       postScheduledMRNBankAccountTypePage,
       getScheduledMRNEnterBankAccountDetailsPage,
       postScheduledEnterBankAccountDetailsPage,
+      getScheduledSelectSupportingEvidencePage,
+      postScheduledSelectSupportingEvidencePage,
       getScheduledUploadSupportEvidencePage,
       postScheduledUploadSupportEvidencePage,
       getScheduledScanProgressWaitPage,
@@ -310,8 +307,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     ) ++
     postScheduledScanProgressWaitPage1 ++
     List[ActionBuilder](
-      getScheduledSelectSupportingEvidencePage,
-      postScheduledSelectSupportingEvidencePage,
+      //getScheduledSelectSupportingEvidencePage,
+      //postScheduledSelectSupportingEvidencePage,
       getScheduledCheckYourAnswersPage,
       postScheduledCheckYourAnswersPage,
       getScheduledCheckAnswersAcceptSendPage,
@@ -320,5 +317,27 @@ class CDSRSimulation extends PerformanceTestRunner {
     )
   setup("Multiple-Claims-Scheduled-MRN-journey", "Multiple claims Scheduled document MRN journey") withActions
     (MultipleClaimsScheduledMRNJourney: _*)
+
+  val RejectedGoodsSingleMRNJourney: List[ActionBuilder] = List[ActionBuilder](
+    getMRNAuthLoginPage,
+    loginWithAuthLoginStubMRN("GB000000000000001"),
+    getMRNCdsrStartPage,
+    getTheMRNCheckEoriDetailsPage,
+    postTheMRNCheckEoriDetailsPage,
+    getRejectedGoodsSelectClaimTypePage,
+    postRejectedGoodsSelectClaimTypePage,
+    getRejectedGoodsChooseHowManyMrnsPage,
+    postRejectedGoodsChooseHowManyMrnsPage,
+    getRejectedGoodsMRNPage,
+    postRejectedGoodsMRNPage,
+    getRejectedGoodsImporterEoriEntryPage,
+    postRejectedGoodsImporterEoriEntryPage,
+    getRejectedGoodsDeclarantEoriEntryPage,
+    postRejectedGoodsDeclarantEoriEntryPage,
+    getRejectedGoodsCheckDeclarationPage,
+    postRejectedGoodsCheckDeclarationPage
+  )
+  setup("Rejected-Goods-Single-MRN-journey", "Rejected Goods Single MRN journey") withActions
+    (RejectedGoodsSingleMRNJourney: _*)
   runSimulation()
 }

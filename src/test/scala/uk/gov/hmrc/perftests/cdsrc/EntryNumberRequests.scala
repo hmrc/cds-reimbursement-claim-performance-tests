@@ -480,7 +480,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def getSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("get select supporting evidence page")
-      .get(s"$baseUrl" + "${selectPage}")
+      //.get(s"$baseUrl" + "${selectPage}")
+      .get(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
       .check(regex("Select the description of the file you just uploaded"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
@@ -488,11 +489,12 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def postSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("post select supporting evidence page")
-      .post(s"$baseUrl" + "${supportEvidencePageType}")
+      //.post(s"$baseUrl" + "${supportEvidencePageType}")
+      .post(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/supporting-evidence/check-your-answers": String))
+      .check(header("Location").is(s"/$route/single/supporting-evidence/upload-supporting-evidence": String))
   }
 
   def getCheckYourAnswersPage : HttpRequestBuilder = {

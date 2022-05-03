@@ -112,29 +112,12 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-movement-reference-numbers", "false")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/multiple/who-is-the-declarant": String))
+      .check(header("Location").is(s"/$route/multiple/claimant-details": String))
   }
 
-  def getMultipleMrnWhoIsDeclarantPage : HttpRequestBuilder = {
-    http("get multiple MRN who is declarant page")
-      .get(s"$baseUrl/$route/multiple/who-is-the-declarant": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Who is making this claim?"))
-  }
-
-  def postMultipleClaimMrnWhoIsDeclarantPage : HttpRequestBuilder = {
-    http("post multiple MRN who is declarant page")
-      .post(s"$baseUrl/$route/multiple/who-is-the-declarant": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-who-is-making-the-claim", "2")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route/multiple/claimant-details/check": String))
-  }
-
-  def getMultipleClaimantDetailsCheckPage : HttpRequestBuilder = {
-    http("get multiple MRN claimant details check page")
-      .get(s"$baseUrl/$route/multiple/claimant-details/check": String)
+  def getMultipleMrnClaimantDetailsPage : HttpRequestBuilder = {
+    http("get multiple MRN claimant details page")
+      .get(s"$baseUrl/$route/multiple/claimant-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("How we will contact you about this claim"))
@@ -155,19 +138,19 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("enter-contact-details.contact-email", "someemail@mail.com")
       .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/multiple/claimant-details/check": String))
+      .check(header("Location").is(s"/$route/multiple/claimant-details": String))
   }
 
   def getMultipleClaimantDetailsCheckPage1 : HttpRequestBuilder = {
     http("get multiple claimant details page from details contact page")
-      .get(s"$baseUrl/$route/multiple/claimant-details/check": String)
+      .get(s"$baseUrl/$route/multiple/claimant-details": String)
       .check(status.is(200))
       .check(regex("How we will contact you about this claim"))
   }
 
   def postMultipleClaimantDetailsCheckPage : HttpRequestBuilder = {
     http("post multiple claimant details check page")
-      .post(s"$baseUrl/$route/multiple/claimant-details/check": String)
+      .post(s"$baseUrl/$route/multiple/claimant-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("claimant-details", "true")
       .check(status.is(303))
@@ -341,7 +324,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get multiple enter bank account details page")
       .get(s"$baseUrl/$route/multiple/enter-bank-account-details": String)
       .check(status.is(200))
-      .check(regex("Enter bank account details"))
+      .check(regex("Enter your bank account details"))
   }
 
   def postMultipleEnterBankAccountDetailsPage : HttpRequestBuilder = {
@@ -440,7 +423,8 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def getMultipleSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("get select supporting evidence page")
-      .get(s"$baseUrl" + "${selectPage}")
+      //.get(s"$baseUrl" + "${selectPage}")
+      .get(s"$baseUrl/$route/multiple/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
       .check(regex("Select the description of the file you just uploaded"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
@@ -448,11 +432,12 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postMultipleSelectSupportingEvidencePage : HttpRequestBuilder = {
     http("post select supporting evidence page")
-      .post(s"$baseUrl" + "${supportEvidencePageType}")
+      //.post(s"$baseUrl" + "${supportEvidencePageType}")
+      .post(s"$baseUrl/$route/multiple/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/multiple/supporting-evidence/check-your-answers": String))
+      .check(header("Location").is(s"/$route/multiple/supporting-evidence/upload-supporting-evidence": String))
   }
 
   def getMultipleCheckYourAnswersPage : HttpRequestBuilder = {

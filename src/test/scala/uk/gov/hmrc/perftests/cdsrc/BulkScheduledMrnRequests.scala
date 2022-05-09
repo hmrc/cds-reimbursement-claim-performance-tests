@@ -29,7 +29,7 @@ import scala.concurrent.duration.DurationInt
 object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils {
 
   val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
-  val route: String = "claim-for-reimbursement-of-import-duties"
+  val route: String = "claim-back-import-duty-vat"
 
   val authUrl: String = baseUrlFor("auth-login-stub")
   val redirect = s"$baseUrl/$route/start/claim-for-reimbursement"
@@ -52,7 +52,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .get(s"$baseUrl/$route/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the lead MRN"))
+      .check(regex("Enter the first MRN"))
   }
 
   def postBulkScheduledMrnPage : HttpRequestBuilder = {
@@ -78,12 +78,18 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-declaration-details", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/scheduled-document-upload/upload": String))
+      .check(header("Location").is(s"/$route/scheduled/scheduled-document-upload/choose-files": String))
   }
 
-  def getScheduledDocumentUploadPage : HttpRequestBuilder = {
-    http("get scheduled document upload page")
-      .get(s"$baseUrl/$route/scheduled/scheduled-document-upload/upload": String)
+  def getBulkScheduledDocumentUploadChooseFilesPage : HttpRequestBuilder = {
+    http("get Scheduled document upload choose files page")
+      .get(s"$baseUrl/$route/scheduled/scheduled-document-upload/choose-files": String)
+      .check(status.is(303))
+  }
+
+  def getScheduledUploadDocumentsChooseFilePage : HttpRequestBuilder = {
+    http("get scheduled upload documents choose file page")
+      .get(s"$baseUrl/$route/upload-documents/choose-file": String)
       .check(saveFileUploadUrl)
       .check(saveCallBack)
       .check(saveAmazonDate)
@@ -102,8 +108,8 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(regex("Add a document which shows all the MRNs in this claim"))
   }
 
-  def postScheduledDocumentUploadPage : HttpRequestBuilder = {
-    http("post scheduled document upload page")
+  def postScheduledUploadDocumentsChooseFilePagePage : HttpRequestBuilder = {
+    http("post scheduled upload documents choose file page")
       .post("${fileUploadAmazonUrl}")
       .header("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryjoqtomO5urVl5B6N")
       .asMultipartForm
@@ -159,22 +165,29 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     ).actionBuilders
   }
 
-  def getScheduledDocumentUploadReviewPage : HttpRequestBuilder = {
-    http("get scheduled document upload review page")
+  def getScheduledUploadDocumentsSummaryPage : HttpRequestBuilder = {
+    http("get scheduled upload documents summary page")
       .get(s"$baseUrl" + "${selectPage}")
       .check(status.is(200))
       .check(regex("You have successfully uploaded a document showing all the MRNs in this claim"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 
-  def postScheduledDocumentUploadReviewPage : HttpRequestBuilder = {
-    http("post scheduled document upload review page")
-      .post(s"$baseUrl" + "${supportEvidencePageType}")
+  def postScheduledUploadDocumentsSummaryPage : HttpRequestBuilder = {
+    http("post scheduled upload documents summary page")
+      //.post(s"$baseUrl" + "${supportEvidencePageType}")
+      .post(s"$baseUrl/$route/upload-documents/summary": String)
       .formParam("csrfToken", "${csrfToken}")
+      .formParam("schedule-document.check-your-answers", "false")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/claimant-details": String))
+      //.check(header("Location").is(s"/$route/scheduled/scheduled-document-upload/continue": String))
   }
 
+  def getScheduledDocumentsUploadContinuePage : HttpRequestBuilder = {
+    http("get scheduled documents upload continue page")
+      .get(s"$baseUrl/$route/scheduled/scheduled-document-upload/continue": String)
+      .check(status.is(303))
+  }
 
   def getScheduledMrnClaimantDetailsPage : HttpRequestBuilder = {
     http("get Scheduled  claimant details page")
@@ -806,7 +819,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
   def getScheduledUploadSupportEvidencePage : HttpRequestBuilder = {
     http("get upload support evidence page")
-      .get(s"$baseUrl/$route/scheduled/supporting-evidence/upload-supporting-evidence": String)
+      .get(s"$baseUrl/$route/upload-documents/choose-file": String)
       .check(saveFileUploadUrl)
       .check(saveCallBack)
       .check(saveAmazonDate)
@@ -886,8 +899,8 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     ).actionBuilders
   }
 
-  def getScheduledSelectSupportingEvidencePage : HttpRequestBuilder = {
-    http("get select supporting evidence page")
+  def getScheduledSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
+    http("get select supporting evidence type page")
       //.get(s"$baseUrl" + "${scheduledScanSelectPage}")
       .get(s"$baseUrl/$route/scheduled/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
@@ -895,31 +908,39 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 
-  def postScheduledSelectSupportingEvidencePage : HttpRequestBuilder = {
-    http("post select supporting evidence page")
+  def postScheduledSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
+    http("post select supporting evidence type page")
       //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route/scheduled/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/supporting-evidence/upload-supporting-evidence": String))
+      .check(header("Location").is(s"/$route/scheduled/supporting-evidence/choose-files": String))
   }
 
-  def getScheduledCheckYourAnswersPage : HttpRequestBuilder = {
-    http("get check your answers page")
-      .get(s"$baseUrl/$route/scheduled/supporting-evidence/check-your-answers": String)
+  def getScheduledSupportingChooseFilesPage : HttpRequestBuilder = {
+    http("get select supporting evidence choose files page")
+      //.get(s"$baseUrl" + "${scheduledScanSelectPage}")
+      .get(s"$baseUrl/$route/scheduled/supporting-evidence/choose-files": String)
+      .check(status.is(303))
+  }
+
+
+  def getScheduledUploadDocumentsSummaryPage1 : HttpRequestBuilder = {
+    http("get upload documents summary page")
+      .get(s"$baseUrl/$route/upload-documents/summary": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("You have added 1 document to your claim"))
   }
 
-  def postScheduledCheckYourAnswersPage : HttpRequestBuilder = {
-    http("post check your answers page")
-      .post(s"$baseUrl/$route/scheduled/supporting-evidence/check-your-answers": String)
+  def postScheduledUploadDocumentsSummaryPagePage : HttpRequestBuilder = {
+    http("post upload documents summary page")
+      .post(s"$baseUrl/$route/upload-documents/summary": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.check-your-answers", "false")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/check-answers-accept-send": String))
+      //.check(header("Location").is(s"/$route/scheduled/check-answers-accept-send": String))
   }
 
   def getScheduledCheckAnswersAcceptSendPage : HttpRequestBuilder = {

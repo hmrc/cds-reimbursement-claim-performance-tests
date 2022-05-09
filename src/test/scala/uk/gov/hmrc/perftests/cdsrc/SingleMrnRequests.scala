@@ -26,7 +26,7 @@ import uk.gov.hmrc.performance.conf.ServicesConfiguration
 object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
-  val route: String = "claim-for-reimbursement-of-import-duties"
+  val route: String = "claim-back-import-duty-vat"
 
   val authUrl: String = baseUrlFor("auth-login-stub")
   val redirect = s"$baseUrl/$route/start/claim-for-reimbursement"
@@ -262,7 +262,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   }
 
   def postTheMrnClaimantDetailsCheckPage : HttpRequestBuilder = {
-    http("post the MRN claimant details check page")
+    http("post the MRN claimant details page")
       .post(s"$baseUrl/$route/single/claimant-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("claimant-details", "true")

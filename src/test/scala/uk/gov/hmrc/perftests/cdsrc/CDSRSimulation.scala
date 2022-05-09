@@ -123,17 +123,18 @@ class CDSRSimulation extends PerformanceTestRunner {
     postTheMRNBankAccountTypePage,
     getTheMRNEnterBankAccountDetailsPage,
     postTheMRNEnterBankAccountDetailsPage,
-    getSelectSupportingEvidencePage,
-    postSelectSupportingEvidencePage,
-    getUploadSupportEvidencePage,
-    postUploadSupportEvidencePage,
+    getSelectSelectSupportingEvidenceTypePage,
+    postSelectSupportingEvidenceTypePage,
+    getSupportingEvidenceChooseFilesPage,
+    getUploadDocumentsChooseFilePage,
+    postUploadDocumentsChoosefilesPage,
     getScanProgressWaitPage,
     postScanProgressWaitPage
   ) ++
     postScanProgressWaitPage1 ++
     List[ActionBuilder](
-      getCheckYourAnswersPage,
-      postCheckYourAnswersPage,
+      getUploadDocumentsSummaryPage,
+      postUploadDocumentsSummaryPage,
       getCheckAnswersAcceptSendPage,
       postCheckAnswersAcceptSendPage,
       getClaimSubmittedPage
@@ -183,17 +184,18 @@ class CDSRSimulation extends PerformanceTestRunner {
     postMultipleBankAccountTypePage,
     getMultipleEnterBankAccountDetailsPage,
     postMultipleEnterBankAccountDetailsPage,
-    getMultipleSelectSupportingEvidencePage,
-    postMultipleSelectSupportingEvidencePage,
-    getMultipleUploadSupportEvidencePage,
-    postMultipleUploadSupportEvidencePage,
+    getMultipleSelectSupportingEvidenceTypePage,
+    postMultipleSelectSupportingEvidenceTypePage,
+    getMultipleSupportingEvidenceChooseFilesPage,
+    getUploadDocumentsChooseFilePage,
+    postUploadDocumentsChoosefilesPage,
     getMultipleScanProgressWaitPage,
     postMultipleScanProgressWaitPage
   ) ++
     postMultipleScanProgressWaitPage1 ++
     List[ActionBuilder](
-      getMultipleCheckYourAnswersPage,
-      postMultipleCheckYourAnswersPage,
+      getUploadDocumentsSummaryPage,
+      postUploadDocumentsSummaryPage,
       getMultipleCheckAnswersAcceptSendPage,
       postMultipleCheckAnswersAcceptSendPage,
       getMultipleClaimSubmittedPage
@@ -215,15 +217,17 @@ class CDSRSimulation extends PerformanceTestRunner {
     postBulkScheduledMrnPage,
     getBulkScheduledMrnCheckDeclarationPage,
     postBulkScheduledMrnCheckDeclarationPage,
-    getScheduledDocumentUploadPage,
-    postScheduledDocumentUploadPage,
+    getBulkScheduledDocumentUploadChooseFilesPage,
+    getScheduledUploadDocumentsChooseFilePage,
+    postScheduledUploadDocumentsChooseFilePagePage,
     getScheduledDocumentUploadProgressPage,
     postScheduledDocumentUploadProgressPage
   ) ++
     postScheduledDocumentUploadProgressPage1 ++
     List[ActionBuilder](
-      getScheduledDocumentUploadReviewPage,
-      postScheduledDocumentUploadReviewPage,
+      getScheduledUploadDocumentsSummaryPage,
+      postScheduledUploadDocumentsSummaryPage,
+      getScheduledDocumentsUploadContinuePage,
       getScheduledMrnClaimantDetailsPage,
       getScheduledMrnChangeContactDetailsPage,
       postScheduledMrnChangeContactDetailsPage,
@@ -298,8 +302,9 @@ class CDSRSimulation extends PerformanceTestRunner {
       postScheduledMRNBankAccountTypePage,
       getScheduledMRNEnterBankAccountDetailsPage,
       postScheduledEnterBankAccountDetailsPage,
-      getScheduledSelectSupportingEvidencePage,
-      postScheduledSelectSupportingEvidencePage,
+      getScheduledSelectSupportingEvidenceTypePage,
+      postScheduledSelectSupportingEvidenceTypePage,
+      getScheduledSupportingChooseFilesPage,
       getScheduledUploadSupportEvidencePage,
       postScheduledUploadSupportEvidencePage,
       getScheduledScanProgressWaitPage,
@@ -307,10 +312,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     ) ++
     postScheduledScanProgressWaitPage1 ++
     List[ActionBuilder](
-      //getScheduledSelectSupportingEvidencePage,
-      //postScheduledSelectSupportingEvidencePage,
-      getScheduledCheckYourAnswersPage,
-      postScheduledCheckYourAnswersPage,
+      getScheduledUploadDocumentsSummaryPage1,
+      postScheduledUploadDocumentsSummaryPagePage,
       getScheduledCheckAnswersAcceptSendPage,
       postScheduledCheckAnswersAcceptSendPage,
       getScheduledClaimSubmittedPage
@@ -335,8 +338,55 @@ class CDSRSimulation extends PerformanceTestRunner {
     getRejectedGoodsDeclarantEoriEntryPage,
     postRejectedGoodsDeclarantEoriEntryPage,
     getRejectedGoodsCheckDeclarationPage,
-    postRejectedGoodsCheckDeclarationPage
-  )
+    postRejectedGoodsCheckDeclarationPage,
+    getRejectedGoodsClaimantDetailsPage,
+    getRejectedGoodsContactDetailsPage,
+    postRejectedGoodsChangeContactDetailsPage,
+    getRejectedGoodsClaimantDetailsPage1,
+    postRejectedGoodsClaimDetailsPage,
+    getRejectedGoodsChooseBasisForClaimPage,
+    postRejectedGoodsChooseBasisForClaimPage,
+    getRejectedGoodsSpecialCircumstancesPage,
+    postRejectedGoodsSpecialCircumstancesPage,
+    getRejectedGoodsChooseDisposalMethodPage,
+    postRejectedGoodsChooseDisposalMethodPage,
+    getRejectedGoodsEnterRejectedDetailsPage,
+    postRejectedGoodsEnterRejectedDetailsPage,
+    getRejectedGoodsSelectDutiesPage,
+    postRejectedGoodsSelectDutiesPage,
+    getRejectedGoodsEnterClaimPage,
+    postRejectedGoodsEnterClaimPage,
+    getRejectedGoodsCheckClaimPage,
+    postRejectedGoodsCheckClaimPage,
+    getRejectedGoodsInspectionDatePage,
+    postRejectedGoodsInspectionDatePage,
+    getRejectedGoodsInspectionAddressChoosePage,
+    postRejectedGoodsInspectionAddressChoosePage,
+    getRejectedGoodsRepaymentMethodPage,
+    postRejectedGoodsRepaymentMethodPage,
+    getRejectedGoodsCheckBankDetailsPage,
+    getRejectedGoodsBankAccountTypePage,
+    postRejectedGoodsBankAccountTypePage,
+    getRejectedGoodsEnterBankDetailsPage,
+    postRejectedGoodsEnterBankDetailsPage,
+    getRejectedGoodsChooseFileTypePage,
+    postRejectedGoodsChooseFileTypesPage,
+    getRejectedGoodsChooseFilesPage,
+    getRejectedGoodsChooseFilePage,
+    getRejectedGoodsSingleUploadDocumentsChooseFilePage,
+    postRejectedGoodsSingleUploadDocumentsChooseFilePage,
+    getRejectedGoodsSingleScanProgressWaitPage,
+    postRejectedGoodsSingleScanProgressWaitPage
+  )++
+    postRejectedGoodsSingleScanProgressWaitPage1 ++
+    List[ActionBuilder](
+      getRejectedGoodsDocumentsSummaryPage,
+      postRejectedGoodsDocumentsSummaryPage,
+      getRejectedGoodsCheckYourAnswersPage,
+      postRejectedGoodsCheckYourAnswersPage,
+      getRejectedGoodsClaimSubmittedPage
+    )
+
   setup("Rejected-Goods-Single-MRN-journey", "Rejected Goods Single MRN journey") withActions
     (RejectedGoodsSingleMRNJourney: _*)
   runSimulation()

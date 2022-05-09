@@ -29,7 +29,7 @@ import scala.concurrent.duration.DurationInt
 object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
-  val route: String = "claim-for-reimbursement-of-import-duties"
+  val route: String = "claim-back-import-duty-vat"
 
   val authUrl: String = baseUrlFor("auth-login-stub")
   val redirect = s"$baseUrl/$route/start/claim-for-reimbursement"
@@ -52,7 +52,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the lead MRN"))
+      .check(regex("Enter the first MRN"))
   }
 
   def postMultipleMrnPage : HttpRequestBuilder = {
@@ -216,7 +216,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/select-duties/1": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Select the duties you want to claim for under lead MRN"))
+      .check(regex("Select the duties you want to claim for under first MRN"))
   }
 
   def postMultipleSelectDutiesOnePage : HttpRequestBuilder = {
@@ -233,7 +233,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/select-duties/1/A95": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Claim details for A95 - Provisional Countervailing Duty under lead MRN"))
+      .check(regex("Claim details for A95 - Provisional Countervailing Duty under first MRN"))
   }
 
   def postMultipleSelectDutiesOneDutyPage : HttpRequestBuilder = {
@@ -421,8 +421,8 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
   }
 
 
-  def getMultipleSelectSupportingEvidencePage : HttpRequestBuilder = {
-    http("get select supporting evidence page")
+  def getMultipleSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
+    http("get select supporting evidence type page")
       //.get(s"$baseUrl" + "${selectPage}")
       .get(s"$baseUrl/$route/multiple/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
@@ -430,14 +430,20 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 
-  def postMultipleSelectSupportingEvidencePage : HttpRequestBuilder = {
-    http("post select supporting evidence page")
+  def postMultipleSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
+    http("post select supporting evidence type page")
       //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route/multiple/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/multiple/supporting-evidence/upload-supporting-evidence": String))
+      .check(header("Location").is(s"/$route/multiple/supporting-evidence/choose-files": String))
+  }
+
+  def getMultipleSupportingEvidenceChooseFilesPage : HttpRequestBuilder = {
+    http("get supporting evidence choose files page")
+      .get(s"$baseUrl/$route/multiple/supporting-evidence/choose-files": String)
+      .check(status.is(303))
   }
 
   def getMultipleCheckYourAnswersPage : HttpRequestBuilder = {

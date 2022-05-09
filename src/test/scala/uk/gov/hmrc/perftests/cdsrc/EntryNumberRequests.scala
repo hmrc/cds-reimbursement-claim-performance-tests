@@ -29,7 +29,7 @@ import scala.concurrent.duration.DurationInt
 object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
     val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
-    val route: String = "claim-for-reimbursement-of-import-duties"
+    val route: String = "claim-back-import-duty-vat"
 
     val authUrl: String = baseUrlFor("auth-login-stub")
     val redirect = s"$baseUrl/$route/start/claim-for-reimbursement"
@@ -392,9 +392,9 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(header("Location").is(s"/$route/single/supporting-evidence/upload-supporting-evidence": String))
   }
 
-  def getUploadSupportEvidencePage : HttpRequestBuilder = {
-    http("get upload support evidence page")
-      .get(s"$baseUrl/$route/single/supporting-evidence/upload-supporting-evidence": String)
+  def getUploadDocumentsChooseFilePage : HttpRequestBuilder = {
+    http("get upload documents choose file page")
+      .get(s"$baseUrl/$route/upload-documents/choose-file": String)
       .check(saveFileUploadUrl)
       .check(saveCallBack)
       .check(saveAmazonDate)
@@ -417,8 +417,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(regex("Add documents to support your claim"))
   }
 
-  def postUploadSupportEvidencePage : HttpRequestBuilder = {
-    http("post upload support evidence page")
+  def postUploadDocumentsChoosefilesPage : HttpRequestBuilder = {
+    http("post upload documents choose file page")
     .post("${fileUploadAmazonUrl}")
       .header("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryjoqtomO5urVl5B6N")
       .asMultipartForm
@@ -478,8 +478,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   }
 
 
-  def getSelectSupportingEvidencePage : HttpRequestBuilder = {
-    http("get select supporting evidence page")
+  def getSelectSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
+    http("get select supporting evidence type page")
       //.get(s"$baseUrl" + "${selectPage}")
       .get(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
@@ -487,31 +487,37 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 
-  def postSelectSupportingEvidencePage : HttpRequestBuilder = {
-    http("post select supporting evidence page")
+  def postSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
+    http("post select supporting evidence type page")
       //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.choose-document-type", "AirWayBill")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/supporting-evidence/upload-supporting-evidence": String))
+      .check(header("Location").is(s"/$route/single/supporting-evidence/choose-files": String))
   }
 
-  def getCheckYourAnswersPage : HttpRequestBuilder = {
-    http("get check your answers page")
-      .get(s"$baseUrl/$route/single/supporting-evidence/check-your-answers": String)
+  def getSupportingEvidenceChooseFilesPage : HttpRequestBuilder = {
+    http("get supporting evidence choose files page")
+      .get(s"$baseUrl/$route/single/supporting-evidence/choose-files": String)
+      .check(status.is(303))
+  }
+
+  def getUploadDocumentsSummaryPage : HttpRequestBuilder = {
+    http("get upload documents summary page")
+      .get(s"$baseUrl/$route/upload-documents/summary": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("You have added 1 document to your claim"))
   }
 
-  def postCheckYourAnswersPage : HttpRequestBuilder = {
-    http("post check your answers page")
-      .post(s"$baseUrl/$route/single/supporting-evidence/check-your-answers": String)
+  def postUploadDocumentsSummaryPage : HttpRequestBuilder = {
+    http("post upload documents summary page")
+      .post(s"$baseUrl/$route/upload-documents/summary": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.check-your-answers", "false")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/check-answers-accept-send": String))
+      //.check(header("Location").is(s"/$route/single/check-answers-accept-send": String))
   }
 
   def getCheckAnswersAcceptSendPage : HttpRequestBuilder = {

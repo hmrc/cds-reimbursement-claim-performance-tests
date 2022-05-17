@@ -23,6 +23,7 @@ import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
+import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsMultipleRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
@@ -389,5 +390,80 @@ class CDSRSimulation extends PerformanceTestRunner {
 
   setup("Rejected-Goods-Single-MRN-journey", "Rejected Goods Single MRN journey") withActions
     (RejectedGoodsSingleMRNJourney: _*)
+
+  val RejectedGoodsMultipleMRNJourney: List[ActionBuilder] = List[ActionBuilder](
+    getMRNAuthLoginPage,
+    loginWithAuthLoginStubMRN("GB000000000000001"),
+    getMRNCdsrStartPage,
+    getTheMRNCheckEoriDetailsPage,
+    postTheMRNCheckEoriDetailsPage,
+    getRejectedGoodsMultipleSelectClaimTypePage,
+    postRejectedGoodsMultipleSelectClaimTypePage,
+    getRejectedGoodsMultipleChooseHowManyMrnsPage,
+    postRejectedGoodsMultipleChooseHowManyMrnsPage,
+    getRejectedGoodsMultipleMRNPage,
+    postRejectedGoodsMultipleMRNPage,
+    getRejectedGoodsMultipleImporterEoriEntryPage,
+    postRejectedGoodsMultipleImporterEoriEntryPage,
+    getRejectedGoodsMultipleDeclarantEoriEntryPage,
+    postRejectedGoodsMultipleDeclarantEoriEntryPage,
+    getRejectedGoodsMultipleCheckDeclarationPage,
+    postRejectedGoodsMultipleCheckDeclarationPage,
+    getRejectedGoodsMultipleMRN2Page,
+    postRejectedGoodsMultipleMRN2Page,
+    getRejectedGoodsCheckMRNsPage,
+    postRejectedGoodsCheckMRNsPage,
+    getRejectedGoodsMultipleClaimantDetailsPage,
+    getRejectedGoodsMultipleContactDetailsPage,
+    postRejectedGoodsMultipleChangeContactDetailsPage,
+    getRejectedGoodsMultipleClaimantDetailsPage1,
+    postRejectedGoodsMultipleClaimDetailsPage,
+    getRejectedGoodsMultipleChooseBasisForClaimPage,
+    postRejectedGoodsMultipleChooseBasisForClaimPage,
+    getRejectedGoodsMultipleSpecialCircumstancesPage,
+    postRejectedGoodsMultipleSpecialCircumstancesPage,
+    getRejectedGoodsMultipleChooseDisposalMethodPage,
+    postRejectedGoodsMultipleChooseDisposalMethodPage,
+    getRejectedGoodsMultipleEnterRejectedDetailsPage,
+    postRejectedGoodsMultipleEnterRejectedDetailsPage,
+    getRejectedGoodsMultipleSelectDutiesPage,
+    postRejectedGoodsMultipleSelectDutiesOnePage,
+    getRejectedGoodsMultipleEnterClaimDutyOnePage,
+    postRejectedGoodsMultipleEnterClaimDutyOnePage,
+    getRejectedGoodsMultipleSelectDutiesTwoPage,
+    postRejectedGoodsMultipleSelectDutiesTwoPage,
+    getRejectedGoodsMultipleEnterClaimDutyTwoPage,
+    postRejectedGoodsMultipleEnterClaimDutyTwoPage,
+    getRejectedGoodsMultipleCheckClaimPage,
+    postRejectedGoodsMultipleCheckClaimPage,
+    getRejectedGoodsMultipleInspectionDatePage,
+    postRejectedGoodsMultipleInspectionDatePage,
+    getRejectedGoodsMultipleInspectionAddressChoosePage,
+    postRejectedGoodsMultipleInspectionAddressChoosePage,
+    getRejectedGoodsMultipleCheckBankDetailsPage,
+    getRejectedGoodsMultipleBankAccountTypePage,
+    postRejectedGoodsMultipleBankAccountTypePage,
+    getRejectedGoodsMultipleEnterBankDetailsPage,
+    postRejectedGoodsMultipleEnterBankDetailsPage,
+    getRejectedGoodsMultipleChooseFileTypePage,
+    postRejectedGoodsMultipleChooseFileTypesPage,
+    getRejectedGoodsMultipleChooseFilesPage,
+    getRejectedGoodsMultipleChooseFilePage,
+    getRejectedGoodsMultipleUploadDocumentsChooseFilePage,
+    postRejectedGoodsMultipleUploadDocumentsChooseFilePage,
+    getRejectedGoodsMultipleScanProgressWaitPage,
+    postRejectedGoodsMultipleScanProgressWaitPage
+  )++
+    postRejectedGoodsMultipleScanProgressWaitPage1 ++
+    List[ActionBuilder](
+      getRejectedGoodsMultipleDocumentsSummaryPage,
+      postRejectedGoodsMultipleDocumentsSummaryPage,
+      getRejectedGoodsMultipleCheckYourAnswersPage,
+      postRejectedGoodsMultipleCheckYourAnswersPage,
+      getRejectedGoodsMultipleClaimSubmittedPage
+    )
+
+      setup("Rejected-Goods-Multiple-MRN-journey", "Rejected Goods Multiple MRN journey") withActions
+      (RejectedGoodsMultipleMRNJourney: _*)
   runSimulation()
 }

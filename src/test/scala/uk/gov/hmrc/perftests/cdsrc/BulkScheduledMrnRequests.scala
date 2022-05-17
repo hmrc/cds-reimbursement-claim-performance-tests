@@ -262,22 +262,22 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-basis-for-claim", "3")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/scheduled/enter-commodity-details": String))
+      .check(header("Location").is(s"/$route/scheduled/enter-additional-details": String))
   }
 
   def getScheduledMrnEnterCommodityDetailsPage : HttpRequestBuilder = {
     http("get Scheduled enter commodity details page")
-      .get(s"$baseUrl/$route/scheduled/enter-commodity-details": String)
+      .get(s"$baseUrl/$route/scheduled/enter-additional-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us the reason for this claim"))
+      .check(regex("Provide additional details about this claim"))
   }
 
   def postScheduledMrnEnterCommodityDetailsPage : HttpRequestBuilder = {
     http("post Scheduled enter commodity details page")
-      .post(s"$baseUrl/$route/scheduled/enter-commodity-details": String)
+      .post(s"$baseUrl/$route/scheduled/enter-additional-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-commodities-details", "No reason")
+      .formParam("enter-additional-details", "No reason")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/select-duties/select-duty-types": String))
   }
@@ -904,7 +904,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       //.get(s"$baseUrl" + "${scheduledScanSelectPage}")
       .get(s"$baseUrl/$route/scheduled/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
-      .check(regex("Select the description of the file you just uploaded"))
+      .check(regex("Add supporting documents to your claim"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 
@@ -948,7 +948,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .get(s"$baseUrl/$route/scheduled/check-answers-accept-send": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check your answers before sending your application"))
+      //.check(regex("Check your answers before sending your application"))
   }
 
   def postScheduledCheckAnswersAcceptSendPage : HttpRequestBuilder = {

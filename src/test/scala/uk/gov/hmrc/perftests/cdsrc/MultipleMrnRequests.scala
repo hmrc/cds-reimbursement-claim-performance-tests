@@ -190,22 +190,22 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-basis-for-claim", "3")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/multiple/enter-commodity-details": String))
+      .check(header("Location").is(s"/$route/multiple/enter-additional-details": String))
   }
 
   def getMultipleEnterCommodityDetailsPage : HttpRequestBuilder = {
     http("get multiple MRN enter commodity details page")
-      .get(s"$baseUrl/$route/multiple/enter-commodity-details": String)
+      .get(s"$baseUrl/$route/multiple/enter-additional-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us the reason for this claim"))
+      .check(regex("Provide additional details about this claim"))
   }
 
   def postMultipleEnterCommodityDetailsPage : HttpRequestBuilder = {
     http("post multiple MRN enter commodity details page")
-      .post(s"$baseUrl/$route/multiple/enter-commodity-details": String)
+      .post(s"$baseUrl/$route/multiple/enter-additional-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-commodities-details", "No reason")
+      .formParam("enter-additional-details", "No reason")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/multiple/select-duties/1": String))
   }
@@ -426,7 +426,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       //.get(s"$baseUrl" + "${selectPage}")
       .get(s"$baseUrl/$route/multiple/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
-      .check(regex("Select the description of the file you just uploaded"))
+      .check(regex("Add supporting documents to your claim"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 

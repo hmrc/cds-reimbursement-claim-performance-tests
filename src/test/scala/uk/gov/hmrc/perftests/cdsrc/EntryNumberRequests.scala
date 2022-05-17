@@ -483,7 +483,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       //.get(s"$baseUrl" + "${selectPage}")
       .get(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
       .check(status.is(200))
-      .check(regex("Select the description of the file you just uploaded"))
+      .check(regex("Add supporting documents to your claim"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
   }
 

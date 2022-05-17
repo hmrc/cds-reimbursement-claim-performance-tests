@@ -336,22 +336,22 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-declaration-details", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-commodity-details": String))
+      .check(header("Location").is(s"/$route/single/enter-additional-details": String))
   }
 
   def getTheMRNEnterCommodityDetailsPage : HttpRequestBuilder = {
     http("get the MRN enter commodity details page")
-      .get(s"$baseUrl/$route/single/enter-commodity-details": String)
+      .get(s"$baseUrl/$route/single/enter-additional-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us the reason for this claim"))
+      .check(regex("Provide additional details about this claim"))
   }
 
   def postTheMRNEnterCommodityDetailsPage : HttpRequestBuilder = {
     http("post the MRN enter commodity details page")
-      .post(s"$baseUrl/$route/single/enter-commodity-details": String)
+      .post(s"$baseUrl/$route/single/enter-additional-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-commodities-details", "phones")
+      .formParam("enter-additional-details", "phones")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/select-duties": String))
   }

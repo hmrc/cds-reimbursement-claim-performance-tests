@@ -24,6 +24,7 @@ import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsMultipleRequests._
+import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsScheduledRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
@@ -465,5 +466,133 @@ class CDSRSimulation extends PerformanceTestRunner {
 
       setup("Rejected-Goods-Multiple-MRN-journey", "Rejected Goods Multiple MRN journey") withActions
       (RejectedGoodsMultipleMRNJourney: _*)
+
+  val RejectedGoodsScheduledMRNJourney: List[ActionBuilder] = List[ActionBuilder](
+    getMRNAuthLoginPage,
+    loginWithAuthLoginStubMRN("GB000000000000001"),
+    getMRNCdsrStartPage,
+    getTheMRNCheckEoriDetailsPage,
+    postTheMRNCheckEoriDetailsPage,
+    getRejectedGoodsScheduledSelectClaimTypePage,
+    postRejectedGoodsScheduledSelectClaimTypePage,
+    getRejectedGoodsScheduledChooseHowManyMrnsPage,
+    postRejectedGoodsScheduledChooseHowManyMrnsPage,
+    getRejectedGoodsScheduledMRNPage,
+    postRejectedGoodsScheduledMRNPage,
+    getRejectedGoodsScheduledImporterEoriEntryPage,
+    postRejectedGoodsScheduledImporterEoriEntryPage,
+    getRejectedGoodsScheduledDeclarantEoriEntryPage,
+    postRejectedGoodsScheduledDeclarantEoriEntryPage,
+    getRejectedGoodsScheduledCheckDeclarationPage,
+    postRejectedGoodsScheduledCheckDeclarationPage,
+    getRejectedGoodsScheduledUploadMrnListPage,
+    getRejectedGoodsScheduledDocumentUploadChooseFilesPage,
+    getRejectedGoodsUploadDocumentsChooseFilePage,
+    postRejectedGoodsScheduledUploadDocumentsChooseFilePagePage,
+    getRejectedGoodsScheduledDocumentUploadProgressPage,
+    postRejectedGoodsScheduledDocumentUploadProgressPage
+  )++
+    postRejectedGoodsScheduledDocumentUploadProgressPage1 ++
+    List[ActionBuilder](
+      getRejectedGoodsScheduledUploadDocumentsSummaryPage,
+      postRejectedGoodsScheduledUploadDocumentsSummaryPage,
+      getRejectedGoodsScheduledClaimantDetailsPage,
+      getRejectedGoodsScheduledContactDetailsPage,
+      postRejectedGoodsScheduledChangeContactDetailsPage,
+      postRejectedGoodsScheduledClaimDetailsPage,
+      getRejectedGoodsScheduledChooseBasisForClaimPage,
+      postRejectedGoodsScheduledChooseBasisForClaimPage,
+      getRejectedGoodsScheduledSpecialCircumstancesPage,
+      postRejectedGoodsScheduledSpecialCircumstancesPage,
+      getRejectedGoodsScheduledChooseDisposalMethodPage,
+      postRejectedGoodsScheduledChooseDisposalMethodPage,
+      getRejectedGoodsScheduledEnterRejectedDetailsPage,
+      postRejectedGoodsScheduledEnterRejectedDetailsPage,
+      getRejectedGoodsScheduledMrnSelectDutiesPage,
+      postRejectedGoodsScheduledMrnSelectDutiesPage,
+      getRejectedGoodsScheduledMrnSelectDutiesUkDutyPage,
+      postRejectedGoodsScheduledMrnSelectDutiesUkDutyPage,
+      getRejectedGoodsScheduledMrnSelectDutiesEuDutyPage,
+      postRejectedGoodsScheduledMrnSelectDutiesEuDutyPage,
+      getRejectedGoodsScheduledMrnSelectDutiesBeerPage,
+      postRejectedGoodsScheduledMrnSelectDutiesBeerPage,
+      getRejectedGoodsScheduledMrnSelectDutiesWinePage,
+      postRejectedGoodsScheduledMrnSelectDutiesWinePage,
+      getRejectedGoodsScheduledMrnSelectDutiesMadeWinePage,
+      postRejectedGoodsScheduledMrnSelectDutiesMadeWinePage,
+      getRejectedGoodsScheduledMrnSelectDutiesLowAlcoholBeveragesPage,
+      postRejectedGoodsScheduledMrnSelectDutiesLowAlcoholBeveragesPage,
+      getRejectedGoodsScheduledMrnSelectDutiesSpiritsPage,
+      postRejectedGoodsScheduledMrnSelectDutiesSpiritsPage,
+      getRejectedGoodsScheduledMrnSelectDutiesCiderPerryPage,
+      postRejectedGoodsScheduledMrnSelectDutiesCiderPerryPage,
+      getRejectedGoodsScheduledMrnSelectDutiesHydrocarbonOilsPage,
+      postRejectedGoodsScheduledMrnSelectDutiesHydrocarbonOilsPage,
+      getRejectedGoodsScheduledMrnSelectDutiesBiofuelsPage,
+      postRejectedGoodsScheduledMrnSelectDutiesBiofuelsPage,
+      getRejectedGoodsScheduledMrnSelectDutiesMiscellaneousPage,
+      postRejectedGoodsScheduledMrnSelectDutiesMiscellaneousPage,
+      getRejectedGoodsScheduledMrnSelectDutiesTobaccoPage,
+      postRejectedGoodsScheduledMrnSelectDutiesTobaccoPage,
+      getRejectedGoodsScheduledMrnSelectDutiesClimatePage,
+      postRejectedGoodsScheduledMrnSelectDutiesClimatePage,
+      getRejectedGoodsScheduledMrnStartPage,
+      getRejectedGoodsScheduledMrnUkDutyPage,
+      postRejectedGoodsScheduledMrnUkDutyPage,
+      getRejectedGoodsScheduledMrnEuDutyPage,
+      postRejectedGoodsScheduledMrnEuDutyPage,
+      getRejectedGoodsScheduledMrnBeerPage,
+      postRejectedGoodsScheduledMrnBeerPage,
+      getRejectedGoodsScheduledMrnWinePage,
+      postRejectedGoodsScheduledMrnWinePage,
+      getRejectedGoodsScheduledMrnMadeWinePage,
+      postRejectedGoodsScheduledMrnMadeWinePage,
+      getRejectedGoodsScheduledMrnLowAlcoholPage,
+      postRejectedGoodsScheduledMrnLowAlcoholPage,
+      getRejectedGoodsScheduledMrnSpiritsPage,
+      postRejectedGoodsScheduledMrnSpiritsPage,
+      getRejectedGoodsScheduledMrnCiderPerryPage,
+      postRejectedGoodsScheduledMrnCiderPerryPage,
+      getRejectedGoodsScheduledMrnHydroOilsPage,
+      postRejectedGoodsScheduledMrnHydroOilsPage,
+      getRejectedGoodsScheduledMrnBiofuelsPage,
+      postRejectedGoodsScheduledMrnBiofuelsPage,
+      getRejectedGoodsScheduledMrnRoadFuelsPage,
+      postRejectedGoodsScheduledMrnRoadFuelsPage,
+      getRejectedGoodsScheduledMrnTobaccoPage,
+      postRejectedGoodsScheduledMrnTobaccoPage,
+      getRejectedGoodsScheduledMrnClimateLevyPage,
+      postRejectedGoodsScheduledMrnClimateLevyPage,
+      getRejectedGoodsScheduledCheckClaimPage,
+      postRejectedGoodsScheduledCheckClaimPage,
+      getRejectedGoodsScheduledInspectionDatePage,
+      postRejectedGoodsScheduledInspectionDatePage,
+      getRejectedGoodsScheduledInspectionAddressChoosePage,
+      postRejectedGoodsScheduledInspectionAddressChoosePage,
+      getRejectedGoodsScheduledCheckBankDetailsPage,
+      getRejectedGoodsScheduledBankAccountTypePage,
+      postRejectedGoodsScheduledBankAccountTypePage,
+      getRejectedGoodsScheduledEnterBankDetailsPage,
+      postRejectedGoodsScheduledEnterBankDetailsPage,
+      getRejectedGoodsScheduledChooseFileTypePage,
+      postRejectedGoodsScheduledChooseFileTypesPage,
+      getRejectedGoodsScheduledChooseFilesPage,
+      getRejectedGoodsScheduledChooseFilePage,
+      getRejectedGoodsScheduledUploadDocumentsChooseFilePage,
+      postRejectedGoodsScheduledUploadDocumentsChooseFilePage,
+      getRejectedGoodsScheduledScanProgressWaitPage,
+      postRejectedGoodsScheduledScanProgressWaitPage
+    ) ++
+      postRejectedGoodsScheduledScanProgressWaitPage1 ++
+    List[ActionBuilder](
+      //getRejectedGoodsScheduledDocumentsSummaryPage1,
+      postRejectedGoodsScheduledDocumentsSummaryPage,
+      getRejectedGoodsScheduledCheckYourAnswersPage,
+      postRejectedGoodsScheduledCheckYourAnswersPage,
+      getRejectedGoodsScheduledClaimSubmittedPage
+    )
+
+  setup("Rejected-Goods-Scheduled-MRN-journey", "Rejected Goods Scheduled MRN journey") withActions
+    (RejectedGoodsScheduledMRNJourney: _*)
   runSimulation()
 }

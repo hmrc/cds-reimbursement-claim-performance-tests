@@ -533,7 +533,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route1/single/check-your-answers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check your answers before sending your application"))
+      .check(regex("Check your answers before sending your claim"))
   }
 
   def postRejectedGoodsCheckYourAnswersPage : HttpRequestBuilder = {

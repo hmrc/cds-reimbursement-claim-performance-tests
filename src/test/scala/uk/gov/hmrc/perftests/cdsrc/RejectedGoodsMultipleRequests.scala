@@ -584,7 +584,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/multiple/check-your-answers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check your answers before sending your application"))
+      .check(regex("Check your answers before sending your claim"))
   }
 
   def postRejectedGoodsMultipleCheckYourAnswersPage : HttpRequestBuilder = {

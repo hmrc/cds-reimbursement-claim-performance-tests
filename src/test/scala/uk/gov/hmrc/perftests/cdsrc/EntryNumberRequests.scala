@@ -525,7 +525,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/single/check-answers-accept-send": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check your answers before sending your application"))
+      .check(regex("Check your answers before sending your claim"))
   }
 
   def postCheckAnswersAcceptSendPage : HttpRequestBuilder = {

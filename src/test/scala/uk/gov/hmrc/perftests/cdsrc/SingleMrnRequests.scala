@@ -293,7 +293,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/single/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Select the basis for claim"))
+      .check(regex("Choose the basis for claim"))
   }
 
   def postTheMRNChooseBasisOfClaimPage : HttpRequestBuilder = {

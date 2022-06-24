@@ -359,7 +359,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get check claim page")
       .get(s"$baseUrl/$route/single/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the reimbursement claim totals for all MRNs"))
+      .check(regex("Check the repayment claim totals for all MRNs"))
 
   }
 

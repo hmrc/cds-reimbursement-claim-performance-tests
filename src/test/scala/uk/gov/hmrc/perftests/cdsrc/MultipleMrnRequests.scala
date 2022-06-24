@@ -181,7 +181,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Select the basis for claim"))
+      .check(regex("Choose the basis for claim"))
   }
 
   def postMultipleChooseBasisOfClaimPage : HttpRequestBuilder = {
@@ -284,7 +284,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/multiple/check-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check the reimbursement claim totals for all MRNs"))
+      .check(regex("Check the repayment claim totals for all MRNs"))
   }
 
   def postMultipleCheckClaimPage : HttpRequestBuilder = {

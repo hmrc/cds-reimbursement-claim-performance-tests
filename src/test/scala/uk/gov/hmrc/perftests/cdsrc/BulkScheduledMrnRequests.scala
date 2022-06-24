@@ -253,7 +253,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .get(s"$baseUrl/$route/scheduled/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Select the basis for claim"))
+      .check(regex("Choose the basis for claim"))
   }
 
   def postScheduledMrnChooseBasisOfClaimPage : HttpRequestBuilder = {

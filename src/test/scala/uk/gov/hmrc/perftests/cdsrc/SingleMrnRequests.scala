@@ -114,7 +114,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check these EORI details are correct"))
+      .check(regex("Check the EORI associated with the Government Gateway Name is correct"))
   }
 
   def postTheMRNCheckEoriDetailsPage : HttpRequestBuilder = {

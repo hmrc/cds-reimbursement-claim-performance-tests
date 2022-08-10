@@ -89,7 +89,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
   def getScheduledUploadDocumentsChooseFilePage : HttpRequestBuilder = {
     http("get scheduled upload documents choose file page")
-      .get(s"$baseUrl/$route/upload-documents/choose-file": String)
+      .get(s"$baseUrl/upload-customs-documents/choose-file": String)
       .check(saveFileUploadUrl)
       .check(saveCallBack)
       .check(saveAmazonDate)
@@ -105,6 +105,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
+      .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
       .check(regex("Add a document which shows all the MRNs in this claim"))
   }
 
@@ -810,9 +811,9 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("post scheduled enter bank account details page")
       .post(s"$baseUrl/$route/scheduled/enter-bank-account-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-bank-details.account-name", "Natwest")
-      .formParam("enter-bank-details.sort-code", "456789")
-      .formParam("enter-bank-details.account-number", "45678901")
+      .formParam("enter-bank-account-details.account-name", "Natwest")
+      .formParam("enter-bank-account-details.sort-code", "456789")
+      .formParam("enter-bank-account-details.account-number", "45678901")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/check-these-bank-details-are-correct": String))
   }

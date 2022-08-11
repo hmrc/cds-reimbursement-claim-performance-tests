@@ -391,9 +391,9 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
     http("post rejected goods enter bank details page")
       .post(s"$baseUrl/$route1/single/enter-bank-account-details" : String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-bank-details.account-name", "Mybank")
-      .formParam("enter-bank-details.sort-code", "123456")
-      .formParam("enter-bank-details.account-number", "26152639")
+      .formParam("enter-bank-account-details.account-name", "Mybank")
+      .formParam("enter-bank-account-details.sort-code", "123456")
+      .formParam("enter-bank-account-details.account-number", "26152639")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/check-bank-details": String))
   }
@@ -429,9 +429,9 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .check(regex("Upload (.*)"))
   }
 
-  def getRejectedGoodsSingleUploadDocumentsChooseFilePage : HttpRequestBuilder = {
+  def getRejectedGoodsUploadCustomsDocumentsChooseFilePage : HttpRequestBuilder = {
     http("get upload documents choose file page")
-      .get(s"$baseUrl/$route/upload-documents/choose-file": String)
+      .get(s"$baseUrl/upload-customs-documents/choose-file": String)
       .check(saveFileUploadUrl)
       .check(saveCallBack)
       .check(saveAmazonDate)
@@ -451,10 +451,11 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       //      //.check(header("Location").saveAs("action"))
       //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
       //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
+      .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
       .check(regex("Upload (.*)"))
   }
 
-  def postRejectedGoodsSingleUploadDocumentsChooseFilePage : HttpRequestBuilder = {
+  def postRejectedGoodsUploadCustomsDocumentsChooseFilePage : HttpRequestBuilder = {
     http("post upload support evidence page")
       .post("${fileUploadAmazonUrl}")
       .header("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryjoqtomO5urVl5B6N")

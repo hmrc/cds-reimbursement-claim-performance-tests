@@ -22,6 +22,7 @@ import io.gatling.core.check.CheckBuilder
 import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
+import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 import scala.concurrent.duration.DurationInt
@@ -41,6 +42,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     def getAuthLoginPage : HttpRequestBuilder = {
       http("Navigate to auth login stub page")
         .get(s"$authUrl/auth-login-stub/gg-sign-in")
+        .header("Cookie", "mdtp=${mdtpCookie}")
         .check(status.is(200))
         .check(saveCsrfToken())
         .check(regex("Authority Wizard").exists)
@@ -106,6 +108,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .formParam("itmp.address.countryCode", "")
       .check(status.is(303))
       .check(header("Location").is(s"$baseUrl/$route/start": String))
+
   }
 
   def getCdsrStartPage1 : HttpRequestBuilder = {
@@ -394,7 +397,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def getUploadDocumentsChooseFilePage : HttpRequestBuilder = {
     http("get upload documents choose file page")
-      .get(s"$baseUrl/$route/upload-documents/choose-file": String)
+      .get(s"$baseUrl/upload-customs-documents/choose-file": String)
       .check(saveFileUploadUrl)
       .check(saveCallBack)
       .check(saveAmazonDate)
@@ -412,7 +415,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(status.is(200))
 //      //.check(saveCsrfToken())
 //      //.check(header("Location").saveAs("action"))
-//      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
+      .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
 //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("Add documents to support your claim"))
   }
@@ -482,6 +485,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get select supporting evidence type page")
       //.get(s"$baseUrl" + "${selectPage}")
       .get(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
+      .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Add supporting documents to your claim"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
@@ -503,21 +507,69 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(status.is(303))
   }
 
+  def getUploadCustomsDocumentsPage : HttpRequestBuilder = {
+    http("get upload customs documents page")
+      .get(s"$baseUrl/upload-customs-documents")
+      .check(status.is(303))
+  }
+
+  def getUploadCustomsDocumentsChooseFilesPage = {
+    http("get upload customs documents choose files page")
+      .get(s"$baseUrl/upload-customs-documents/choose-files")
+      .check(status.is(200))
+     // .check(headerRegex("Set-Cookie", """mdtp=(.*)""").saveAs("mdtpCookie"))
+  }
+
+  def getUploadCustomsDocumentsChooseFilePage : HttpRequestBuilder = {
+    http("get upload customs documents choose files page")
+      .get(s"$baseUrl/upload-customs-documents/choose-file": String)
+      .check(status.is(200))
+      .check(regex("Add documents to support your claim"))
+  }
+
+
+  def getFileVerificationStatusPage : List[ActionBuilder] = {
+    asLongAs(session => session("fileStatus").asOption[String].forall(s=> s == "WAITING"|| s == "NOT_UPLOADED"))(
+      pause(1.second).exec(http("get the file verification status page")
+      .get(s"$baseUrl" + "${fileVerificationUrl}")
+      .check(status.is(200))
+        .check(jsonPath("$.fileStatus").in("WAITING","ACCEPTED","NOT_UPLOADED").saveAs("fileStatus")))
+    ).actionBuilders
+  }
+
+  def getFileVerifyBody : HttpRequestBuilder  = {
+    http("get page")
+      .get(session => {
+        val Location = session.attributes("fileVerificationUrl")
+        s"$baseUrl$Location"
+
+      }
+      )
+      .check(jsonPath("$.fileStatus").is("NOT_UPLOADED"))
+  }
+
+
+
+
+
+
+
   def getUploadDocumentsSummaryPage : HttpRequestBuilder = {
     http("get upload documents summary page")
       .get(s"$baseUrl/$route/upload-documents/summary": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("You have added 1 document to your claim"))
+      //.check(saveCsrfToken())
+      //.check(status.is(200))
+      .check(status.is(303))
+      //.check(regex("You(.*)added 1 document to your claim"))
   }
 
   def postUploadDocumentsSummaryPage : HttpRequestBuilder = {
     http("post upload documents summary page")
       .post(s"$baseUrl/$route/upload-documents/summary": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.check-your-answers", "false")
+      .formParam("choice", "no")
       .check(status.is(303))
-      //.check(header("Location").is(s"/$route/single/check-answers-accept-send": String))
+      .check(header("Location").is(s"/upload-customs-documents/continue-to-host": String))
   }
 
   def getCheckAnswersAcceptSendPage : HttpRequestBuilder = {

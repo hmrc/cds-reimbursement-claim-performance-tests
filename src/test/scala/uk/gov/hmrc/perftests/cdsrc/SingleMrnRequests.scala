@@ -469,9 +469,9 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post the MRN enter bank account details page")
       .post(s"$baseUrl/$route/single/enter-bank-account-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-bank-details.account-name", "Halifax")
-      .formParam("enter-bank-details.sort-code", "123456")
-      .formParam("enter-bank-details.account-number", "23456789")
+      .formParam("enter-bank-account-details.account-name", "Halifax")
+      .formParam("enter-bank-account-details.sort-code", "123456")
+      .formParam("enter-bank-account-details.account-number", "23456789")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/single/check-these-bank-details-are-correct": String))
   }

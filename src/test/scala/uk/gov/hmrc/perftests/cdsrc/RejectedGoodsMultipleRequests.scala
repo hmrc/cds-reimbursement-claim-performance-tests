@@ -442,9 +442,9 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
     http("post rejected goods enter bank details page")
       .post(s"$baseUrl/$route1/multiple/enter-bank-account-details" : String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-bank-details.account-name", "Mybank")
-      .formParam("enter-bank-details.sort-code", "123456")
-      .formParam("enter-bank-details.account-number", "26152639")
+      .formParam("enter-bank-account-details.account-name", "Mybank")
+      .formParam("enter-bank-account-details.sort-code", "123456")
+      .formParam("enter-bank-account-details.account-number", "26152639")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/check-bank-details": String))
   }

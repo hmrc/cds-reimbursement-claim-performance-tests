@@ -130,43 +130,14 @@ class CDSRSimulation extends PerformanceTestRunner {
     getSelectSelectSupportingEvidenceTypePage,
     postSelectSupportingEvidenceTypePage,
     getSupportingEvidenceChooseFilesPage,
-//    getUploadCustomsDocumentsPage,
-//    getUploadCustomsDocumentsChooseFilesPage,
-    ////getUploadCustomsDocumentsChooseFilePage,
     getUploadDocumentsChooseFilePage,
     postUploadDocumentsChoosefilesPage
-      //getFileVerifyBody
   )++
     getFileVerificationStatusPage ++
       List[ActionBuilder](
         getCheckAnswersAcceptSendPage,
         postCheckAnswersAcceptSendPage,
         getClaimSubmittedPage
-
-
-
-//    getUploadDocumentsSummaryPage,
-//    postUploadDocumentsSummaryPage,
-//    getCheckAnswersAcceptSendPage,
-//    getCheckAnswersAcceptSendPage,
-//    getClaimSubmittedPage
-
-
-
-
-
-//    getUploadDocumentsChooseFilePage,
-//    postUploadDocumentsChoosefilesPage,
-//    getScanProgressWaitPage,
-//    postScanProgressWaitPage
-//  ) ++
-//    postScanProgressWaitPage1 ++
-//    List[ActionBuilder](
-//      getUploadDocumentsSummaryPage,
-//      postUploadDocumentsSummaryPage,
-//      getCheckAnswersAcceptSendPage,
-//      getCheckAnswersAcceptSendPage,
-//      getClaimSubmittedPage
   )
 
   setup("MRN-journey", "Movement reference number journey") withActions
@@ -219,13 +190,9 @@ class CDSRSimulation extends PerformanceTestRunner {
     getMultipleSupportingEvidenceChooseFilesPage,
     getUploadDocumentsChooseFilePage,
     postUploadDocumentsChoosefilesPage,
-    //getMultipleScanProgressWaitPage,
-    //postMultipleScanProgressWaitPage
   ) ++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
-      //getUploadDocumentsSummaryPage,
-      //postUploadDocumentsSummaryPage,
       getMultipleCheckAnswersAcceptSendPage,
       postMultipleCheckAnswersAcceptSendPage,
       getMultipleClaimSubmittedPage
@@ -248,20 +215,11 @@ class CDSRSimulation extends PerformanceTestRunner {
     getBulkScheduledMrnCheckDeclarationPage,
     postBulkScheduledMrnCheckDeclarationPage,
     getBulkScheduledDocumentUploadChooseFilesPage,
-    //getUploadDocumentsChooseFilePage,
-    //postUploadDocumentsChoosefilesPage
-
-
     getScheduledUploadDocumentsChooseFilePage,
     postScheduledUploadDocumentsChooseFilePagePage,
-    //getScheduledDocumentUploadProgressPage,
-    //postScheduledDocumentUploadProgressPage
   ) ++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
-      //getScheduledUploadDocumentsSummaryPage,
-      //postScheduledUploadDocumentsSummaryPage,
-      //getScheduledDocumentsUploadContinuePage,
       getScheduledMrnClaimantDetailsPage,
       getScheduledMrnChangeContactDetailsPage,
       postScheduledMrnChangeContactDetailsPage,
@@ -339,17 +297,11 @@ class CDSRSimulation extends PerformanceTestRunner {
       getScheduledSelectSupportingEvidenceTypePage,
       postScheduledSelectSupportingEvidenceTypePage,
       getScheduledSupportingChooseFilesPage,
-      //getScheduledUploadSupportEvidencePage,
-      //postScheduledUploadSupportEvidencePage,
       getUploadDocumentsChooseFilePage,
-      postUploadDocumentsChoosefilesPage,
-//      getScheduledScanProgressWaitPage,
-//      postScheduledScanProgressWaitPage
+      postUploadDocumentsChoosefilesPage
     ) ++
       getFileVerificationStatusPage ++
     List[ActionBuilder](
-//      getScheduledUploadDocumentsSummaryPage1,
-//      postScheduledUploadDocumentsSummaryPagePage,
       getScheduledCheckAnswersAcceptSendPage,
       postScheduledCheckAnswersAcceptSendPage,
       getScheduledClaimSubmittedPage
@@ -408,16 +360,11 @@ class CDSRSimulation extends PerformanceTestRunner {
     getRejectedGoodsChooseFileTypePage,
     postRejectedGoodsChooseFileTypesPage,
     getRejectedGoodsChooseFilesPage,
-    //getRejectedGoodsChooseFilePage,
     getRejectedGoodsUploadCustomsDocumentsChooseFilePage,
     postRejectedGoodsUploadCustomsDocumentsChooseFilePage,
-//    getRejectedGoodsSingleScanProgressWaitPage,
-//    postRejectedGoodsSingleScanProgressWaitPage
   )++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
-      //getRejectedGoodsDocumentsSummaryPage,
-      //postRejectedGoodsDocumentsSummaryPage,
       getRejectedGoodsCheckYourAnswersPage,
       postRejectedGoodsCheckYourAnswersPage,
       getRejectedGoodsClaimSubmittedPage
@@ -485,16 +432,9 @@ class CDSRSimulation extends PerformanceTestRunner {
     getRejectedGoodsMultipleChooseFilesPage,
     getRejectedGoodsUploadCustomsDocumentsChooseFilePage,
     postRejectedGoodsUploadCustomsDocumentsChooseFilePage
-//    getRejectedGoodsMultipleChooseFilePage,
-//    getRejectedGoodsMultipleUploadDocumentsChooseFilePage,
-//    postRejectedGoodsMultipleUploadDocumentsChooseFilePage,
-//    getRejectedGoodsMultipleScanProgressWaitPage,
-//    postRejectedGoodsMultipleScanProgressWaitPage
   )++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
-//      getRejectedGoodsMultipleDocumentsSummaryPage,
-//      postRejectedGoodsMultipleDocumentsSummaryPage,
       getRejectedGoodsMultipleCheckYourAnswersPage,
       postRejectedGoodsMultipleCheckYourAnswersPage,
       getRejectedGoodsMultipleClaimSubmittedPage
@@ -525,15 +465,9 @@ class CDSRSimulation extends PerformanceTestRunner {
     getRejectedGoodsScheduledDocumentUploadChooseFilesPage,
     getScheduledUploadDocumentsChooseFilePage,
     postScheduledUploadDocumentsChooseFilePagePage,
-    //getRejectedGoodsUploadDocumentsChooseFilePage,
-    //postRejectedGoodsScheduledUploadDocumentsChooseFilePagePage,
-    //getRejectedGoodsScheduledDocumentUploadProgressPage,
-    //postRejectedGoodsScheduledDocumentUploadProgressPage
   )++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
-      //getRejectedGoodsScheduledUploadDocumentsSummaryPage,
-      //postRejectedGoodsScheduledUploadDocumentsSummaryPage,
       getRejectedGoodsScheduledClaimantDetailsPage,
       getRejectedGoodsScheduledContactDetailsPage,
       postRejectedGoodsScheduledChangeContactDetailsPage,
@@ -617,16 +551,9 @@ class CDSRSimulation extends PerformanceTestRunner {
       getRejectedGoodsScheduledChooseFilesPage,
       getRejectedGoodsUploadCustomsDocumentsChooseFilePage,
       postRejectedGoodsUploadCustomsDocumentsChooseFilePage
-//      getRejectedGoodsScheduledChooseFilePage,
-//      getRejectedGoodsScheduledUploadDocumentsChooseFilePage,
-//      postRejectedGoodsScheduledUploadDocumentsChooseFilePage,
-//      getRejectedGoodsScheduledScanProgressWaitPage,
-//      postRejectedGoodsScheduledScanProgressWaitPage
     ) ++
       getFileVerificationStatusPage ++
     List[ActionBuilder](
-      //getRejectedGoodsScheduledDocumentsSummaryPage1,
-      //postRejectedGoodsScheduledDocumentsSummaryPage,
       getRejectedGoodsScheduledCheckYourAnswersPage,
       postRejectedGoodsScheduledCheckYourAnswersPage,
       getRejectedGoodsScheduledClaimSubmittedPage

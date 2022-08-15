@@ -300,7 +300,7 @@ class CDSRSimulation extends PerformanceTestRunner {
       getUploadDocumentsChooseFilePage,
       postUploadDocumentsChoosefilesPage
     ) ++
-      getFileVerificationStatusPage ++
+      getFileVerificationStatusPage1 ++
     List[ActionBuilder](
       getScheduledCheckAnswersAcceptSendPage,
       postScheduledCheckAnswersAcceptSendPage,

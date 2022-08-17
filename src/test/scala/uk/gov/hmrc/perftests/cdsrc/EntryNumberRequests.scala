@@ -537,6 +537,15 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     ).actionBuilders
   }
 
+  def getFileVerificationStatusPage1 : List[ActionBuilder] = {
+    asLongAs(session => session("fileStatus1").asOption[String].forall(s=> s == "WAITING"|| s == "NOT_UPLOADED"))(
+      pause(1.second).exec(http("get the file verification status page")
+        .get(s"$baseUrl" + "${fileVerificationUrl}")
+        .check(status.is(200))
+        .check(jsonPath("$.fileStatus").in("WAITING","ACCEPTED","NOT_UPLOADED").saveAs("fileStatus1")))
+    ).actionBuilders
+  }
+
   def getFileVerifyBody : HttpRequestBuilder  = {
     http("get page")
       .get(session => {

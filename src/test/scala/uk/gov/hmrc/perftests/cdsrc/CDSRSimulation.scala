@@ -202,7 +202,7 @@ class CDSRSimulation extends PerformanceTestRunner {
 
   val MultipleClaimsScheduledMRNJourney: List[ActionBuilder] = List[ActionBuilder](
     getMRNAuthLoginPage,
-    loginWithAuthLoginStubMRN("GB000000000000001"),
+    loginWithAuthLoginStubMRN("GB000000000000002"),
     getMRNCdsrStartPage,
     getTheMRNCheckEoriDetailsPage,
     postTheMRNCheckEoriDetailsPage,

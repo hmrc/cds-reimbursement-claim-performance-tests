@@ -489,10 +489,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def getRejectedGoodsSingleScanProgressWaitPage : HttpRequestBuilder = {
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
-      .check(status.is(200))
-      .check(saveCsrfToken())
-      .check(regex("We are checking your document"))
-      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
+      .check(status.in(303, 200))
+//      .check(saveCsrfToken())
+//      .check(regex("We are checking your document"))
+//      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
 
   def postRejectedGoodsSingleScanProgressWaitPage : HttpRequestBuilder = {

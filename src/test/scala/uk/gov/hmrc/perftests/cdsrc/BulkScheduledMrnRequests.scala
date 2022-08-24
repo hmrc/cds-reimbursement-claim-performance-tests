@@ -143,10 +143,10 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   def getScheduledDocumentUploadProgressPage : HttpRequestBuilder = {
     http("get upload progress wait page")
       .get("${UpscanResponseSuccess}")
-      .check(status.is(200))
-      .check(saveCsrfToken())
-      .check(regex("We are checking your document"))
-      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
+      .check(status.in(303, 200))
+//      .check(saveCsrfToken())
+//      .check(regex("We are checking your document"))
+//      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
 
   def postScheduledDocumentUploadProgressPage : HttpRequestBuilder = {

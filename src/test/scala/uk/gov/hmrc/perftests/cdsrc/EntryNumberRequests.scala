@@ -454,10 +454,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def getScanProgressWaitPage : HttpRequestBuilder = {
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
-      .check(status.is(200))
-      .check(saveCsrfToken())
-      .check(regex("We are checking your document"))
-      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
+      .check(status.in(303, 200))
+//      .check(saveCsrfToken())
+//      .check(regex("We are checking your document"))
+//      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
 
   def constPause = new PauseBuilder(60 seconds, None)

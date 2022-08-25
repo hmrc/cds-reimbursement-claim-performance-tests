@@ -130,7 +130,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "${sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "${policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/ValidImageTest.jpg"))
+      .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
       //              alternative way to upload file:
       //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
       //                .fileName("NewArrangement.xml")

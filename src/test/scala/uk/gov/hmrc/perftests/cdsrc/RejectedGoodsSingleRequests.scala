@@ -476,7 +476,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "${sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "${policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/validFile.png"))
+      .bodyPart(RawFileBodyPart("file", "data/ValidImageTest.jpg"))
       //              alternative way to upload file:
       //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
       //                .fileName("NewArrangement.xml")

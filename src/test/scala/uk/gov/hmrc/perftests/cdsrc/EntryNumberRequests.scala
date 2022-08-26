@@ -441,7 +441,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "${sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "${policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/validFile.png"))
+      .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
       //              alternative way to upload file:
       //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
       //                .fileName("NewArrangement.xml")
@@ -454,10 +454,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def getScanProgressWaitPage : HttpRequestBuilder = {
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
-      .check(status.is(200))
-      .check(saveCsrfToken())
-      .check(regex("We are checking your document"))
-      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
+      .check(status.in(303, 200))
+//      .check(saveCsrfToken())
+//      .check(regex("We are checking your document"))
+//      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
 
   def constPause = new PauseBuilder(60 seconds, None)

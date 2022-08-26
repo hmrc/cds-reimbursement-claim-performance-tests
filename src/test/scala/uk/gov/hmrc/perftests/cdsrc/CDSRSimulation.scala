@@ -26,59 +26,8 @@ import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsMultipleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsScheduledRequests._
 
-import scala.List
 
 class CDSRSimulation extends PerformanceTestRunner {
-
-  //  val entryNumberJourney:List[ActionBuilder] = List[ActionBuilder](
-  //    getAuthLoginPage,
-  //    loginWithAuthLoginStub(),
-  //    getCdsrStartPage,
-  //    getCheckEoriDetailsPage,
-  //    postCheckEoriDetailsPage,
-  //    getSelectNumberOfClaimsPage,
-  //    postSelectNumberOfClaimsPage,
-  //    getMRNPage,
-  //    postMRNPage,
-  //    getEnterDeclarationDetails,
-  //    postEnterDeclarationDetails,
-  //    getWhoIsDeclarantPage,
-  //    postWhoIsDeclarantPage,
-  //    getEnterYourDetailsAsRegisteredWithCdsPage,
-  //    postEnterYourDetailsAsRegisteredWithCdsPage,
-  //    getEnterYourContactDetailsPage,
-  //    postEnterYourContactDetailsPage,
-  //    getEnterReasonForClaimAndBasisPage,
-  //    postEnterReasonForClaimAndBasisPage,
-  //    getEnterCommodityDetailsPage,
-  //    postEnterCommodityDetailsPage,
-  //    getSelectDutiesPage,
-  //    postSelectDutiesPage,
-  //    getStartClaimPage,
-  //    getEnterClaimPage,
-  //    postEnterClaimPage,
-  //    getCheckClaimPage,
-  //    postCheckClaimPage,
-  //    getEnterBankAccountDetailsPage,
-  //    PostEnterBankAccountDetailsPage,
-  //    getUploadSupportEvidencePage,
-  //    postUploadSupportEvidencePage,
-  //    getScanProgressWaitPage,
-  //    postScanProgressWaitPage) ++
-  //    postScanProgressWaitPage1 ++
-  //    List[ActionBuilder](
-  //           getSelectSupportingEvidencePage,
-  //          postSelectSupportingEvidencePage,
-  //          getCheckYourAnswersPage,
-  //          postCheckYourAnswersPage,
-  //          getCheckAnswersAcceptSendPage,
-  //          postCheckAnswersAcceptSendPage,
-  //          getClaimSubmittedPage
-  //  )
-  //
-  //  setup("Entry-number-journey", "Entry number journey") withActions
-  //    (entryNumberJourney:_*
-  //    )
 
   val MRNJourney: List[ActionBuilder] = List[ActionBuilder](
     getMRNAuthLoginPage,
@@ -131,7 +80,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     postSelectSupportingEvidenceTypePage,
     getSupportingEvidenceChooseFilesPage,
     getUploadDocumentsChooseFilePage,
-    postUploadDocumentsChoosefilesPage
+    postUploadDocumentsChoosefilesPage,
+    getScanProgressWaitPage
   )++
     getFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -190,6 +140,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     getMultipleSupportingEvidenceChooseFilesPage,
     getUploadDocumentsChooseFilePage,
     postUploadDocumentsChoosefilesPage,
+    getScanProgressWaitPage
   ) ++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
@@ -202,7 +153,7 @@ class CDSRSimulation extends PerformanceTestRunner {
 
   val MultipleClaimsScheduledMRNJourney: List[ActionBuilder] = List[ActionBuilder](
     getMRNAuthLoginPage,
-    loginWithAuthLoginStubMRN("GB000000000000001"),
+    loginWithAuthLoginStubMRN("GB000000000000002"),
     getMRNCdsrStartPage,
     getTheMRNCheckEoriDetailsPage,
     postTheMRNCheckEoriDetailsPage,
@@ -217,6 +168,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     getBulkScheduledDocumentUploadChooseFilesPage,
     getScheduledUploadDocumentsChooseFilePage,
     postScheduledUploadDocumentsChooseFilePagePage,
+    getScheduledDocumentUploadProgressPage
   ) ++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
@@ -298,7 +250,8 @@ class CDSRSimulation extends PerformanceTestRunner {
       postScheduledSelectSupportingEvidenceTypePage,
       getScheduledSupportingChooseFilesPage,
       getUploadDocumentsChooseFilePage,
-      postUploadDocumentsChoosefilesPage
+      postUploadDocumentsChoosefilesPage,
+      getScanProgressWaitPage
     ) ++
       getFileVerificationStatusPage1 ++
     List[ActionBuilder](
@@ -362,6 +315,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     getRejectedGoodsChooseFilesPage,
     getRejectedGoodsUploadCustomsDocumentsChooseFilePage,
     postRejectedGoodsUploadCustomsDocumentsChooseFilePage,
+    getRejectedGoodsSingleScanProgressWaitPage
   )++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
@@ -431,7 +385,8 @@ class CDSRSimulation extends PerformanceTestRunner {
     postRejectedGoodsMultipleChooseFileTypesPage,
     getRejectedGoodsMultipleChooseFilesPage,
     getRejectedGoodsUploadCustomsDocumentsChooseFilePage,
-    postRejectedGoodsUploadCustomsDocumentsChooseFilePage
+    postRejectedGoodsUploadCustomsDocumentsChooseFilePage,
+    getRejectedGoodsSingleScanProgressWaitPage
   )++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
@@ -465,6 +420,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     getRejectedGoodsScheduledDocumentUploadChooseFilesPage,
     getScheduledUploadDocumentsChooseFilePage,
     postScheduledUploadDocumentsChooseFilePagePage,
+    getScheduledDocumentUploadProgressPage
   )++
     getFileVerificationStatusPage ++
     List[ActionBuilder](
@@ -550,7 +506,8 @@ class CDSRSimulation extends PerformanceTestRunner {
       postRejectedGoodsScheduledChooseFileTypesPage,
       getRejectedGoodsScheduledChooseFilesPage,
       getRejectedGoodsUploadCustomsDocumentsChooseFilePage,
-      postRejectedGoodsUploadCustomsDocumentsChooseFilePage
+      postRejectedGoodsUploadCustomsDocumentsChooseFilePage,
+      getRejectedGoodsSingleScanProgressWaitPage
     ) ++
       getFileVerificationStatusPage ++
     List[ActionBuilder](

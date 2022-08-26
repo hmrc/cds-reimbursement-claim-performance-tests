@@ -59,7 +59,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("post Scheduled MRN page")
       .post(s"$baseUrl/$route/scheduled/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number", "10AAAAAAAAAAAAAAA1")
+      .formParam("enter-movement-reference-number", "01AAAAAAAAAAAAAAA2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route/scheduled/check-declaration-details": String))
   }
@@ -130,7 +130,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "${sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "${policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/validFile.png"))
+      .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
       //              alternative way to upload file:
       //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
       //                .fileName("NewArrangement.xml")
@@ -143,10 +143,10 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   def getScheduledDocumentUploadProgressPage : HttpRequestBuilder = {
     http("get upload progress wait page")
       .get("${UpscanResponseSuccess}")
-      .check(status.is(200))
-      .check(saveCsrfToken())
-      .check(regex("We are checking your document"))
-      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
+      .check(status.in(303, 200))
+//      .check(saveCsrfToken())
+//      .check(regex("We are checking your document"))
+//      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
 
   def postScheduledDocumentUploadProgressPage : HttpRequestBuilder = {

@@ -417,7 +417,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     getRejectedGoodsScheduledCheckDeclarationPage,
     postRejectedGoodsScheduledCheckDeclarationPage,
     getRejectedGoodsScheduledUploadMrnListPage,
-    getRejectedGoodsScheduledDocumentUploadChooseFilesPage,
+    //getRejectedGoodsScheduledDocumentUploadChooseFilesPage,
     getScheduledUploadDocumentsChooseFilePage,
     postScheduledUploadDocumentsChooseFilePagePage,
     getScheduledDocumentUploadProgressPage

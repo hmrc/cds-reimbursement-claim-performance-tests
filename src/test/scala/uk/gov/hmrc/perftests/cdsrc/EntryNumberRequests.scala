@@ -31,6 +31,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
     val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
     val route: String = "claim-back-import-duty-vat"
+    val route1: String = "claim-back-import-duty-vat/overpayments"
+
 
     val authUrl: String = baseUrlFor("auth-login-stub")
     val redirect = s"$baseUrl/$route/start/claim-for-reimbursement"
@@ -38,78 +40,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
   def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
-
-    def getAuthLoginPage : HttpRequestBuilder = {
-      http("Navigate to auth login stub page")
-        .get(s"$authUrl/auth-login-stub/gg-sign-in")
-        .header("Cookie", "mdtp=${mdtpCookie}")
-        .check(status.is(200))
-        .check(saveCsrfToken())
-        .check(regex("Authority Wizard").exists)
-        .check(regex("CredID").exists)
-    }
-
-
-  def loginWithAuthLoginStub(enrolmentKey: String = "", identifierName: String = "", identifierValue: String = ""): HttpRequestBuilder = {
-    http("Login with user credentials")
-      .post(s"$authUrl/auth-login-stub/gg-sign-in")
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("authorityId", "")
-      .formParam("gatewayToken", "")
-      .formParam("redirectionUrl", redirect1)
-      .formParam("credentialStrength", "weak")
-      .formParam("confidenceLevel", "50")
-      .formParam("affinityGroup", "Individual")
-      .formParam("usersName", "")
-      .formParam("email", "user@test.com")
-      .formParam("credentialRole", "User")
-      .formParam("oauthTokens.accessToken", "")
-      .formParam("oauthTokens.refreshToken", "")
-      .formParam("oauthTokens.idToken", "")
-      .formParam("additionalInfo.profile", "")
-      .formParam("additionalInfo.groupProfile", "")
-      .formParam("additionalInfo.emailVerified", "")
-      .formParam("nino", "")
-      .formParam("groupIdentifier", "")
-      .formParam("agent.agentId", "")
-      .formParam("agent.agentCode", "")
-      .formParam("agent.agentFriendlyName", "")
-      .formParam("unreadMessageCount", "")
-      .formParam("mdtp.sessionId", "")
-      .formParam("mdtp.deviceId", "")
-      .formParam("presets-dropdown", "IR-SA")
-      .formParam("enrolment[0].name", "HMRC-CUS-ORG")
-      .formParam("enrolment[0].taxIdentifier[0].name", "EORINumber")
-      .formParam("enrolment[0].taxIdentifier[0].value", "AA12345678901234Z")
-      .formParam("enrolment[0].state", "Activated")
-      .formParam("enrolment[1].name", "")
-      .formParam("enrolment[1].taxIdentifier[0].name", "")
-      .formParam("enrolment[1].taxIdentifier[0].value", "")
-      .formParam("enrolment[1].state", "Activated")
-      .formParam("enrolment[2].name", "")
-      .formParam("enrolment[2].taxIdentifier[0].name", "")
-      .formParam("enrolment[2].taxIdentifier[0].value", "")
-      .formParam("enrolment[2].state", "Activated")
-      .formParam("enrolment[3].name", "")
-      .formParam("enrolment[3].taxIdentifier[0].name", "")
-      .formParam("enrolment[3].taxIdentifier[0].value", "")
-      .formParam("enrolment[3].state", "Activated")
-      .formParam("itmp.givenName", "")
-      .formParam("itmp.middleName", "")
-      .formParam("itmp.familyName", "")
-      .formParam("itmp.dateOfBirth", "")
-      .formParam("itmp.address.line1", "")
-      .formParam("itmp.address.line2", "")
-      .formParam("itmp.address.line3", "")
-      .formParam("itmp.address.line4", "")
-      .formParam("itmp.address.line5", "")
-      .formParam("itmp.address.postCode", "")
-      .formParam("itmp.address.countryName", "")
-      .formParam("itmp.address.countryCode", "")
-      .check(status.is(303))
-      .check(header("Location").is(s"$baseUrl/$route/start": String))
-
-  }
 
   def getCdsrStartPage1 : HttpRequestBuilder = {
     http("Get cdsr start page")
@@ -455,8 +385,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
       .check(status.in(303, 200))
-//      .check(saveCsrfToken())
-//      .check(regex("We are checking your document"))
 //      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
   }
 
@@ -478,33 +406,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
         .check(status.in(303, 200))
         .check(header("Location").optional.saveAs("selectPage")))
     ).actionBuilders
-  }
-
-
-  def getSelectSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
-    http("get select supporting evidence type page")
-      //.get(s"$baseUrl" + "${selectPage}")
-      .get(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Add supporting documents to your claim"))
-      .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
-  }
-
-  def postSelectSupportingEvidenceTypePage : HttpRequestBuilder = {
-    http("post select supporting evidence type page")
-      //.post(s"$baseUrl" + "${supportEvidencePageType}")
-      .post(s"$baseUrl/$route/single/supporting-evidence/select-supporting-evidence-type": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "AirWayBill")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/supporting-evidence/choose-files": String))
-  }
-
-  def getSupportingEvidenceChooseFilesPage : HttpRequestBuilder = {
-    http("get supporting evidence choose files page")
-      .get(s"$baseUrl/$route/single/supporting-evidence/choose-files": String)
-      .check(status.is(303))
   }
 
   def getUploadCustomsDocumentsPage : HttpRequestBuilder = {
@@ -583,7 +484,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def getCheckAnswersAcceptSendPage : HttpRequestBuilder = {
     http("get check answers and send page")
-      .get(s"$baseUrl/$route/single/check-answers-accept-send": String)
+      .get(s"$baseUrl/$route1/single/check-answers-accept-send": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check your answers before sending your claim"))
@@ -591,15 +492,15 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def postCheckAnswersAcceptSendPage : HttpRequestBuilder = {
     http("post check answers and send page")
-      .post(s"$baseUrl/$route/single/check-answers-accept-send": String)
+      .post(s"$baseUrl/$route1/single/check-answers-accept-send": String)
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/claim-submitted": String))
+      .check(header("Location").is(s"/$route1/single/claim-submitted": String))
   }
 
   def getClaimSubmittedPage : HttpRequestBuilder = {
     http(("get submitted page"))
-      .get(s"$baseUrl/$route/single/claim-submitted": String)
+      .get(s"$baseUrl/$route1/single/claim-submitted": String)
       .check(status.is(200))
       .check(regex("Claim submitted"))
       .check(regex("Your claim reference number"))

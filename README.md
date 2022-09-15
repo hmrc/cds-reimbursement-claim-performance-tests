@@ -15,7 +15,7 @@ Run the following command to start the services locally:
 ```
 docker run --rm -d --name mongo -d -p 27017:27017 mongo:3.6
 
-sm --start CDSRC_ALL -r
+sm --start CDSRC_DEV
 ```
 
 ## Logging
@@ -26,12 +26,12 @@ The template uses [logback.xml](src/test/resources) to configure log levels. The
 
 It might be useful to try the journey with one user to check that everything works fine before running the full performance test
 ```
-sbt -Dperftest.runSmokeTest=true -DrunLocal=true gatling:test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=true -DuseAwesomeStubs=true gatling:test
 ```
 
 #### Running the performance test
 ```
-sbt -DrunLocal=true gatling:test
+sbt -DrunLocal=true -DuseAwesomeStubs=true gatling:test
 ```
 ### Run the example test against staging environment
 

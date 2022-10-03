@@ -311,10 +311,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
-//      //.check(saveCsrfToken())
-//      //.check(header("Location").saveAs("action"))
       .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
-//      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
+      //.check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("Add documents to support your claim"))
 
   def postUploadDocumentsChoosefilesPage: HttpRequestBuilder =
@@ -350,7 +348,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
       .check(status.in(303, 200))
-//      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
 
   def constPause = new PauseBuilder(60 seconds, None)
 
@@ -420,10 +417,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def getUploadDocumentsSummaryPage: HttpRequestBuilder =
     http("get upload documents summary page")
       .get(s"$baseUrl/$route/upload-documents/summary": String)
-      //.check(saveCsrfToken())
-      //.check(status.is(200))
       .check(status.is(303))
-  //.check(regex("You(.*)added 1 document to your claim"))
+      //.check(regex("You(.*)added 1 document to your claim"))
 
   def postUploadDocumentsSummaryPage: HttpRequestBuilder =
     http("post upload documents summary page")

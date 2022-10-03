@@ -321,7 +321,6 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def getRejectedGoodsCheckBankDetailsPage: HttpRequestBuilder =
     http("get the rejected goods check bank details page")
       .get(s"$baseUrl/$route1/single/check-bank-details": String)
-      //.check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
 
@@ -402,8 +401,6 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
-      //      //.check(saveCsrfToken())
-      //      //.check(header("Location").saveAs("action"))
       //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
       //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
@@ -442,9 +439,6 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
       .check(status.in(303, 200))
-//      .check(saveCsrfToken())
-//      .check(regex("We are checking your document"))
-//      .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
 
   def postRejectedGoodsSingleScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
@@ -476,7 +470,6 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.check-your-answers", "false")
       .check(status.is(303))
-  //.check(header("Location").is(s"/$route1/single/check-your-answers": String))
 
   def getRejectedGoodsCheckYourAnswersPage: HttpRequestBuilder =
     http("get the rejected goods check your answers page")

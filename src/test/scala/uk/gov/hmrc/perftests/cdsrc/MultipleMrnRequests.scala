@@ -357,8 +357,6 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
-      //      //.check(saveCsrfToken())
-      //      //.check(header("Location").saveAs("action"))
       //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
       //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("Add documents to support your claim"))

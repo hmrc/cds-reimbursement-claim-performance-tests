@@ -26,6 +26,7 @@ import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsMultipleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsScheduledRequests._
+import uk.gov.hmrc.perftests.cdsrc.SecuritiesSingleRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
@@ -532,5 +533,65 @@ class CDSRSimulation extends PerformanceTestRunner {
 
   setup("Rejected-Goods-Scheduled-MRN-journey", "Rejected Goods Scheduled MRN journey") withActions
     (RejectedGoodsScheduledMRNJourney: _*)
+
+  val SecuritiesSingleJourney : List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000001") ++
+      List[ActionBuilder](
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getSecuritiesSelectClaimTypePage,
+        postSecuritiesSelectClaimTypePage,
+        getSecuritiesEnterMovementReferenceNumberPage,
+        postSecuritiesEnterMovementReferenceNumberPage,
+        getSecuritiesReasonForSecurityPage,
+        postSecuritiesReasonForSecurityPage,
+        getSecuritiesTotalImportDischargedPage,
+        postSecuritiesTotalImportDischargedPage,
+        getSecuritiesBod4MandatoryCheckPage,
+        postSecuritiesBod4MandatoryCheckPage,
+        getSecuritiesSelectSecuritiesPage,
+        getSecuritiesSelectSecurities1Page,
+        postSecuritiesSelectSecurities1Page,
+        getSecuritiesSelectSecurities2Page,
+        postSecuritiesSelectSecurities2Page,
+        getSecuritiesCheckDeclarationDetailsPage,
+        postSecuritiesCheckDeclarationDetailsPage,
+        getSecuritiesClaimantDetailsPage,
+        postSecuritiesClaimantDetailsPage,
+        getSecuritiesConfirmFullRepaymentPage,
+        getSecuritiesConfirmFullRepayment1of2Page,
+        postSecuritiesConfirmFullRepayment1of2Page,
+        getSecuritiesConfirmFullRepayment2of2Page,
+        postSecuritiesConfirmFullRepayment2of2Page,
+        getSecuritiesSelectDutiesPage,
+        postSecuritiesSelectDutiesPage,
+        getSecuritiesEnterClaimPage,
+        getSecuritiesEnterClaimTaxCodePage,
+        postSecuritiesEnterClaimTaxCodePage,
+        getSecuritiesCheckClaimPage,
+        postSecuritiesCheckClaimPage,
+        getSecuritiesCheckBankDetailsPage,
+        getSecuritiesLetterOfAuthorityPage,
+        postSecuritiesLetterOfAuthorityPage,
+        getSecuritiesChooseBankAccountTypePage,
+        postSecuritiesChooseBankAccountTypePage,
+        getSecuritiesEnterBankAccountDetailsPage,
+        postSecuritiesEnterBankAccountDetailsPage,
+        getSecuritiesChooseFileTypePage,
+        postSecuritiesChooseFileTypePage,
+        getSecuritiesChooseFilesPage,
+        getSecuritiesCustomsDocumentsChooseFilePage,
+        postSecuritiesUploadCustomsDocumentsChooseFilePage,
+        getSecuritiesSingleScanProgressWaitPage
+      ) ++
+      getFileVerificationStatusPage ++
+      List[ActionBuilder](
+        getSecuritiesCheckYourAnswersPage,
+        postSecuritiesCheckYourAnswersPage,
+        getSecuritiesClaimSubmittedPage
+      )
+  setup("Securities-Single-MRN-journey", "Securities Single MRN journey") withActions
+    (SecuritiesSingleJourney: _*)
   runSimulation()
 }

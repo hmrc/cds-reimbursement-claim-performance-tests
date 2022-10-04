@@ -408,7 +408,6 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def getRejectedGoodsMultipleCheckBankDetailsPage : HttpRequestBuilder = {
     http("get the rejected goods check bank details page")
       .get(s"$baseUrl/$route1/multiple/check-bank-details": String)
-      //.check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
   }
@@ -476,7 +475,6 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
     http("get the rejected goods choose file page")
       .get(s"$baseUrl/$route/upload-documents/choose-file": String)
       .check(status.is(200))
-      //.check(regex("Upload letter of authority"))
       .check(regex("Upload (.*)"))
   }
 
@@ -498,8 +496,6 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
-      //      //.check(saveCsrfToken())
-      //      //.check(header("Location").saveAs("action"))
       //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
       //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("Upload (.*)"))

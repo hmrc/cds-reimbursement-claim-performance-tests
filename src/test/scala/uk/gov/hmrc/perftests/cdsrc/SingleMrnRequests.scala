@@ -416,19 +416,19 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-claim-summary", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/select-reimbursement-method": String))
+      .check(header("Location").is(s"/$route1/single/choose-repayment-method": String))
   }
 
   def getSelectReimbursementMethodPage : HttpRequestBuilder = {
-    http("get select reimbursement method page")
-      .get(s"$baseUrl/$route1/single/select-reimbursement-method": String)
+    http("get choose repayment method page")
+      .get(s"$baseUrl/$route1/single/choose-repayment-method": String)
       .check(status.is(200))
       .check(regex("Select repayment method"))
   }
 
   def postSelectReimbursementMethodPage: HttpRequestBuilder = {
-    http("post select reimbursement method page")
-      .post(s"$baseUrl/$route1/single/select-reimbursement-method": String)
+    http("post choose repayment method page")
+      .post(s"$baseUrl/$route1/single/choose-repayment-method": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("reimbursement-method", "1")
       .check(status.is(303))

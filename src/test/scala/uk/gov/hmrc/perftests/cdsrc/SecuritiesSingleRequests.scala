@@ -61,11 +61,11 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .check(status.is(200))
       .check(regex("Enter the import MRN"))
 
-  def postSecuritiesEnterMovementReferenceNumberPage: HttpRequestBuilder =
+  def postSecuritiesEnterMovementReferenceNumberPage(MRN :String): HttpRequestBuilder =
     http("post securities enter movement reference number page")
       .post(s"$baseUrl/$route1/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number", "10AAAAAAAAAAAAAAA1")
+      .formParam("enter-movement-reference-number", MRN)
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/choose-reason-for-security": String))
 
@@ -76,13 +76,116 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .check(status.is(200))
       .check(regex("Select why a security deposit or guarantee was required"))
 
-  def postSecuritiesReasonForSecurityPage: HttpRequestBuilder =
+  def postSecuritiesReasonForSecurityPage(trueOrFalse: Boolean = true, reasonForSecurity : String): HttpRequestBuilder = {
+
+    val reasonForSecurityUrl = reasonForSecurity match {
+      case "Account Sales" => "AccountSales"
+      case "End Use Relief" => "EndUseRelief"
+      case "Inward Processing Relief" => "InwardProcessingRelief"
+      case "Manual override of duty amount" => "ManualOverrideDeposit"
+      case "Missing document: Community System of Duty Relief" => "CommunitySystemsOfDutyRelief"
+      case "Missing document: preference" => "MissingPreferenceCertificate"
+      case "Missing document: quota license" => "MissingLicenseQuota"
+      case "Revenue Dispute or Inland Pre-Clearance (IPC)" => "OutwardProcessingRelief"
+      case "Temporary Admissions (2 months Expiration)" => "TemporaryAdmission2M"
+      case "Temporary Admissions (2 years Expiration)" => "TemporaryAdmission2Y"
+      case "Temporary Admissions (3 months Expiration)" => "TemporaryAdmission3M"
+      case "Temporary Admissions (6 months Expiration)" => "TemporaryAdmission6M"
+      case "UKAP Entry Price" => "UKAPEntryPrice"
+      case "UKAP Safeguard Duties" => "UKAPSafeguardDuties"
+      case _ => throw new IllegalArgumentException("Location not found " + reasonForSecurity)
+    }
+
+    val url = if (trueOrFalse) s"/$route1/check-total-import-discharged": String else s"/$route1/select-securities": String
+
     http("post securities choose reason for security page")
       .post(s"$baseUrl/$route1/choose-reason-for-security": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("choose-reason-for-security.securities", "EndUseRelief")
+      .formParam("choose-reason-for-security.securities", reasonForSecurityUrl )
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/check-total-import-discharged": String))
+      .check(header("Location").is(url))
+   }
+
+  def postSecuritiesReasonForSecurityForErrorPage(trueOrFalse: Boolean = true, reasonForSecurity : String): HttpRequestBuilder = {
+
+    val reasonForSecurityUrl = reasonForSecurity match {
+      case "Account Sales" => "AccountSales"
+      case "End Use Relief" => "EndUseRelief"
+      case "Inward Processing Relief" => "InwardProcessingRelief"
+      case "Manual override of duty amount" => "ManualOverrideDeposit"
+      case "Missing document: Community System of Duty Relief" => "CommunitySystemsOfDutyRelief"
+      case "Missing document: preference" => "MissingPreferenceCertificate"
+      case "Missing document: quota license" => "MissingLicenseQuota"
+      case "Revenue Dispute or Inland Pre-Clearance (IPC)" => "OutwardProcessingRelief"
+      case "Temporary Admissions (2 months Expiration)" => "TemporaryAdmission2M"
+      case "Temporary Admissions (2 years Expiration)" => "TemporaryAdmission2Y"
+      case "Temporary Admissions (3 months Expiration)" => "TemporaryAdmission3M"
+      case "Temporary Admissions (6 months Expiration)" => "TemporaryAdmission6M"
+      case "UKAP Entry Price" => "UKAPEntryPrice"
+      case "UKAP Safeguard Duties" => "UKAPSafeguardDuties"
+      case _ => throw new IllegalArgumentException("Location not found " + reasonForSecurity)
+    }
+
+    val url = if (trueOrFalse) s"/$route1/error/claim-invalid-086": String else s"/$route1/error/claim-invalid-072": String
+
+    http("post securities choose reason for security for error page")
+      .post(s"$baseUrl/$route1/choose-reason-for-security": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("choose-reason-for-security.securities", reasonForSecurityUrl )
+      .check(status.is(303))
+      .check(header("Location").is(url))
+  }
+
+  def getSecuritiesAcc14Error086Page: HttpRequestBuilder =
+    http("get securities Acc14 claim invalid 086 page")
+      .get(s"$baseUrl/$route1/error/claim-invalid-086": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("There is a problem with your claim"))
+
+  def getSecuritiesAcc14Error072Page: HttpRequestBuilder =
+    http("get securities Acc14 claim invalid 072 page")
+      .get(s"$baseUrl/$route1/error/claim-invalid-072": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("There is a problem with your claim"))
+
+  def postSecuritiesReasonForSecurityForTP104ErrorPage(trueOrFalse: Boolean = true, reasonForSecurity : String): HttpRequestBuilder = {
+
+    val reasonForSecurityUrl = reasonForSecurity match {
+      case "Account Sales" => "AccountSales"
+      case "End Use Relief" => "EndUseRelief"
+      case "Inward Processing Relief" => "InwardProcessingRelief"
+      case "Manual override of duty amount" => "ManualOverrideDeposit"
+      case "Missing document: Community System of Duty Relief" => "CommunitySystemsOfDutyRelief"
+      case "Missing document: preference" => "MissingPreferenceCertificate"
+      case "Missing document: quota license" => "MissingLicenseQuota"
+      case "Revenue Dispute or Inland Pre-Clearance (IPC)" => "OutwardProcessingRelief"
+      case "Temporary Admissions (2 months Expiration)" => "TemporaryAdmission2M"
+      case "Temporary Admissions (2 years Expiration)" => "TemporaryAdmission2Y"
+      case "Temporary Admissions (3 months Expiration)" => "TemporaryAdmission3M"
+      case "Temporary Admissions (6 months Expiration)" => "TemporaryAdmission6M"
+      case "UKAP Entry Price" => "UKAPEntryPrice"
+      case "UKAP Safeguard Duties" => "UKAPSafeguardDuties"
+      case _ => throw new IllegalArgumentException("Location not found " + reasonForSecurity)
+    }
+
+    val url = if (trueOrFalse) s"/$route1/error/claim-invalid-TPI04": String else s"/$route1/error/claim-invalid-072": String
+
+    http("post securities choose reason for security for error page")
+      .post(s"$baseUrl/$route1/choose-reason-for-security": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("choose-reason-for-security.securities", reasonForSecurityUrl )
+      .check(status.is(303))
+      .check(header("Location").is(url))
+  }
+
+  def getSecuritiesTPI04ErrorPage: HttpRequestBuilder =
+    http("get securities TPI04 error page")
+      .get(s"$baseUrl/$route1/error/claim-invalid-TPI04": String)
+      //.check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("There is a problem with your claim"))
 
   def getSecuritiesTotalImportDischargedPage: HttpRequestBuilder =
     http("get securities check total import discharged page")
@@ -91,8 +194,8 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .check(status.is(200))
       .check(regex("Have you discharged all of the imported goods?"))
 
-  def postSecuritiesTotalImportDischargedPage: HttpRequestBuilder =
-    http("post securities check total import discharged page")
+  def postSecuritiesTotalImportDischargedForBod4Page: HttpRequestBuilder =
+    http("post securities check total import discharged for bod4 page")
       .post(s"$baseUrl/$route1/check-total-import-discharged": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-total-import-discharged", "true")
@@ -106,9 +209,33 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .check(status.is(200))
       .check(regex("End-Use bill of discharge (.*)"))
 
+  def postSecuritiesTotalImportDischargedForBod3Page: HttpRequestBuilder =
+    http("post securities check total import discharged page")
+      .post(s"$baseUrl/$route1/check-total-import-discharged": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("check-total-import-discharged", "true")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/bod3-mandatory-check": String))
+
+  def getSecuritiesBod3MandatoryCheckPage: HttpRequestBuilder =
+    http("get securities bod3 mandatory check page")
+      .get(s"$baseUrl/$route1/bod3-mandatory-check": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Inward Processing bill of discharge (.*)"))
+
+
   def postSecuritiesBod4MandatoryCheckPage: HttpRequestBuilder =
     http("post securities bod4 mandatory check page")
       .post(s"$baseUrl/$route1/bod4-mandatory-check": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("bill-of-discharge", "true")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/select-securities": String))
+
+  def postSecuritiesBod3MandatoryCheckPage: HttpRequestBuilder =
+    http("post securities bod3 mandatory check page")
+      .post(s"$baseUrl/$route1/bod3-mandatory-check": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("bill-of-discharge", "true")
       .check(status.is(303))
@@ -157,10 +284,44 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .check(status.is(200))
       .check(regex("Check these declaration details are correct"))
 
-  def postSecuritiesCheckDeclarationDetailsPage: HttpRequestBuilder =
+  def postSecuritiesCheckDeclarationDetailsPage(trueOrFalse : Boolean = true): HttpRequestBuilder = {
+
+    val url = if (trueOrFalse) s"/$route1/claimant-details": String else s"/$route1/export-method": String
+
     http("post securities check declaration details page")
       .post(s"$baseUrl/$route1/check-declaration-details": String)
       .formParam("csrfToken", "${csrfToken}")
+      .check(status.is(303))
+      .check(header("Location").is(url))
+  }
+
+  def getSecuritiesExportMethodPage: HttpRequestBuilder =
+    http("get securities export method page")
+      .get(s"$baseUrl/$route1/export-method": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Tell us what you did with the goods"))
+
+  def postSecuritiesExportMethodPage: HttpRequestBuilder =
+    http("post securities export method page")
+      .post(s"$baseUrl/$route1/export-method": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("choose-export-method", "ExportedInSingleShipment")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/enter-export-movement-reference-number": String))
+
+  def getSecuritiesExportMRNPage: HttpRequestBuilder =
+    http("get securities export MRN page")
+      .get(s"$baseUrl/$route1/enter-export-movement-reference-number": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("Enter the export MRN in the declaration"))
+
+  def postSecuritiesExportMRNPage: HttpRequestBuilder =
+    http("post securities export MRN page")
+      .post(s"$baseUrl/$route1/enter-export-movement-reference-number": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .formParam("enter-export-movement-reference-number", "41ABCDEFGHIJKLMNO1")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/claimant-details": String))
 
@@ -267,7 +428,6 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
   def getSecuritiesCheckBankDetailsPage: HttpRequestBuilder =
     http("get securities check bank details page")
       .get(s"$baseUrl/$route1/check-bank-details": String)
-      //.check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
 
@@ -329,7 +489,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
     http("post securities choose file type page")
       .post(s"$baseUrl/$route1/choose-file-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("choose-file-type", "BillOfDischarge4")
+      .formParam("choose-file-type", "ImportDeclaration")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/choose-files": String))
 
@@ -416,5 +576,4 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .check(status.is(200))
       .check(regex("Claim submitted"))
       .check(regex("Your claim reference number"))
-
 }

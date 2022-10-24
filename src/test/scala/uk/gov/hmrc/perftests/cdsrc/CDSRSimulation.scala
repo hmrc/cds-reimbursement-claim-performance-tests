@@ -432,7 +432,6 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsScheduledCheckDeclarationPage,
         postRejectedGoodsScheduledCheckDeclarationPage,
         getRejectedGoodsScheduledUploadMrnListPage,
-        //getRejectedGoodsScheduledDocumentUploadChooseFilesPage,
         getScheduledUploadDocumentsChooseFilePage,
         postScheduledUploadDocumentsChooseFilePagePage,
         getScheduledDocumentUploadProgressPage
@@ -534,7 +533,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   setup("Rejected-Goods-Scheduled-MRN-journey", "Rejected Goods Scheduled MRN journey") withActions
     (RejectedGoodsScheduledMRNJourney: _*)
 
-  val SecuritiesSingleJourney : List[ActionBuilder] =
+  val SecuritiesSingleBod4Journey : List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
         getMRNCdsrStartPage,
@@ -543,11 +542,11 @@ class CDSRSimulation extends PerformanceTestRunner {
         getSecuritiesSelectClaimTypePage,
         postSecuritiesSelectClaimTypePage,
         getSecuritiesEnterMovementReferenceNumberPage,
-        postSecuritiesEnterMovementReferenceNumberPage,
+        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAAAA1"),
         getSecuritiesReasonForSecurityPage,
-        postSecuritiesReasonForSecurityPage,
+        postSecuritiesReasonForSecurityPage(trueOrFalse = true, reasonForSecurity = "End Use Relief"),
         getSecuritiesTotalImportDischargedPage,
-        postSecuritiesTotalImportDischargedPage,
+        postSecuritiesTotalImportDischargedForBod4Page,
         getSecuritiesBod4MandatoryCheckPage,
         postSecuritiesBod4MandatoryCheckPage,
         getSecuritiesSelectSecuritiesPage,
@@ -556,7 +555,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         getSecuritiesSelectSecurities2Page,
         postSecuritiesSelectSecurities2Page,
         getSecuritiesCheckDeclarationDetailsPage,
-        postSecuritiesCheckDeclarationDetailsPage,
+        postSecuritiesCheckDeclarationDetailsPage(trueOrFalse = true),
         getSecuritiesClaimantDetailsPage,
         postSecuritiesClaimantDetailsPage,
         getSecuritiesConfirmFullRepaymentPage,
@@ -591,7 +590,178 @@ class CDSRSimulation extends PerformanceTestRunner {
         postSecuritiesCheckYourAnswersPage,
         getSecuritiesClaimSubmittedPage
       )
-  setup("Securities-Single-MRN-journey", "Securities Single MRN journey") withActions
-    (SecuritiesSingleJourney: _*)
-  runSimulation()
+  setup("Securities-Single-MRN-BOD4-journey", "Securities Single MRN with BOD4 journey") withActions
+    (SecuritiesSingleBod4Journey: _*)
+
+  val SecuritiesSingleBOD3Journey : List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000001") ++
+      List[ActionBuilder](
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getSecuritiesSelectClaimTypePage,
+        postSecuritiesSelectClaimTypePage,
+        getSecuritiesEnterMovementReferenceNumberPage,
+        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAAAA1"),
+        getSecuritiesReasonForSecurityPage,
+        postSecuritiesReasonForSecurityPage(trueOrFalse = true, reasonForSecurity = "Inward Processing Relief"),
+        getSecuritiesTotalImportDischargedPage,
+        postSecuritiesTotalImportDischargedForBod3Page,
+        getSecuritiesBod3MandatoryCheckPage,
+        postSecuritiesBod3MandatoryCheckPage,
+        getSecuritiesSelectSecuritiesPage,
+        getSecuritiesSelectSecurities1Page,
+        postSecuritiesSelectSecurities1Page,
+        getSecuritiesSelectSecurities2Page,
+        postSecuritiesSelectSecurities2Page,
+        getSecuritiesCheckDeclarationDetailsPage,
+        postSecuritiesCheckDeclarationDetailsPage(trueOrFalse = true),
+        getSecuritiesClaimantDetailsPage,
+        postSecuritiesClaimantDetailsPage,
+        getSecuritiesConfirmFullRepaymentPage,
+        getSecuritiesConfirmFullRepayment1of2Page,
+        postSecuritiesConfirmFullRepayment1of2Page,
+        getSecuritiesConfirmFullRepayment2of2Page,
+        postSecuritiesConfirmFullRepayment2of2Page,
+        getSecuritiesSelectDutiesPage,
+        postSecuritiesSelectDutiesPage,
+        getSecuritiesEnterClaimPage,
+        getSecuritiesEnterClaimTaxCodePage,
+        postSecuritiesEnterClaimTaxCodePage,
+        getSecuritiesCheckClaimPage,
+        postSecuritiesCheckClaimPage,
+        getSecuritiesCheckBankDetailsPage,
+        getSecuritiesLetterOfAuthorityPage,
+        postSecuritiesLetterOfAuthorityPage,
+        getSecuritiesChooseBankAccountTypePage,
+        postSecuritiesChooseBankAccountTypePage,
+        getSecuritiesEnterBankAccountDetailsPage,
+        postSecuritiesEnterBankAccountDetailsPage,
+        getSecuritiesChooseFileTypePage,
+        postSecuritiesChooseFileTypePage,
+        getSecuritiesChooseFilesPage,
+        getSecuritiesCustomsDocumentsChooseFilePage,
+        postSecuritiesUploadCustomsDocumentsChooseFilePage,
+        getSecuritiesSingleScanProgressWaitPage
+      ) ++
+      getFileVerificationStatusPage ++
+      List[ActionBuilder](
+        getSecuritiesCheckYourAnswersPage,
+        postSecuritiesCheckYourAnswersPage,
+        getSecuritiesClaimSubmittedPage
+      )
+  setup("Securities-Single-MRN-BOD3-journey", "Securities Single MRN with BOD3 journey") withActions
+    (SecuritiesSingleBOD3Journey: _*)
+
+  val SecuritiesSingleTemporaryAdmissionsJourney : List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000001") ++
+      List[ActionBuilder](
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getSecuritiesSelectClaimTypePage,
+        postSecuritiesSelectClaimTypePage,
+        getSecuritiesEnterMovementReferenceNumberPage,
+        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAAAA1"),
+        getSecuritiesReasonForSecurityPage,
+        postSecuritiesReasonForSecurityPage(trueOrFalse = false, reasonForSecurity = "Temporary Admissions (2 months Expiration)"),
+        getSecuritiesSelectSecuritiesPage,
+        getSecuritiesSelectSecurities1Page,
+        postSecuritiesSelectSecurities1Page,
+        getSecuritiesSelectSecurities2Page,
+        postSecuritiesSelectSecurities2Page,
+        getSecuritiesCheckDeclarationDetailsPage,
+        postSecuritiesCheckDeclarationDetailsPage(trueOrFalse = false),
+        getSecuritiesExportMethodPage,
+        postSecuritiesExportMethodPage,
+        getSecuritiesExportMRNPage,
+        postSecuritiesExportMRNPage,
+        getSecuritiesClaimantDetailsPage,
+        postSecuritiesClaimantDetailsPage,
+        getSecuritiesConfirmFullRepaymentPage,
+        getSecuritiesConfirmFullRepayment1of2Page,
+        postSecuritiesConfirmFullRepayment1of2Page,
+        getSecuritiesConfirmFullRepayment2of2Page,
+        postSecuritiesConfirmFullRepayment2of2Page,
+        getSecuritiesSelectDutiesPage,
+        postSecuritiesSelectDutiesPage,
+        getSecuritiesEnterClaimPage,
+        getSecuritiesEnterClaimTaxCodePage,
+        postSecuritiesEnterClaimTaxCodePage,
+        getSecuritiesCheckClaimPage,
+        postSecuritiesCheckClaimPage,
+        getSecuritiesCheckBankDetailsPage,
+        getSecuritiesLetterOfAuthorityPage,
+        postSecuritiesLetterOfAuthorityPage,
+        getSecuritiesChooseBankAccountTypePage,
+        postSecuritiesChooseBankAccountTypePage,
+        getSecuritiesEnterBankAccountDetailsPage,
+        postSecuritiesEnterBankAccountDetailsPage,
+        getSecuritiesChooseFileTypePage,
+        postSecuritiesChooseFileTypePage,
+        getSecuritiesChooseFilesPage,
+        getSecuritiesCustomsDocumentsChooseFilePage,
+        postSecuritiesUploadCustomsDocumentsChooseFilePage,
+        getSecuritiesSingleScanProgressWaitPage
+      ) ++
+      getFileVerificationStatusPage ++
+      List[ActionBuilder](
+        getSecuritiesCheckYourAnswersPage,
+        postSecuritiesCheckYourAnswersPage,
+        getSecuritiesClaimSubmittedPage
+      )
+  setup("Securities-Single-MRN-TA-journey", "Securities Single MRN with Temporary Admissions journey") withActions
+    (SecuritiesSingleTemporaryAdmissionsJourney: _*)
+
+  val SecuritiesSingleAcc14Error086Journey : List[ActionBuilder] =
+    LoginTheUser("user1", "AA12345678901234Z") ++
+      List[ActionBuilder](
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getSecuritiesSelectClaimTypePage,
+        postSecuritiesSelectClaimTypePage,
+        getSecuritiesEnterMovementReferenceNumberPage,
+        postSecuritiesEnterMovementReferenceNumberPage("41ABCDEFGHIJKLMNO1"),
+        getSecuritiesReasonForSecurityPage,
+        postSecuritiesReasonForSecurityForErrorPage(trueOrFalse = true, reasonForSecurity = "Account Sales"),
+        getSecuritiesAcc14Error086Page
+      )
+        setup("Securities-Single-MRN-ACC14-086-journey", "Securities Single MRN with ACC14 086 journey") withActions
+          (SecuritiesSingleAcc14Error086Journey: _*)
+
+  val SecuritiesSingleAcc14Error072Journey : List[ActionBuilder] =
+    LoginTheUser("user1", "AA12345678901234Z") ++
+      List[ActionBuilder](
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getSecuritiesSelectClaimTypePage,
+        postSecuritiesSelectClaimTypePage,
+        getSecuritiesEnterMovementReferenceNumberPage,
+        postSecuritiesEnterMovementReferenceNumberPage("41ABCDEFGHIJKLMNO2"),
+        getSecuritiesReasonForSecurityPage,
+        postSecuritiesReasonForSecurityForErrorPage(trueOrFalse = false, reasonForSecurity = "Account Sales"),
+        getSecuritiesAcc14Error072Page
+      )
+  setup("Securities-Single-MRN-ACC14-072-journey", "Securities Single MRN with ACC14 072 journey") withActions
+    (SecuritiesSingleAcc14Error072Journey: _*)
+
+  val SecuritiesSingleTPI04ErrorJourney : List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000001") ++
+      List[ActionBuilder](
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
+        getSecuritiesSelectClaimTypePage,
+        postSecuritiesSelectClaimTypePage,
+        getSecuritiesEnterMovementReferenceNumberPage,
+        postSecuritiesEnterMovementReferenceNumberPage("30ABCDEFGHIJKLMNO1"),
+        getSecuritiesReasonForSecurityPage,
+        postSecuritiesReasonForSecurityForTP104ErrorPage(trueOrFalse = true, reasonForSecurity = "Manual override of duty amount"),
+        getSecuritiesTPI04ErrorPage
+      )
+  setup("Securities-Single-MRN-TPI04-journey", "Securities Single MRN with TPI04 journey") withActions
+    (SecuritiesSingleTPI04ErrorJourney: _*)
+      runSimulation()
 }

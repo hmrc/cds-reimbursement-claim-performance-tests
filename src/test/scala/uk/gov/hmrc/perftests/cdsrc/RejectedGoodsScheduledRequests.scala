@@ -268,9 +268,9 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
     http("post rejected goods scheduled change contact details page")
       .post(s"$baseUrl/$route1/scheduled/claimant-details/change-contact-details": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-contact-details-rejected-goods.contact-name", "Online Sales LTD")
-      .formParam("enter-contact-details-rejected-goods.contact-email", "someemail@mail.com")
-      .formParam("enter-contact-details-rejected-goods.contact-phone-number", "+4420723934397")
+      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
+      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
+      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/claimant-details": String))
   }

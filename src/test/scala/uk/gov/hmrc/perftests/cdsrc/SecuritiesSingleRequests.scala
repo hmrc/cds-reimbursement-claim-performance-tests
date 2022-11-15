@@ -248,34 +248,34 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .check(status.is(303))
 
   def getSecuritiesSelectSecurities1Page: HttpRequestBuilder =
-    http("get securities select securities 1 of 2 page")
+    http("get securities select securities 1 of 5 page")
       .get(s"$baseUrl/$route1/select-securities/ABC0123456": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Include this security deposit in your claim?"))
 
   def postSecuritiesSelectSecurities1Page: HttpRequestBuilder =
-    http("post securities select securities 1 of 2 page")
+    http("post securities select securities 1 of 5 page")
       .post(s"$baseUrl/$route1/select-securities/ABC0123456": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-securities", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/select-securities/DEF6543210": String))
+      .check(header("Location").is(s"/$route1/select-securities/DEF6543213": String))
 
   def getSecuritiesSelectSecurities2Page: HttpRequestBuilder =
-    http("get securities select securities 2 of 2 page")
-      .get(s"$baseUrl/$route1/select-securities/DEF6543210": String)
+    http("get securities select securities 2 of 5 page")
+      .get(s"$baseUrl/$route1/select-securities/DEF6543213": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Include this security deposit in your claim?"))
 
   def postSecuritiesSelectSecurities2Page: HttpRequestBuilder =
-    http("post securities select securities 2 of 2 page")
-      .post(s"$baseUrl/$route1/select-securities/DEF6543210": String)
+    http("post securities select securities 2 of 5 page")
+      .post(s"$baseUrl/$route1/select-securities/DEF6543213": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-securities", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/check-declaration-details": String))
+     // .check(header("Location").is(s"/$route1/select-securities/DEF6543212": String))
 
   def getSecuritiesCheckDeclarationDetailsPage: HttpRequestBuilder =
     http("get securities check declaration details page")
@@ -358,54 +358,54 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .formParam("csrfToken", "${csrfToken}")
       .formParam("confirm-full-repayment", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/confirm-full-repayment/DEF6543210": String))
+      .check(header("Location").is(s"/$route1/confirm-full-repayment/DEF6543213": String))
 
   def getSecuritiesConfirmFullRepayment2of2Page: HttpRequestBuilder =
     http("get securities confirm full repayment 2 of 2 page")
-      .get(s"$baseUrl/$route1/confirm-full-repayment/DEF6543210": String)
+      .get(s"$baseUrl/$route1/confirm-full-repayment/DEF6543213": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Do you want to claim back all of this security deposit?"))
 
   def postSecuritiesConfirmFullRepayment2of2Page: HttpRequestBuilder =
     http("post securities confirm full repayment 2 of 2  page")
-      .post(s"$baseUrl/$route1/confirm-full-repayment/DEF6543210": String)
+      .post(s"$baseUrl/$route1/confirm-full-repayment/DEF6543213": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("confirm-full-repayment", "false")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/select-duties/DEF6543210": String))
+      .check(header("Location").is(s"/$route1/select-duties/DEF6543213": String))
 
   def getSecuritiesSelectDutiesPage: HttpRequestBuilder =
     http("get securities select duties page")
-      .get(s"$baseUrl/$route1/select-duties/DEF6543210": String)
+      .get(s"$baseUrl/$route1/select-duties/DEF6543213": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Select the duties you want to claim for"))
 
   def postSecuritiesSelectDutiesPage: HttpRequestBuilder =
     http("post securities select duties  page")
-      .post(s"$baseUrl/$route1/select-duties/DEF6543210": String)
+      .post(s"$baseUrl/$route1/select-duties/DEF6543213": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duties[]", "A00")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/enter-claim/DEF6543210": String))
+      .check(header("Location").is(s"/$route1/enter-claim/DEF6543213": String))
 
   def getSecuritiesEnterClaimPage: HttpRequestBuilder =
     http("get securities enter claim page")
-      .get(s"$baseUrl/$route1/enter-claim/DEF6543210": String)
+      .get(s"$baseUrl/$route1/enter-claim/DEF6543213": String)
       //.check(saveCsrfToken())
       .check(status.is(303))
 
   def getSecuritiesEnterClaimTaxCodePage: HttpRequestBuilder =
     http("get securities enter claim tax code page")
-      .get(s"$baseUrl/$route1/enter-claim/DEF6543210/A00": String)
+      .get(s"$baseUrl/$route1/enter-claim/DEF6543213/A00": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Claim details for A00 - Customs Duty"))
 
   def postSecuritiesEnterClaimTaxCodePage: HttpRequestBuilder =
     http("post securities enter claim tax code page")
-      .post(s"$baseUrl/$route1/enter-claim/DEF6543210/A00": String)
+      .post(s"$baseUrl/$route1/enter-claim/DEF6543213/A00": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-claim.securities.claim-amount", "90")
       .check(status.is(303))
@@ -436,7 +436,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .get(s"$baseUrl/$route1/letter-of-authority-confirmation": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Letter of Authority confirmation"))
+      .check(regex("Is a Letter of Authority required?"))
 
   def postSecuritiesLetterOfAuthorityPage: HttpRequestBuilder =
     http("post securities letter of authority page")

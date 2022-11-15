@@ -423,7 +423,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get choose repayment method page")
       .get(s"$baseUrl/$route1/single/choose-repayment-method": String)
       .check(status.is(200))
-      .check(regex("Select repayment method"))
+      .check(regex("Choose repayment method"))
   }
 
   def postSelectReimbursementMethodPage: HttpRequestBuilder = {

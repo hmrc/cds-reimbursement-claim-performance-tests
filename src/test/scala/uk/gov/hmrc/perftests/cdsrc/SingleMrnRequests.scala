@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,7 +115,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check the EORI associated with the Government Gateway Name is correct"))
+      .check(regex("Check these EORI details are correct"))
   }
 
   def postTheMRNCheckEoriDetailsPage : HttpRequestBuilder = {

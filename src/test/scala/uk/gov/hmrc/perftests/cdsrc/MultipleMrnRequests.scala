@@ -87,7 +87,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/multiple/enter-movement-reference-number/2": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Tell us the second MRN"))
+      .check(regex("Enter the second MRN"))
   }
 
   def postMultipleEnterSecondMRNPage : HttpRequestBuilder = {

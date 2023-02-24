@@ -22,6 +22,8 @@ import uk.gov.hmrc.perftests.cdsrc.AwesomeStubRequests._
 import uk.gov.hmrc.perftests.cdsrc.MultipleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
+import uk.gov.hmrc.perftests.cdsrc.FeatureSwitch._
+import uk.gov.hmrc.perftests.cdsrc.OverPaymentsSingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsMultipleRequests._
@@ -47,6 +49,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val MRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -111,6 +114,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val MultipleMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -169,6 +173,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val MultipleClaimsScheduledMRNJourney: List[ActionBuilder] =
     LoginTheUser("user2", "GB000000000000002") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -280,6 +285,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val RejectedGoodsSingleMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -311,7 +317,8 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsSelectDutiesPage,
         postRejectedGoodsSelectDutiesPage,
         getRejectedGoodsEnterClaimPage,
-        postRejectedGoodsEnterClaimPage,
+        getRejectedGoodsEnterClaimDutyPage,
+        postRejectedGoodsEnterClaimDutyPage,
         getRejectedGoodsCheckClaimPage,
         postRejectedGoodsCheckClaimPage,
         getRejectedGoodsInspectionDatePage,
@@ -345,6 +352,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val RejectedGoodsMultipleMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -416,6 +424,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val RejectedGoodsScheduledMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -478,7 +487,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsScheduledMrnSelectDutiesTobaccoPage,
         getRejectedGoodsScheduledMrnSelectDutiesClimatePage,
         postRejectedGoodsScheduledMrnSelectDutiesClimatePage,
-        getRejectedGoodsScheduledMrnStartPage,
+        getRejectedGoodsScheduledMrnEnterClaimPage,
         getRejectedGoodsScheduledMrnUkDutyPage,
         postRejectedGoodsScheduledMrnUkDutyPage,
         getRejectedGoodsScheduledMrnEuDutyPage,
@@ -536,6 +545,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val SecuritiesSingleBod4Journey : List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -596,6 +606,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val SecuritiesSingleBOD3Journey : List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -656,6 +667,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val SecuritiesSingleTemporaryAdmissionsJourney : List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -716,6 +728,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val SecuritiesSingleAcc14Error086Journey : List[ActionBuilder] =
     LoginTheUser("user1", "AA12345678901234Z") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -733,6 +746,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val SecuritiesSingleAcc14Error072Journey : List[ActionBuilder] =
     LoginTheUser("user1", "AA12345678901234Z") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -750,6 +764,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val SecuritiesSingleTPI04ErrorJourney : List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
+        cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -763,5 +778,74 @@ class CDSRSimulation extends PerformanceTestRunner {
       )
   setup("Securities-Single-MRN-TPI04-journey", "Securities Single MRN with TPI04 journey") withActions
     (SecuritiesSingleTPI04ErrorJourney: _*)
+
+  val OverPaymentsSingleMRNJourney: List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000001") ++
+      List[ActionBuilder](
+        cdsOverPaymentsV2Enable,
+        getOverPaymentsMRNCdsrStartPage,
+        getOverPaymentsMRNCheckEoriDetailsPage,
+        postOverPaymentsMRNCheckEoriDetailsPage,
+        getOverPaymentsSelectClaimTypePage,
+        postOverPaymentsSelectClaimTypePage,
+        getOverpaymentsChooseHowManyMrnsPage,
+        postOverpaymentsChooseHowManyMrnsPage,
+        getOverpaymentsMRNPage,
+        postOverpaymentsMRNPage,
+        getOverpaymentsMRNImporterEoriEntryPage,
+        postOverpaymentsMRNImporterEoriEntryPage,
+        getOverpaymentsMRNDeclarantEoriEntryPage,
+        postOverpaymentsMRNDeclarantEoriEntryPage,
+        getOverpaymentsMRNCheckDeclarationPage,
+        postOverpaymentsMRNCheckDeclarationPage,
+        getOverpaymentsMRNClaimantDetailsPage,
+        getOverpaymentsMrnChangeContactDetailsPage,
+        postOverpaymentsMrnChangeContactDetailsPage,
+        getOverpaymentsMrnClaimantDetailsCheckPage1,
+        postOverpaymentsMrnClaimantDetailsCheckPage,
+        getOverpaymentsMRNClaimNorthernIrelandPage,
+        postOverpaymentsMRNClaimNorthernIrelandPage,
+        getOverpaymentsMRNChooseBasisOfClaimPage,
+        postOverpaymentsMRNChooseBasisOfClaimPage,
+        getOverpaymentsDuplicateMRNPage,
+        postOverpaymentsDuplicateMRNPage,
+        getOverpaymentsMRNCheckDuplicateDeclarationPage,
+        postOverpaymentsMRNCheckDuplicateDeclarationPage,
+        getOverpaymentsMRNEnterCommodityDetailsPage,
+        postOverpaymentsMRNEnterCommodityDetailsPage,
+        getOverpaymentsMRNSelectDutiesPage,
+        postOverpaymentsMRNSelectDutiesPage,
+        getOverpaymentsMRNStartClaimPage,
+        getOverpaymentsMRNEnterClaimPage,
+        postOverpaymentsMRNEnterClaimPage,
+        getOverpaymentsMRNCheckClaimPage,
+        postOverpaymentsMRNCheckClaimPage,
+        getOverpaymentsSelectReimbursementMethodPage,
+        postOverpaymentsSelectReimbursementMethodPage,
+        getOverpaymentsCheckBankDetailsPage,
+        getOverpaymentsBankAccountTypePage,
+        postOverpaymentsBankAccountTypePage,
+        getOverpaymentsEnterBankDetailsPage,
+        postOverpaymentsEnterBankDetailsPage,
+        getOverpaymentsChooseFileTypePage,
+        postOverpaymentsChooseFileTypesPage,
+        getOverpaymentsChooseFilesPage,
+        getOverpaymentsUploadCustomsDocumentsChooseFilePage,
+        postOverpaymentsUploadCustomsDocumentsChooseFilePage,
+        getOverpaymentsScanProgressWaitPage,
+        ) ++
+        getOverpaymentsFileVerificationStatusPage ++
+        List[ActionBuilder](
+        getOverpaymentsCheckYourAnswersPage,
+        postOverpaymentsCheckYourAnswersPage,
+        getOverpaymentsClaimSubmittedPage
+      )
+
+  setup("OverPayments-Single-MRN-journey", "Overpayments Single Movement reference number journey") withActions
+    (OverPaymentsSingleMRNJourney: _*)
+
+
+
+
       runSimulation()
 }

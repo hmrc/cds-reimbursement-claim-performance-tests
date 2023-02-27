@@ -244,13 +244,19 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def getRejectedGoodsEnterClaimPage: HttpRequestBuilder =
     http("get the rejected goods enter claim page")
       .get(s"$baseUrl/$route1/single/enter-claim": String)
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/single/enter-claim/A90": String))
+
+  def getRejectedGoodsEnterClaimDutyPage: HttpRequestBuilder =
+    http("get the rejected goods enter claim tax duty page")
+      .get(s"$baseUrl/$route1/single/enter-claim/A90": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Claim details for A90 - Definitive Countervailing Duty"))
 
-  def postRejectedGoodsEnterClaimPage: HttpRequestBuilder =
-    http("post rejected goods enter claim page")
-      .post(s"$baseUrl/$route1/single/enter-claim": String)
+  def postRejectedGoodsEnterClaimDutyPage: HttpRequestBuilder =
+    http("post rejected goods enter claim duty page")
+      .post(s"$baseUrl/$route1/single/enter-claim/A90": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-claim.rejected-goods.claim-amount", "£90")
       .check(status.is(303))

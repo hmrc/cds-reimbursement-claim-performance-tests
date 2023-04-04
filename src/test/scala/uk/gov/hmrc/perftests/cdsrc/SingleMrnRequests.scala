@@ -132,7 +132,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route/select-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose type of claim"))
+      .check(regex("Start a new claim"))
   }
 
   def postSelectClaimTypePage : HttpRequestBuilder = {
@@ -294,7 +294,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/single/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the basis for claim"))
+      .check(regex("Choose the reason for making this claim"))
   }
 
   def postTheMRNChooseBasisOfClaimPage : HttpRequestBuilder = {
@@ -407,7 +407,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get the MRN check claim page")
       .get(s"$baseUrl/$route1/single/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the claim total for the MRN"))
+      .check(regex("Check the repayment claim total for the MRN"))
   }
 
   def postTheMRNCheckClaimPage : HttpRequestBuilder = {
@@ -498,7 +498,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route1/single/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "AirWayBill")
+      .formParam("choose-file-type", "AirWayBill")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/supporting-evidence/choose-files": String))
   }

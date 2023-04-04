@@ -45,7 +45,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route/select-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose type of claim"))
+      .check(regex("Start a new claim"))
 
   def postRejectedGoodsSelectClaimTypePage: HttpRequestBuilder =
     http("post rejected goods select claim type page")
@@ -171,7 +171,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route1/single/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the basis for claim"))
+      .check(regex("Choose the reason for making this claim"))
 
   def postRejectedGoodsChooseBasisForClaimPage: HttpRequestBuilder =
     http("post rejected goods choose basis for claim page")
@@ -201,7 +201,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route1/single/choose-disposal-method": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose what you intend to do with the goods"))
+      .check(regex("Choose how you will dispose of the goods"))
 
   def postRejectedGoodsChooseDisposalMethodPage: HttpRequestBuilder =
     http("post rejected goods choose disposal method page")
@@ -267,7 +267,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route1/single/check-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check the claim total for the MRN"))
+      .check(regex("Check the repayment claim total for the MRN"))
 
   def postRejectedGoodsCheckClaimPage: HttpRequestBuilder =
     http("post rejected goods check claim page")
@@ -367,7 +367,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route1/single/choose-file-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the type of supporting documents you are uploading"))
+      .check(regex("Add supporting documents to your claim"))
 
   def postRejectedGoodsChooseFileTypesPage: HttpRequestBuilder =
     http("post rejected goods choose file type page")

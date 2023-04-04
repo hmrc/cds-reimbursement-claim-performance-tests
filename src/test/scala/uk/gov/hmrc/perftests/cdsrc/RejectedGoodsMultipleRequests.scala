@@ -44,7 +44,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route/select-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose type of claim"))
+      .check(regex("Start a new claim"))
   }
 
   def postRejectedGoodsMultipleSelectClaimTypePage : HttpRequestBuilder = {
@@ -221,7 +221,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/multiple/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the basis for claim"))
+      .check(regex("Choose the reason for making this claim"))
   }
 
   def postRejectedGoodsMultipleChooseBasisForClaimPage : HttpRequestBuilder = {
@@ -255,7 +255,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/multiple/choose-disposal-method": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose what you intend to do with the goods"))
+      .check(regex("Choose how you will dispose of the goods"))
   }
 
   def postRejectedGoodsMultipleChooseDisposalMethodPage : HttpRequestBuilder = {
@@ -453,7 +453,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/multiple/choose-file-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the type of supporting documents you are uploading"))
+      .check(regex("Add supporting documents to your claim"))
   }
 
   def postRejectedGoodsMultipleChooseFileTypesPage : HttpRequestBuilder = {

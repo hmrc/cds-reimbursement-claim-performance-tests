@@ -182,7 +182,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/multiple/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the basis for claim"))
+      .check(regex("Choose the reason for making this claim"))
   }
 
   def postMultipleChooseBasisOfClaimPage : HttpRequestBuilder = {
@@ -434,7 +434,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route1/multiple/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "AirWayBill")
+      .formParam("choose-file-type", "AirWayBill")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/supporting-evidence/choose-files": String))
   }

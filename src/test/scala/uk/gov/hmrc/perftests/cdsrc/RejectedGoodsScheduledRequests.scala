@@ -44,7 +44,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .get(s"$baseUrl/$route/select-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose type of claim"))
+      .check(regex("Start a new claim"))
   }
 
   def postRejectedGoodsScheduledSelectClaimTypePage : HttpRequestBuilder = {
@@ -288,7 +288,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .get(s"$baseUrl/$route1/scheduled/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the basis for claim"))
+      .check(regex("Choose the reason for making this claim"))
   }
 
   def postRejectedGoodsScheduledChooseBasisForClaimPage : HttpRequestBuilder = {
@@ -322,7 +322,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .get(s"$baseUrl/$route1/scheduled/choose-disposal-method": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose what you intend to do with the goods"))
+      .check(regex("Choose how you will dispose of the goods"))
   }
 
   def postRejectedGoodsScheduledChooseDisposalMethodPage : HttpRequestBuilder = {
@@ -923,7 +923,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .get(s"$baseUrl/$route1/scheduled/choose-file-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the type of supporting documents you are uploading"))
+      .check(regex("Add supporting documents to your claim"))
   }
 
   def postRejectedGoodsScheduledChooseFileTypesPage : HttpRequestBuilder = {

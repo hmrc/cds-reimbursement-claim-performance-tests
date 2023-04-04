@@ -71,7 +71,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route/select-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose type of claim"))
+      .check(regex("Start a new claim"))
   }
 
   def postOverPaymentsSelectClaimTypePage: HttpRequestBuilder = {
@@ -233,7 +233,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/v2/single/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the basis for claim"))
+      .check(regex("Choose the reason for making this claim"))
   }
 
   def postOverpaymentsMRNChooseBasisOfClaimPage: HttpRequestBuilder = {
@@ -346,7 +346,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
     http("get the MRN check claim page")
       .get(s"$baseUrl/$route1/v2/single/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the claim total for the MRN"))
+      .check(regex("Check the repayment claim total for the MRN"))
   }
 
   def postOverpaymentsMRNCheckClaimPage: HttpRequestBuilder = {
@@ -417,7 +417,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/v2/single/choose-file-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the type of supporting documents you are uploading"))
+      .check(regex("Add supporting documents to your claim"))
 
   def postOverpaymentsChooseFileTypesPage: HttpRequestBuilder =
     http("post overpayments choose file type page")

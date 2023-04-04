@@ -44,7 +44,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .get(s"$baseUrl/$route/select-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose type of claim"))
+      .check(regex("Start a new claim"))
 
   def postSecuritiesSelectClaimTypePage: HttpRequestBuilder =
     http("post securities select claim type page")

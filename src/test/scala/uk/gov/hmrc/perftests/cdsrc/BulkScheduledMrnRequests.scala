@@ -236,7 +236,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .get(s"$baseUrl/$route1/scheduled/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the basis for claim"))
+      .check(regex("Choose the reason for making this claim"))
 
   def postScheduledMrnChooseBasisOfClaimPage: HttpRequestBuilder =
     http("post Scheduled choose basis of claim page")
@@ -826,7 +826,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route1/scheduled/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("supporting-evidence.choose-document-type", "AirWayBill")
+      .formParam("choose-file-type", "AirWayBill")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/supporting-evidence/choose-files": String))
 

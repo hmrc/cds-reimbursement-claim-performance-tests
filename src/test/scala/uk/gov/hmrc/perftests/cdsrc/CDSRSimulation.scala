@@ -23,6 +23,7 @@ import uk.gov.hmrc.perftests.cdsrc.MultipleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.FeatureSwitch._
+import uk.gov.hmrc.perftests.cdsrc.OverPaymentsBulkMultipleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.OverPaymentsSingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
@@ -843,6 +844,44 @@ class CDSRSimulation extends PerformanceTestRunner {
 
   setup("OverPayments-Single-MRN-journey", "Overpayments Single Movement reference number journey") withActions
     (OverPaymentsSingleMRNJourney: _*)
+
+  val OverPaymentsBulkMultipleV2MRNJourney: List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000001") ++
+      List[ActionBuilder](
+        cdsOverPaymentsV2Enable,
+        getOverPaymentsMRNCdsrStartPage,
+        getOverPaymentsMRNCheckEoriDetailsPage,
+        postOverPaymentsMRNCheckEoriDetailsPage,
+        getOverPaymentsSelectClaimTypePage,
+        postOverPaymentsSelectClaimTypePage,
+        getOverpaymentsChooseHowManyMrnsPage,
+        postOverpaymentsMultipleChooseHowManyMrnsPage,
+        getOverpaymentsMultipleMrnPage,
+        postOverpaymentsMultipleMrnPage,
+        getOverpaymentsMultipleMrnCheckDeclarationPage,
+        postOverpaymentsMultipleMrnCheckDeclarationPage,
+        getOverpaymentsMultipleEnterSecondMRNPage,
+        postOverpaymentsMultipleEnterSecondMRNPage,
+        getOverpaymentsMultipleCheckMRNPage,
+        postOverpaymentsMultipleCheckMRNPage,
+        getOverpaymentsMultipleMrnClaimantDetailsPage,
+        getOverpaymentsMultipleChangeContactDetailsPage,
+        postOverpaymentsMultipleChangeContactDetailsPage,
+        getOverpaymentsMultipleClaimantDetailsCheckPage1,
+        postOverpaymentsMultipleClaimantDetailsCheckPage,
+        getOverpaymentsMultipleClaimMrnClaimNorthernIrelandPage,
+        postOverpaymentsMultipleClaimNorthernIrelandPage,
+
+
+
+
+
+
+
+      )
+
+  setup("OverPayments-Bulk-Multiple-V2-MRN-journey", "Overpayments Bulk Multiple V2 Movement reference number journey") withActions
+    (OverPaymentsBulkMultipleV2MRNJourney: _*)
 
 
 

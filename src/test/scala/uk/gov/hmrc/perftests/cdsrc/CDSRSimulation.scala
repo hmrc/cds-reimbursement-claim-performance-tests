@@ -23,6 +23,8 @@ import uk.gov.hmrc.perftests.cdsrc.MultipleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
 import uk.gov.hmrc.perftests.cdsrc.FeatureSwitch._
+import uk.gov.hmrc.perftests.cdsrc.OverPaymentsScheduledMrnRequests._
+import uk.gov.hmrc.perftests.cdsrc.OverPaymentsBulkMultipleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.OverPaymentsSingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
@@ -844,8 +846,183 @@ class CDSRSimulation extends PerformanceTestRunner {
   setup("OverPayments-Single-MRN-journey", "Overpayments Single Movement reference number journey") withActions
     (OverPaymentsSingleMRNJourney: _*)
 
+  val OverPaymentsBulkMultipleV2MRNJourney: List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000001") ++
+      List[ActionBuilder](
+        cdsOverPaymentsV2Enable,
+        getOverPaymentsMRNCdsrStartPage,
+        getOverPaymentsMRNCheckEoriDetailsPage,
+        postOverPaymentsMRNCheckEoriDetailsPage,
+        getOverPaymentsSelectClaimTypePage,
+        postOverPaymentsSelectClaimTypePage,
+        getOverpaymentsChooseHowManyMrnsPage,
+        postOverpaymentsMultipleChooseHowManyMrnsPage,
+        getOverpaymentsMultipleMrnPage,
+        postOverpaymentsMultipleMrnPage,
+        getOverpaymentsMultipleMrnCheckDeclarationPage,
+        postOverpaymentsMultipleMrnCheckDeclarationPage,
+        getOverpaymentsMultipleEnterSecondMRNPage,
+        postOverpaymentsMultipleEnterSecondMRNPage,
+        getOverpaymentsMultipleCheckMRNPage,
+        postOverpaymentsMultipleCheckMRNPage,
+        getOverpaymentsMultipleMrnClaimantDetailsPage,
+        getOverpaymentsMultipleChangeContactDetailsPage,
+        postOverpaymentsMultipleChangeContactDetailsPage,
+        getOverpaymentsMultipleClaimantDetailsCheckPage1,
+        postOverpaymentsMultipleClaimantDetailsCheckPage,
+        getOverpaymentsMultipleClaimMrnClaimNorthernIrelandPage,
+        postOverpaymentsMultipleClaimNorthernIrelandPage,
+        getOverpaymentsMultipleChooseBasisOfClaimPage,
+        postOverpaymentsMultipleChooseBasisOfClaimPage,
+        getOverpaymentsMultipleEnterCommodityDetailsPage,
+        postOverpaymentsMultipleEnterCommodityDetailsPage,
+        getOverpaymentsMultipleSelectDutiesOnePage,
+        postOverpaymentsMultipleSelectDutiesOnePage,
+        getOverpaymentsMultipleSelectDutiesOneDutyPage,
+        postOverpaymentsMultipleSelectDutiesOneDutyPage,
+        getOverpaymentsMultipleSelectDutiesSecondPage,
+        postOverpaymentsMultipleSelectDutiesSecondPage,
+        getOverpaymentsMultipleSelectDutiesSecondDutyPage,
+        postOverpaymentsMultipleSelectDutiesSecondDutyPage,
+        getOverpaymentsMultipleCheckClaimPage,
+        postOverpaymentsMultipleCheckClaimPage,
+        getOverpaymentsMultipleCheckBankDetailsPage,
+        getOverpaymentsMultipleBankAccountTypePage,
+        postOverpaymentsMultipleBankAccountTypePage,
+        getOverpaymentsMultipleEnterBankAccountDetailsPage,
+        postOverpaymentsMultipleEnterBankAccountDetailsPage,
+        getOverpaymentsMultipleChooseFileTypePage,
+        postOverpaymentsMultipleChooseFileTypesPage,
+        getOverpaymentsMultipleChooseFilesPage,
+        getOverpaymentsUploadCustomsDocumentsChooseFilePage,
+        postOverpaymentsUploadCustomsDocumentsChooseFilePage,
+        getOverpaymentsScanProgressWaitPage,
+        ) ++
+        getOverpaymentsFileVerificationStatusPage ++
+      List[ActionBuilder](
+        getOverpaymentsMultipleCheckYourAnswersPage,
+        postOverpaymentsMultipleCheckYourAnswersPage,
+        getOverpaymentsMultipleClaimSubmittedPage
+        )
+
+  setup("OverPayments-Bulk-Multiple-V2-MRN-journey", "Overpayments Bulk Multiple V2 Movement reference number journey") withActions
+    (OverPaymentsBulkMultipleV2MRNJourney: _*)
 
 
+  val OverPaymentsBulkScheduledV2MRNJourney: List[ActionBuilder] =
+    LoginTheUser("user1", "GB000000000000002") ++
+      List[ActionBuilder](
+        cdsOverPaymentsV2Enable,
+        getOverPaymentsMRNCdsrStartPage,
+        getOverPaymentsMRNCheckEoriDetailsPage,
+        postOverPaymentsMRNCheckEoriDetailsPage,
+        getOverPaymentsSelectClaimTypePage,
+        postOverPaymentsSelectClaimTypePage,
+        getOverpaymentsChooseHowManyMrnsPage,
+        postOverpaymentsScheduledChooseHowManyMrnsPage,
+        getOverpaymentsScheduledMRNPage,
+        postOverpaymentsScheduledMrnPage,
+        getOverpaymentsScheduledImporterEoriEntryPage,
+        postOverpaymentsScheduledImporterEoriEntryPage,
+        getOverpaymentsScheduledDeclarantEoriEntryPage,
+        postOverpaymentsScheduledDeclarantEoriEntryPage,
+        getOverpaymentsScheduledMrnCheckDeclarationPage,
+        postOverpaymentsScheduledMrnCheckDeclarationPage,
+        getOverpaymentsScheduledUploadMrnListPage,
+        getScheduledUploadDocumentsChooseFilePage,
+        postScheduledUploadDocumentsChooseFilePagePage,
+        getScheduledDocumentUploadProgressPage,
+      ) ++
+      getFileVerificationStatusPage ++
+      List[ActionBuilder](
+        getOverpaymentsScheduledClaimantDetailsPage,
+        getOverpaymentsScheduledContactDetailsPage,
+        postOverpaymentsScheduledChangeContactDetailsPage,
+        getOverpaymentsScheduledMrnClaimantDetailsCheckPage1,
+        postOverpaymentsScheduledMrnClaimantDetailsCheckPage,
+        getOverpaymentsScheduledMrnClaimNorthernIrelandPage,
+        postOverpaymentsScheduledMrnClaimNorthernIrelandPage,
+        getOverpaymentsScheduledChooseBasisForClaimPage,
+        postOverpaymentsScheduledChooseBasisForClaimPage,
+        getOverpaymentsScheduledEnterAdditionalDetailsPage,
+        postOverpaymentsScheduledMrnEnterCommodityDetailsPage,
+        getOverpaymentsScheduledMrnSelectDutiesPage,
+        postOverpaymentsScheduledMrnSelectDutiesPage,
+        getOverpaymentsScheduledMrnSelectDutiesUkDutyPage,
+        postOverpaymentsMrnSelectDutiesUkDutyPage,
+        getOverpaymentsScheduledMrnSelectDutiesEuDutyPage,
+        postOverpaymentsScheduledMrnSelectDutiesEuDutyPage,
+        getOverpaymentsScheduledMrnSelectDutiesBeerPage,
+        postOverpaymentsScheduledMrnSelectDutiesBeerPage,
+        getOverpaymentsScheduledMrnSelectDutiesWinePage,
+        postOverpaymentsScheduledMrnSelectDutiesWinePage,
+        getOverpaymentsScheduledMrnSelectDutiesMadeWinePage,
+        postOverpaymentsScheduledMrnSelectDutiesMadeWinePage,
+        getOverpaymentsScheduledMrnSelectDutiesLowAlcoholBeveragesPage,
+        postOverpaymentsScheduledMrnSelectDutiesLowAlcoholBeveragesPage,
+        getOverpaymentsScheduledMrnSelectDutiesSpiritsPage,
+        postOverpaymentsScheduledMrnSelectDutiesSpiritsPage,
+        getOverpaymentsScheduledMrnSelectDutiesCiderPerryPage,
+        postOverpaymentsScheduledMrnSelectDutiesCiderPerryPage,
+        getOverpaymentsScheduledMrnSelectDutiesHydrocarbonOilsPage,
+        postOverpaymentsScheduledMrnSelectDutiesHydrocarbonOilsPage,
+        getOverpaymentsScheduledMrnSelectDutiesBiofuelsPage,
+        postOverpaymentsScheduledMrnSelectDutiesBiofuelsPage,
+        getOverpaymentsScheduledMrnSelectDutiesMiscellaneousPage,
+        postOverpaymentsScheduledMrnSelectDutiesMiscellaneousPage,
+        getOverpaymentsScheduledMrnSelectDutiesTobaccoPage,
+        postOverpaymentsScheduledMrnSelectDutiesTobaccoPage,
+        getOverpaymentsScheduledMrnSelectDutiesClimatePage,
+        postOverpaymentsScheduledMrnSelectDutiesClimatePage,
+        getOverpaymentsScheduledMrnEnterClaimPage,
+        getOverpaymentsScheduledMrnUkDutyPage,
+        postOverpaymentsScheduledMrnUkDutyPage,
+        getOverpaymentsScheduledMrnEuDutyPage,
+        postOverpaymentsScheduledMrnEuDutyPage,
+        getOverpaymentsScheduledMrnBeerPage,
+        postOverpaymentsScheduledMrnBeerPage,
+        getOverpaymentsScheduledMrnWinePage,
+        postOverpaymentsScheduledMrnWinePage,
+        getOverpaymentsScheduledMrnMadeWinePage,
+        postOverpaymentsScheduledMrnMadeWinePage,
+        getOverpaymentsScheduledMrnLowAlcoholPage,
+        postOverpaymentsScheduledMrnLowAlcoholPage,
+        getOverpaymentsScheduledMrnSpiritsPage,
+        postOverpaymentsScheduledMrnSpiritsPage,
+        getOverpaymentsScheduledMrnCiderPerryPage,
+        postOverpaymentsScheduledMrnCiderPerryPage,
+        getOverpaymentsScheduledMrnHydroOilsPage,
+        postOverpaymentsScheduledMrnHydroOilsPage,
+        getOverpaymentsScheduledMrnBiofuelsPage,
+        postOverpaymentsScheduledMrnBiofuelsPage,
+        getOverpaymentsScheduledMrnRoadFuelsPage,
+        postOverpaymentsScheduledMrnRoadFuelsPage,
+        getOverpaymentsScheduledMrnTobaccoPage,
+        postOverpaymentsScheduledMrnTobaccoPage,
+        getOverpaymentsScheduledMrnClimateLevyPage,
+        postOverpaymentsScheduledMrnClimateLevyPage,
+        getOverpaymentsScheduledMrnCheckClaimPage,
+        postOverpaymentsScheduledMrnCheckClaimPage,
+        getOverpaymentsScheduledMrnCheckBankDetailsPage,
+        getOverpaymentsScheduledMRNBankAccountTypePage,
+        postOverpaymentsScheduledMRNBankAccountTypePage,
+        getOverpaymentsScheduledMRNEnterBankAccountDetailsPage,
+        postOverpaymentsScheduledEnterBankAccountDetailsPage,
+        getOverpaymentsScheduledChooseFileTypePage,
+        postOverpaymentsScheduledChooseFileTypesPage,
+        getOverpaymentsScheduledChooseFilesPage,
+        getOverpaymentsUploadCustomsDocumentsChooseFilePage,
+        postOverpaymentsUploadCustomsDocumentsChooseFilePage,
+        getOverpaymentsScanProgressWaitPage,
+      ) ++
+      getOverpaymentsFileVerificationStatusPage ++
+      List[ActionBuilder](
+        getOverpaymentsScheduledCheckYourAnswersPage,
+        postOverpaymentsScheduledCheckYourAnswersPage,
+        getOverpaymentsScheduledClaimSubmittedPage
+      )
 
-      runSimulation()
+  setup("OverPayments-Bulk-Scheduled-V2-MRN-journey", "Overpayments Bulk Scheduled V2 Movement reference number journey") withActions
+    (OverPaymentsBulkScheduledV2MRNJourney: _*)
+    runSimulation()
 }

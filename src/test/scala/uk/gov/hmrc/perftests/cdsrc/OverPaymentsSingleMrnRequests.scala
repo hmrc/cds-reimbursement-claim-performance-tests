@@ -105,7 +105,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/v2/single/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the MRN"))
+      .check(regex("Enter the Movement Reference Number (.*)"))
   }
 
   def postOverpaymentsMRNPage : HttpRequestBuilder = {
@@ -240,7 +240,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
     http("post the MRN choose basis of claim page")
       .post(s"$baseUrl/$route1/v2/single/choose-basis-for-claim": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-basis-for-claim", "0")
+      .formParam("select-basis-for-claim", "DuplicateEntry")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/v2/single/enter-duplicate-movement-reference-number": String))
   }

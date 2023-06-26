@@ -53,7 +53,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/multiple/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the first MRN"))
+      .check(regex("Enter the first Movement Reference Number (.*)"))
   }
 
   def postMultipleMrnPage : HttpRequestBuilder = {
@@ -87,7 +87,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/multiple/enter-movement-reference-number/2": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the second MRN"))
+      .check(regex("Enter the second Movement Reference Number (.*)"))
   }
 
   def postMultipleEnterSecondMRNPage : HttpRequestBuilder = {
@@ -104,7 +104,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/multiple/check-movement-reference-numbers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("All the MRNs entered in this claim"))
+      .check(regex("Movement Reference Numbers (.*) added to your claim"))
   }
 
   def postMultipleCheckMRNPage : HttpRequestBuilder = {
@@ -189,7 +189,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post multiple MRN choose basis of claim page")
       .post(s"$baseUrl/$route1/multiple/choose-basis-for-claim": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-basis-for-claim", "3")
+      .formParam("select-basis-for-claim", "InwardProcessingReliefFromCustomsDuty")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/enter-additional-details": String))
   }
@@ -285,7 +285,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/multiple/check-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check the repayment claim totals for all MRNs"))
+      .check(regex("Check the repayment totals for this claim"))
   }
 
   def postMultipleCheckClaimPage : HttpRequestBuilder = {

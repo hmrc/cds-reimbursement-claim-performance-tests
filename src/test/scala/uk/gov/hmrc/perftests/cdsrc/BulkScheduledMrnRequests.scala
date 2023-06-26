@@ -53,7 +53,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .get(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the first MRN"))
+      .check(regex("Enter the first Movement Reference Number (.*)"))
 
   def postBulkScheduledMrnPage: HttpRequestBuilder =
     http("post Scheduled MRN page")
@@ -102,7 +102,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(savePolicy)
       .check(status.is(200))
       .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
-      .check(regex("Add a document which shows all the MRNs in this claim"))
+      .check(regex("Add a document showing all MRNs in this claim"))
 
   def postScheduledUploadDocumentsChooseFilePagePage: HttpRequestBuilder =
     http("post scheduled upload documents choose file page")
@@ -242,7 +242,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("post Scheduled choose basis of claim page")
       .post(s"$baseUrl/$route1/scheduled/choose-basis-for-claim": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-basis-for-claim", "3")
+      .formParam("select-basis-for-claim", "DutySuspension")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-additional-details": String))
 

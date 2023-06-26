@@ -56,7 +56,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/v2/multiple/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the first MRN"))
+      .check(regex("Enter the first Movement Reference Number (.*)"))
 
   def postOverpaymentsMultipleMrnPage : HttpRequestBuilder =
     http("post overpayments multiple MRN page")
@@ -87,7 +87,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/v2/multiple/enter-movement-reference-number/2": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the second MRN"))
+      .check(regex("Enter the second Movement Reference Number (.*)"))
 
   def postOverpaymentsMultipleEnterSecondMRNPage : HttpRequestBuilder =
     http("post overpayments multiple second MRN page")
@@ -102,7 +102,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/v2/multiple/check-movement-reference-numbers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("All the MRNs entered in this claim"))
+      .check(regex("Movement Reference Numbers (.*) added to your claim"))
 
   def postOverpaymentsMultipleCheckMRNPage : HttpRequestBuilder =
     http("post overpayments multiple check MRN page")
@@ -174,7 +174,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
     http("post overpayments multiple MRN choose basis of claim page")
       .post(s"$baseUrl/$route1/v2/multiple/choose-basis-for-claim": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-basis-for-claim", "3")
+      .formParam("select-basis-for-claim", "PersonalEffects")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/v2/multiple/enter-additional-details": String))
 
@@ -258,7 +258,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/v2/multiple/check-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check the repayment claim totals for all MRNs"))
+      .check(regex("Check the repayment totals for this claim"))
 
   def postOverpaymentsMultipleCheckClaimPage : HttpRequestBuilder =
     http("post overpayments multiple MRN check claim page")

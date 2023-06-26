@@ -78,7 +78,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .get(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the first MRN"))
+      .check(regex("Enter the first Movement Reference Number (.*)"))
   }
 
   def postRejectedGoodsScheduledMRNPage : HttpRequestBuilder = {
@@ -400,7 +400,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "A00")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/eu-duty": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/uk-duty/A00": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesEuDutyPage : HttpRequestBuilder = {
@@ -416,7 +416,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "A50")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/beer": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/eu-duty/A50": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesBeerPage : HttpRequestBuilder = {
@@ -432,7 +432,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "440")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/wine": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/beer/440": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesWinePage : HttpRequestBuilder = {
@@ -448,7 +448,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "413")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/made-wine": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/wine/413": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesMadeWinePage : HttpRequestBuilder = {
@@ -464,7 +464,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "423")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/low-alcohol-beverages": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/made-wine/423": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesLowAlcoholBeveragesPage : HttpRequestBuilder = {
@@ -480,7 +480,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "435")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/spirits": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/low-alcohol-beverages/435": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesSpiritsPage : HttpRequestBuilder = {
@@ -496,7 +496,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "462")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/cider-perry": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/spirits/462": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesCiderPerryPage : HttpRequestBuilder = {
@@ -512,7 +512,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "483")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/hydrocarbon-oils": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/cider-perry/483": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesHydrocarbonOilsPage : HttpRequestBuilder = {
@@ -528,7 +528,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "551")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/biofuels": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/hydrocarbon-oils/551": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesBiofuelsPage : HttpRequestBuilder = {
@@ -544,7 +544,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "589")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/miscellaneous-road-fuels": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/biofuels/589": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesMiscellaneousPage : HttpRequestBuilder = {
@@ -560,7 +560,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "592")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/tobacco": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/miscellaneous-road-fuels/592": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesTobaccoPage : HttpRequestBuilder = {
@@ -576,7 +576,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "611")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/select-duties/climate-change-levy": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/tobacco/611": String))
   }
 
   def getRejectedGoodsScheduledMrnSelectDutiesClimatePage : HttpRequestBuilder = {
@@ -592,7 +592,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "99A")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-claim/climate-change-levy/99A": String))
   }
 
   def getRejectedGoodsScheduledMrnEnterClaimPage : HttpRequestBuilder = {
@@ -615,7 +615,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "3.50")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/eu-duty/A50": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/eu-duty": String))
   }
 
   def getRejectedGoodsScheduledMrnEuDutyPage: HttpRequestBuilder = {
@@ -632,7 +632,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "4.50")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/beer/440": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/beer": String))
   }
 
   def getRejectedGoodsScheduledMrnBeerPage : HttpRequestBuilder = {
@@ -649,7 +649,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/wine/413": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/wine": String))
   }
 
   def getRejectedGoodsScheduledMrnWinePage : HttpRequestBuilder = {
@@ -666,7 +666,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/made-wine/423": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/made-wine": String))
   }
 
   def getRejectedGoodsScheduledMrnMadeWinePage : HttpRequestBuilder = {
@@ -683,7 +683,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/low-alcohol-beverages/435": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/low-alcohol-beverages": String))
   }
 
   def getRejectedGoodsScheduledMrnLowAlcoholPage : HttpRequestBuilder = {
@@ -700,7 +700,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/spirits/462": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/spirits": String))
   }
 
   def getRejectedGoodsScheduledMrnSpiritsPage : HttpRequestBuilder = {
@@ -717,7 +717,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/cider-perry/483": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/cider-perry": String))
   }
 
   def getRejectedGoodsScheduledMrnCiderPerryPage : HttpRequestBuilder = {
@@ -734,7 +734,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/hydrocarbon-oils/551": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/hydrocarbon-oils": String))
   }
 
   def getRejectedGoodsScheduledMrnHydroOilsPage : HttpRequestBuilder = {
@@ -751,7 +751,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/biofuels/589": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/biofuels": String))
   }
 
   def getRejectedGoodsScheduledMrnBiofuelsPage : HttpRequestBuilder = {
@@ -768,7 +768,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/miscellaneous-road-fuels/592": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/miscellaneous-road-fuels": String))
   }
 
   def getRejectedGoodsScheduledMrnRoadFuelsPage : HttpRequestBuilder = {
@@ -785,7 +785,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/tobacco/611": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/tobacco": String))
   }
 
   def getRejectedGoodsScheduledMrnTobaccoPage : HttpRequestBuilder = {
@@ -802,7 +802,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.paid-amount", "10")
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-claim/climate-change-levy/99A": String))
+      .check(header("Location").is(s"/$route1/scheduled/select-duties/climate-change-levy": String))
   }
 
   def getRejectedGoodsScheduledMrnClimateLevyPage : HttpRequestBuilder = {
@@ -827,7 +827,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .get(s"$baseUrl/$route1/scheduled/check-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check the repayment claim totals for all MRNs"))
+      .check(regex("Check the repayment totals for this claim"))
   }
 
   def postRejectedGoodsScheduledCheckClaimPage : HttpRequestBuilder = {

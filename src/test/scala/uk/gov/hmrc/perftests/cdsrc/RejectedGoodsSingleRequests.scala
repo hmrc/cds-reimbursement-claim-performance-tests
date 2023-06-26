@@ -75,7 +75,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route1/single/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the MRN"))
+      .check(regex("Enter the Movement Reference Number (.*)"))
 
   def postRejectedGoodsMRNPage: HttpRequestBuilder =
     http("post The MRN page")

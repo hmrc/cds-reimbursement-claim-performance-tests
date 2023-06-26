@@ -56,7 +56,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .get(s"$baseUrl/$route1/v2/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the first MRN"))
+      .check(regex("Enter the first Movement Reference Number (.*)"))
 
   def postOverpaymentsScheduledMrnPage: HttpRequestBuilder =
     http("post overpayments scheduled MRN page")
@@ -179,7 +179,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
     http("post overpayments scheduled choose basis for claim page")
       .post(s"$baseUrl/$route1/v2/scheduled/choose-basis-for-claim" : String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-basis-for-claim", "7")
+      .formParam("select-basis-for-claim", "DutySuspension")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/v2/scheduled/enter-additional-details": String))
 
@@ -237,7 +237,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "A00")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/eu-duty": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/uk-duty/A00": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesEuDutyPage: HttpRequestBuilder =
     http("get overpayments select duties eu duty page")
@@ -251,7 +251,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "A50")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/beer": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/eu-duty/A50": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesBeerPage: HttpRequestBuilder =
     http("get overpayments select duties beer page")
@@ -426,7 +426,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "3.50")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/eu-duty/A50": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/eu-duty": String))
 
   def getOverpaymentsScheduledMrnEuDutyPage: HttpRequestBuilder =
     http("get overpayments select duties eu duty tax page")

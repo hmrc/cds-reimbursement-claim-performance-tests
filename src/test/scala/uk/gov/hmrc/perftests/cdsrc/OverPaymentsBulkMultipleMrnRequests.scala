@@ -62,7 +62,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
     http("post overpayments multiple MRN page")
       .post(s"$baseUrl/$route1/v2/multiple/enter-movement-reference-number/1": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number", "10AAAAAAAAAAAAAAA1")
+      .formParam("enter-movement-reference-number", "01AFRAAAAAAAAAAA01")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/v2/multiple/check-declaration-details": String))
 
@@ -93,7 +93,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
     http("post overpayments multiple second MRN page")
       .post(s"$baseUrl/$route1/v2/multiple/enter-movement-reference-number/2": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number", "20AAAAAAAAAAAAAAA1")
+      .formParam("enter-movement-reference-number", "02AFRAAAAAAAAAAA01")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/v2/multiple/check-movement-reference-numbers": String))
 

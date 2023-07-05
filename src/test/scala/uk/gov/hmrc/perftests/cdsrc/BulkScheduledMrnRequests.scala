@@ -59,7 +59,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
     http("post Scheduled MRN page")
       .post(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number", "01AAAAAAAAAAAAAAA2")
+      .formParam("enter-movement-reference-number", "01AFRAAAAAAAAAAA02")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/check-declaration-details": String))
 

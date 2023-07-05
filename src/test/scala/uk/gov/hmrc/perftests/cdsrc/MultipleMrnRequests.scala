@@ -60,7 +60,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post multiple MRN page")
       .post(s"$baseUrl/$route1/multiple/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number", "10AAAAAAAAAAAAAAA1")
+      .formParam("enter-movement-reference-number", "01AFRAAAAAAAAAAA01")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/check-declaration-details": String))
   }
@@ -94,7 +94,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("post multiple second MRN page")
       .post(s"$baseUrl/$route1/multiple/enter-movement-reference-number/2": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-associated-mrn", "20AAAAAAAAAAAAAAA1")
+      .formParam("enter-associated-mrn", "02AFRAAAAAAAAAAA01")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/check-movement-reference-numbers": String))
   }

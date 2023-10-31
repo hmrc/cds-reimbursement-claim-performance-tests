@@ -41,9 +41,9 @@ class CDSRSimulation extends PerformanceTestRunner {
     if (useAwesomeStubs)
       List(
         getLoginPage,
-        loginUser(userId),
+//        loginUser(userId),
         updateUserRole(eoriValue),
-        postSuccessfulLogin
+//        postSuccessfulLogin
       )
     else
       List(getMRNAuthLoginPage, loginWithAuthLoginStubMRN(eoriValue))

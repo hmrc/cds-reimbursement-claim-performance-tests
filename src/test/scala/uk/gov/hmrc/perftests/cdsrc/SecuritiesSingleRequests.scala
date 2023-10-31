@@ -59,7 +59,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .get(s"$baseUrl/$route1/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the import MRN"))
+      .check(regex("Enter the Movement Reference Number"))
 
   def postSecuritiesEnterMovementReferenceNumberPage(MRN :String): HttpRequestBuilder =
     http("post securities enter movement reference number page")

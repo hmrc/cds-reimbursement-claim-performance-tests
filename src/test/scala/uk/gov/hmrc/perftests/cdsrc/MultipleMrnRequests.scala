@@ -41,16 +41,16 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postMultipleChooseHowManyMrnsPage : HttpRequestBuilder = {
     http("post the choose how many mrns page")
-      .post(s"$baseUrl/$route/choose-how-many-mrns": String)
+      .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-number-of-claims", "1")
+      .formParam("overpayments.choose-how-many-mrns", "Multiple")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-movement-reference-number": String))
+      .check(header("Location").is(s"/$route1/v2/multiple/enter-movement-reference-number": String))
   }
 
   def getMultipleMrnPage : HttpRequestBuilder = {
     http("get multiple MRN page")
-      .get(s"$baseUrl/$route1/multiple/enter-movement-reference-number": String)
+      .get(s"$baseUrl/$route1/v2/multiple/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the first Movement Reference Number (.*)"))
@@ -58,7 +58,7 @@ object MultipleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postMultipleMrnPage : HttpRequestBuilder = {
     http("post multiple MRN page")
-      .post(s"$baseUrl/$route1/multiple/enter-movement-reference-number": String)
+      .post(s"$baseUrl/$route1/v2/multiple/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-movement-reference-number", "10AAAAAAAAAAAAAAA1")
       .check(status.is(303))

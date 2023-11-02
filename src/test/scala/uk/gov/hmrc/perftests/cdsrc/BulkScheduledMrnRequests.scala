@@ -42,15 +42,15 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
   def postBulkScheduledSelectNumberOfClaimsPage: HttpRequestBuilder =
     http("post the select number of claims page")
-      .post(s"$baseUrl/$route/choose-how-many-mrns": String)
+      .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-number-of-claims", "2")
+      .formParam("overpayments.choose-how-many-mrns", "Scheduled")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/enter-movement-reference-number": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-movement-reference-number": String))
 
   def getBulkScheduledMrnPage: HttpRequestBuilder =
     http("get Scheduled MRN page")
-      .get(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
+      .get(s"$baseUrl/$route1/v2/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the first Movement Reference Number (.*)"))
@@ -61,7 +61,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-movement-reference-number", "01AAAAAAAAAAAAAAA2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/check-declaration-details": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/check-declaration-details": String))
 
   def getBulkScheduledMrnCheckDeclarationPage: HttpRequestBuilder =
     http("get Scheduled check declaration details page")

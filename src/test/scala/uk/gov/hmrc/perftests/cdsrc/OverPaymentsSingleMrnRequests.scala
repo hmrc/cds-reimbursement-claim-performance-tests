@@ -327,7 +327,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
         s"$baseUrl$Location"
       })
       .check(status.is(200))
-      .check(regex("Claim details for A95 - Provisional Countervailing Duty"))
+      .check(regex("A95 - Provisional Countervailing Duty"))
   }
 
   def postOverpaymentsMRNEnterClaimPage : HttpRequestBuilder = {
@@ -355,7 +355,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-claim-summary", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/single/choose-repayment-method": String))
+      .check(header("Location").is(s"/$route1/v2/single/choose-payee-type": String))
   }
 
   def getOverpaymentsSelectReimbursementMethodPage : HttpRequestBuilder = {
@@ -369,9 +369,9 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
     http("post choose repayment method page")
       .post(s"$baseUrl/$route1/v2/single/choose-repayment-method": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("reimbursement-method", "1")
+      .formParam("reimbursement-method", "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/single/check-bank-details": String))
+      .check(header("Location").is(s"/$route1/v2/single/choose-file-type": String))
   }
 
   def getOverpaymentsCheckBankDetailsPage: HttpRequestBuilder =
@@ -379,6 +379,14 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/v2/single/check-bank-details": String)
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
+
+  def postOverpaymentsCheckBankDetailsPage: HttpRequestBuilder = {
+    http("post overpayments check bank details page")
+      .post(s"$baseUrl/$route1/v2/single/check-bank-details": String)
+      .formParam("csrfToken", "${csrfToken}")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/v2/single/choose-file-type": String))
+  }
 
   def getOverpaymentsBankAccountTypePage: HttpRequestBuilder =
     http("get overpayments bank account type page")

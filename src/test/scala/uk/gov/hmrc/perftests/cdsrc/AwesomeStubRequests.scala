@@ -76,7 +76,7 @@ object AwesomeStubRequests extends ServicesConfiguration {
       .formParam("enrolment[0].state", "Activated")
       .formParam("enrolment[0].name", "HMRC-CUS-ORG")
       .formParam("enrolment[0].taxIdentifier[0].name", "EORINumber")
-      .formParam("enrolment[0].taxIdentifier[0].value", "GB000000000000001")
+      .formParam("enrolment[0].taxIdentifier[0].value", s"${eoriValue}")
 //      .body(StringBody(s"""{
 //                          |    "affinityGroup" : "Organisation",
 //                          |    "enrolments" : { "principal": [

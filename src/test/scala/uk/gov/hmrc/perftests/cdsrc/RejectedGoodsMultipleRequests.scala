@@ -405,6 +405,12 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .check(header("Location").is(s"/$route1/multiple/choose-payee-type": String))
   }
 
+
+  def getRejectedGoodsMultipleChoosePayeeTypePage: HttpRequestBuilder =
+    http("get the rejected goods choose payee type page")
+      .get(s"$baseUrl/$route1/multiple/choose-payee-type": String)
+      .check(status.is(303))
+
   def getRejectedGoodsMultipleCheckBankDetailsPage : HttpRequestBuilder = {
     http("get the rejected goods check bank details page")
       .get(s"$baseUrl/$route1/multiple/check-bank-details": String)
@@ -579,7 +585,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
     http("get the rejected goods check your answers page")
       .get(s"$baseUrl/$route1/multiple/check-your-answers": String)
       .check(saveCsrfToken())
-      .check(status.is(303))
+      .check(status.is(200))
       .check(regex("Check your answers before sending your claim"))
   }
 

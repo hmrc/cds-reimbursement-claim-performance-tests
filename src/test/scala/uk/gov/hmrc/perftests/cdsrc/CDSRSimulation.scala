@@ -91,8 +91,9 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsInspectionDatePage,
         getRejectedGoodsInspectionAddressChoosePage,
         postRejectedGoodsInspectionAddressChoosePage,
-        getRejectedGoodsRepaymentMethodPage,
-        postRejectedGoodsRepaymentMethodPage,
+//        getRejectedGoodsRepaymentMethodPage,
+//        postRejectedGoodsRepaymentMethodPage,
+        getRejectedGoodsChoosePayeeTypePage,
         getRejectedGoodsCheckBankDetailsPage,
         getRejectedGoodsBankAccountTypePage,
         postRejectedGoodsBankAccountTypePage,
@@ -165,6 +166,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsMultipleInspectionDatePage,
         getRejectedGoodsMultipleInspectionAddressChoosePage,
         postRejectedGoodsMultipleInspectionAddressChoosePage,
+        getRejectedGoodsMultipleChoosePayeeTypePage,
         getRejectedGoodsMultipleCheckBankDetailsPage,
         getRejectedGoodsMultipleBankAccountTypePage,
         postRejectedGoodsMultipleBankAccountTypePage,
@@ -285,6 +287,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsScheduledInspectionDatePage,
         getRejectedGoodsScheduledInspectionAddressChoosePage,
         postRejectedGoodsScheduledInspectionAddressChoosePage,
+        getRejectedGoodsScheduledChoosePayeeTypePage,
         getRejectedGoodsScheduledCheckBankDetailsPage,
         getRejectedGoodsScheduledBankAccountTypePage,
         postRejectedGoodsScheduledBankAccountTypePage,
@@ -602,7 +605,8 @@ class CDSRSimulation extends PerformanceTestRunner {
         ) ++
         getOverpaymentsFileVerificationStatusPage ++
         List[ActionBuilder](
-          getOverpaymentsCheckYourAnswersPage,
+          getOverpaymentsContinueToHostPage,
+            getOverpaymentsCheckYourAnswersPage,
         postOverpaymentsCheckYourAnswersPage,
         getOverpaymentsClaimSubmittedPage
       )

@@ -508,6 +508,12 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
     ).actionBuilders
 
 
+  def getOverpaymentsContinueToHostPage: HttpRequestBuilder =
+    http("get overpayments continue to host page")
+      .get(s"$baseUrl/upload-customs-documents/continue-to-host": String)
+      .check(status.is(303))
+      .check(header("Location").is(s"$baseUrl/$route1/v2/single/check-your-answers": String))
+
   def getOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("get overpayments check your answers page")
       .get(s"$baseUrl/$route1/v2/single/check-your-answers": String)

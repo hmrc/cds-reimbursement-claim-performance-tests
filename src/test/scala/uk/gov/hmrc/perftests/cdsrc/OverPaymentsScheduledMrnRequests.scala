@@ -612,7 +612,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
     http("get overpayments scheduled MRN check claim page")
       .get(s"$baseUrl/$route1/v2/scheduled/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the repayment claim totals for all MRNs"))
+      .check(regex("Check the repayment totals for this claim"))
 
   def postOverpaymentsScheduledMrnCheckClaimPage: HttpRequestBuilder =
     http("post overpayments scheduled MRN check claim page")
@@ -620,7 +620,12 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-claim-summary", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/check-bank-details": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/choose-payee-type": String))
+
+  def getOverpaymentScheduledChoosePayeeTypePage: HttpRequestBuilder =
+    http("get the rejected goods choose payee type page")
+      .get(s"$baseUrl/$route1/v2/scheduled/choose-payee-type": String)
+      .check(status.is(303))
 
   def getOverpaymentsScheduledMrnCheckBankDetailsPage: HttpRequestBuilder =
     http("get overpayments scheduled MRN check these bank details are correct page")

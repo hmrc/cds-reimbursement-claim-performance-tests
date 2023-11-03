@@ -770,6 +770,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsScheduledMrnClimateLevyPage,
         getOverpaymentsScheduledMrnCheckClaimPage,
         postOverpaymentsScheduledMrnCheckClaimPage,
+        getOverpaymentScheduledChoosePayeeTypePage,
         getOverpaymentsScheduledMrnCheckBankDetailsPage,
         getOverpaymentsScheduledMRNBankAccountTypePage,
         postOverpaymentsScheduledMRNBankAccountTypePage,

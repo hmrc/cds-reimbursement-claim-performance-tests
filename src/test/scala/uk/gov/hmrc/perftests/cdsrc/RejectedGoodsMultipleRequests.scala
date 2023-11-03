@@ -408,7 +408,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def getRejectedGoodsMultipleCheckBankDetailsPage : HttpRequestBuilder = {
     http("get the rejected goods check bank details page")
       .get(s"$baseUrl/$route1/multiple/check-bank-details": String)
-      .check(status.is(303))
+      .check(status.is(200))
       .check(regex("Check these bank details are correct"))
   }
 

@@ -324,11 +324,12 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/check-bank-details": String))
 
-  def getRejectedGoodsCheckBankDetailsPage: HttpRequestBuilder =
-    http("get the rejected goods check bank details page")
+
+    def getRejectedGoodsCheckBankDetailsPage: HttpRequestBuilder =
+      http("get the rejected goods check bank details page")
       .get(s"$baseUrl/$route1/single/check-bank-details": String)
-      .check(status.is(303))
-//      .check(regex("Check these bank details are correct"))
+      .check(status.is(200))
+      .check(regex("Check these bank details are correct"))
 
   def getRejectedGoodsBankAccountTypePage: HttpRequestBuilder =
     http("get the rejected goods bank account type page")

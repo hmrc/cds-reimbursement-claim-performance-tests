@@ -271,7 +271,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
   def getOverpaymentsMultipleCheckBankDetailsPage : HttpRequestBuilder =
     http("get overpayments multiple MRN check bank details page")
       .get(s"$baseUrl/$route1/v2/multiple/check-bank-details": String)
-      .check(status.is(303))
+      .check(status.is(200))
       .check(regex("Check these bank details are correct"))
       .check(css(".govuk-button", "href").saveAs("uploadSupportingEvidencePage"))
 

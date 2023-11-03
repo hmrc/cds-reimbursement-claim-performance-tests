@@ -175,7 +175,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-movement-reference-number", "10ABCDEFGHIJKLMNO0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-importer-eori": String))
+      .check(header("Location").is(s"/$route1/v2/single/enter-importer-eori": String))
   }
 
   def getTheMRNImporterEoriEntryPage : HttpRequestBuilder = {

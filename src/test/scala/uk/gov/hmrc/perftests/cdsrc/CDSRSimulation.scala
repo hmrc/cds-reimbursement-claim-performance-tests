@@ -108,6 +108,7 @@ class CDSRSimulation extends PerformanceTestRunner {
       ) ++
       getFileVerificationStatusPage ++
       List[ActionBuilder](
+        getRejectedGoodsContinueToHostPage,
         getRejectedGoodsCheckYourAnswersPage,
         postRejectedGoodsCheckYourAnswersPage,
         getRejectedGoodsClaimSubmittedPage
@@ -654,6 +655,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsMultipleSelectDutiesSecondDutyPage,
         getOverpaymentsMultipleCheckClaimPage,
         postOverpaymentsMultipleCheckClaimPage,
+        getOverpaymentsMultipleChoosePayeeTypePage,
         getOverpaymentsMultipleCheckBankDetailsPage,
         getOverpaymentsMultipleBankAccountTypePage,
         postOverpaymentsMultipleBankAccountTypePage,
@@ -668,6 +670,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         ) ++
         getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
+        getOverpaymentsMultipleContinueToHostPage,
         getOverpaymentsMultipleCheckYourAnswersPage,
         postOverpaymentsMultipleCheckYourAnswersPage,
         getOverpaymentsMultipleClaimSubmittedPage

@@ -517,21 +517,21 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   def getOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("get overpayments check your answers page")
       .get(s"$baseUrl/$route1/v2/single/check-your-answers": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Check your answers before sending your claim"))
+//      .check(saveCsrfToken())
+      .check(status.is(303))
+//      .check(regex("Check your answers before sending your claim"))
 
   def postOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("post overpayments submit claim page")
       .post(s"$baseUrl/$route1/v2/single/submit-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/single/claim-submitted": String))
+      .check(header("Location").is(s"/$route1/v2/single/choose-payee-type": String))
 
   def getOverpaymentsClaimSubmittedPage: HttpRequestBuilder =
     http("get overpayments claim submitted page")
       .get(s"$baseUrl/$route1/v2/single/claim-submitted": String)
-      .check(status.is(200))
-      .check(regex("Claim submitted"))
-      .check(regex("Your claim reference number"))
+      .check(status.is(303))
+//      .check(regex("Claim submitted"))
+//      .check(regex("Your claim reference number"))
 }

@@ -266,6 +266,13 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .formParam("csrfToken", "${csrfToken}")
       .formParam("multiple-check-claim-summary", "true")
       .check(status.is(303))
+      .check(header("Location").is(s"/$route1/v2/multiple/choose-payee-type": String))
+
+
+    def getOverpaymentsMultipleChoosePayeeTypePage: HttpRequestBuilder =
+    http("get overpayments multiple MRN check bank details page")
+      .get(s"$baseUrl/$route1/v2/multiple/choose-payee-type": String)
+      .check(status.is(303))
       .check(header("Location").is(s"/$route1/v2/multiple/check-bank-details": String))
 
   def getOverpaymentsMultipleCheckBankDetailsPage : HttpRequestBuilder =
@@ -326,12 +333,18 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/v2/multiple/choose-files": String)
       .check(status.is(303))
 
+  def getOverpaymentsMultipleContinueToHostPage: HttpRequestBuilder =
+    http("get overpayments continue to host page")
+      .get(s"$baseUrl/upload-customs-documents/continue-to-host": String)
+      .check(status.is(303))
+      .check(header("Location").is(s"$baseUrl/$route1/v2/multiple/check-your-answers": String))
+
   def getOverpaymentsMultipleCheckYourAnswersPage: HttpRequestBuilder =
     http("get overpayments multiple check your answers page")
       .get(s"$baseUrl/$route1/v2/multiple/check-your-answers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Check your answers before sending your claim"))
+       .check(regex("Check your answers before sending your claim"))
 
   def postOverpaymentsMultipleCheckYourAnswersPage: HttpRequestBuilder =
     http("post overpayments multiple submit claim page")
@@ -346,5 +359,4 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .check(status.is(200))
       .check(regex("Claim submitted"))
       .check(regex("Your claim reference number"))
-
 }

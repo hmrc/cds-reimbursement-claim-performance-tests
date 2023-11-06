@@ -265,7 +265,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "440")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/wine": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/beer/440": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesWinePage: HttpRequestBuilder =
     http("get overpayments select duties wine page")
@@ -279,7 +279,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "413")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/made-wine": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/wine/413": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesMadeWinePage: HttpRequestBuilder =
     http("get overpayments select duties made wine page")
@@ -293,7 +293,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "423")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/low-alcohol-beverages": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/made-wine/423": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesLowAlcoholBeveragesPage: HttpRequestBuilder =
     http("get overpayments select duties alcohol page")
@@ -307,7 +307,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "435")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/spirits": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/low-alcohol-beverages/435": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesSpiritsPage: HttpRequestBuilder =
     http("get overpayments select duties spirits page")
@@ -321,7 +321,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "462")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/cider-perry": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/spirits/462": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesCiderPerryPage: HttpRequestBuilder =
     http("get overpayments select duties cider page")
@@ -335,7 +335,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "483")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/hydrocarbon-oils": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/cider-perry/483": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesHydrocarbonOilsPage: HttpRequestBuilder =
     http("get overpayments select duties hydrocarbon oils page")
@@ -349,7 +349,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "551")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/biofuels": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/hydrocarbon-oils/551": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesBiofuelsPage: HttpRequestBuilder =
     http("get overpayments select duties biofuels page")
@@ -363,7 +363,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "589")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/miscellaneous-road-fuels": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/biofuels/589": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesMiscellaneousPage: HttpRequestBuilder =
     http("get overpayments select duties road fuels page")
@@ -378,7 +378,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "592")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/tobacco": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/miscellaneous-road-fuels/592": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesTobaccoPage: HttpRequestBuilder =
     http("get overpayments select duties tobacco page")
@@ -392,7 +392,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "611")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/climate-change-levy": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/tobacco/611": String))
 
   def getOverpaymentsScheduledMrnSelectDutiesClimatePage: HttpRequestBuilder =
     http("get overpayments select duties climate change levy page")
@@ -406,7 +406,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "99A")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/climate-change-levy/99A": String))
 
   def getOverpaymentsScheduledMrnEnterClaimPage: HttpRequestBuilder =
     http("get overpayments scheduled enter claim page")
@@ -441,7 +441,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "4.50")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/beer/440": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/beer": String))
 
   def getOverpaymentsScheduledMrnBeerPage: HttpRequestBuilder =
     http("get overpayments select duties beer tax page")
@@ -456,7 +456,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/wine/413": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/wine": String))
 
   def getOverpaymentsScheduledMrnWinePage: HttpRequestBuilder =
     http("get overpayments select duties wine tax page")
@@ -471,7 +471,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/made-wine/423": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/made-wine": String))
 
   def getOverpaymentsScheduledMrnMadeWinePage: HttpRequestBuilder =
     http("get overpayments select duties made wine tax page")
@@ -486,7 +486,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/low-alcohol-beverages/435": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/low-alcohol-beverages": String))
 
   def getOverpaymentsScheduledMrnLowAlcoholPage: HttpRequestBuilder =
     http("get overpayments select duties alcohol tax page")
@@ -501,7 +501,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/spirits/462": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/spirits": String))
 
   def getOverpaymentsScheduledMrnSpiritsPage: HttpRequestBuilder =
     http("get overpayments select duties spirits tax page")
@@ -516,7 +516,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/cider-perry/483": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/cider-perry": String))
 
   def getOverpaymentsScheduledMrnCiderPerryPage: HttpRequestBuilder =
     http("get overpayments select duties cider tax page")
@@ -531,7 +531,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/hydrocarbon-oils/551": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/hydrocarbon-oils": String))
 
   def getOverpaymentsScheduledMrnHydroOilsPage: HttpRequestBuilder =
     http("get overpayments select duties hydrocarbon oils tax page")
@@ -546,7 +546,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/biofuels/589": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/biofuels": String))
 
   def getOverpaymentsScheduledMrnBiofuelsPage: HttpRequestBuilder =
     http("get overpayments select duties biofuels tax page")
@@ -561,7 +561,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/miscellaneous-road-fuels/592": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/miscellaneous-road-fuels": String))
 
   def getOverpaymentsScheduledMrnRoadFuelsPage: HttpRequestBuilder =
     http("get overpayments select duties miscellaneous road tax page")
@@ -576,7 +576,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/tobacco/611": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/tobacco": String))
 
   def getOverpaymentsScheduledMrnTobaccoPage: HttpRequestBuilder =
     http("get overpayments select duties tobacco tax page")
@@ -591,7 +591,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("enter-scheduled-claim.paid-amount", "10")
       .formParam("enter-scheduled-claim.actual-amount", "2")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-claim/climate-change-levy/99A": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/select-duties/climate-change-levy": String))
 
   def getOverpaymentsScheduledMrnClimateLevyPage: HttpRequestBuilder =
     http("get select duties climate change tax page")
@@ -612,7 +612,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
     http("get overpayments scheduled MRN check claim page")
       .get(s"$baseUrl/$route1/v2/scheduled/check-claim": String)
       .check(status.is(200))
-      .check(regex("Check the repayment claim totals for all MRNs"))
+      .check(regex("Check the repayment totals for this claim"))
 
   def postOverpaymentsScheduledMrnCheckClaimPage: HttpRequestBuilder =
     http("post overpayments scheduled MRN check claim page")
@@ -620,7 +620,12 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-claim-summary", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/check-bank-details": String))
+      .check(header("Location").is(s"/$route1/v2/scheduled/choose-payee-type": String))
+
+  def getOverpaymentScheduledChoosePayeeTypePage: HttpRequestBuilder =
+    http("get the rejected goods choose payee type page")
+      .get(s"$baseUrl/$route1/v2/scheduled/choose-payee-type": String)
+      .check(status.is(303))
 
   def getOverpaymentsScheduledMrnCheckBankDetailsPage: HttpRequestBuilder =
     http("get overpayments scheduled MRN check these bank details are correct page")

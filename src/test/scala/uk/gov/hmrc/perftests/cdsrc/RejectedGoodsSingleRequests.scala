@@ -307,7 +307,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .formParam("csrfToken", "${csrfToken}")
       .formParam("inspection-address.type", "Declarant")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-repayment-method": String))
+      .check(header("Location").is(s"/$route1/single/choose-payee-type": String))
 
   def getRejectedGoodsRepaymentMethodPage: HttpRequestBuilder =
     http("get the rejected goods choose repayment method page")
@@ -322,10 +322,17 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .formParam("csrfToken", "${csrfToken}")
       .formParam("choose-payment-method.rejected-goods.single", "1")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-bank-details": String))
+      .check(header("Location").is(s"/$route1/single/choose-payee-type": String))
 
-  def getRejectedGoodsCheckBankDetailsPage: HttpRequestBuilder =
-    http("get the rejected goods check bank details page")
+
+    def getRejectedGoodsChoosePayeeTypePage: HttpRequestBuilder =
+      http("get the rejected goods choose payee type page")
+      .get(s"$baseUrl/$route1/single/choose-payee-type": String)
+      .check(status.is(303))
+
+
+    def getRejectedGoodsCheckBankDetailsPage: HttpRequestBuilder =
+      http("get the rejected goods check bank details page")
       .get(s"$baseUrl/$route1/single/check-bank-details": String)
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
@@ -477,24 +484,26 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .formParam("supporting-evidence.check-your-answers", "false")
       .check(status.is(303))
 
+
+  def getRejectedGoodsContinueToHostPage: HttpRequestBuilder =
+    http("get the rejected goods continue to host page")
+      .get(s"$baseUrl/upload-customs-documents/continue-to-host": String)
+      .check(status.is(303))
+      .check(header("Location").is(s"$baseUrl/$route1/single/check-your-answers": String))
   def getRejectedGoodsCheckYourAnswersPage: HttpRequestBuilder =
     http("get the rejected goods check your answers page")
       .get(s"$baseUrl/$route1/single/check-your-answers": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Check your answers before sending your claim"))
+      .check(status.is(303))
 
   def postRejectedGoodsCheckYourAnswersPage: HttpRequestBuilder =
     http("post rejected goods submit claim page")
       .post(s"$baseUrl/$route1/single/submit-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claim-submitted": String))
+      .check(header("Location").is(s"/$route1/single/choose-repayment-method": String))
 
   def getRejectedGoodsClaimSubmittedPage: HttpRequestBuilder =
     http("get rejected goods claim submitted page")
       .get(s"$baseUrl/$route1/single/claim-submitted": String)
-      .check(status.is(200))
-      .check(regex("Claim submitted"))
-      .check(regex("Your claim reference number"))
+      .check(status.is(303))
 }

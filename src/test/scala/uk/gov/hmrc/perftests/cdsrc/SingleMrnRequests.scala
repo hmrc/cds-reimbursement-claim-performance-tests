@@ -141,12 +141,12 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("choose-claim-type",  "C285")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/choose-how-many-mrns": String))
+      .check(header("Location").is(s"/$route1/choose-how-many-mrns": String))
   }
 
   def getChooseHowManyMrnsPage : HttpRequestBuilder = {
     http("get the choose how many mrns page")
-      .get(s"$baseUrl/$route/choose-how-many-mrns": String)
+      .get(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .check(status.is(200))
       .check(saveCsrfToken())
       .check(regex("Choose how many MRNs you want to submit in this claim"))
@@ -154,16 +154,16 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postChooseHowManyMrnsPage : HttpRequestBuilder = {
     http("post the choose how many mrns page")
-      .post(s"$baseUrl/$route/choose-how-many-mrns": String)
+      .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-number-of-claims", "0")
+      .formParam("overpayments.choose-how-many-mrns", "Individual")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-movement-reference-number": String))
+      .check(header("Location").is(s"/$route1/v2/single/enter-movement-reference-number": String))
   }
 
   def getTheMRNPage : HttpRequestBuilder = {
     http("get The MRN page")
-      .get(s"$baseUrl/$route1/single/enter-movement-reference-number": String)
+      .get(s"$baseUrl/$route1/v2/single/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the Movement Reference Number (.*)"))
@@ -171,11 +171,11 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postTheMRNPage : HttpRequestBuilder = {
     http("post The MRN page")
-      .post(s"$baseUrl/$route1/single/enter-movement-reference-number": String)
+      .post(s"$baseUrl/$route1/v2/single/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-movement-reference-number", "10ABCDEFGHIJKLMNO0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-importer-eori": String))
+      .check(header("Location").is(s"/$route1/v2/single/enter-importer-eori": String))
   }
 
   def getTheMRNImporterEoriEntryPage : HttpRequestBuilder = {

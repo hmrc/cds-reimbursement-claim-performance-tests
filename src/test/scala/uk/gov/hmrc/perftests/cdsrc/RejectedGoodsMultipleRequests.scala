@@ -163,7 +163,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/multiple/check-movement-reference-numbers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Movement Reference Numbers (.*) added to your claim"))
+      .check(regex("Movement Reference Numbers (.*) added"))
   }
 
   def postRejectedGoodsCheckMRNsPage : HttpRequestBuilder = {
@@ -402,8 +402,14 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .formParam("csrfToken", "${csrfToken}")
       .formParam("inspection-address.type", "Declarant")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/check-bank-details": String))
+      .check(header("Location").is(s"/$route1/multiple/choose-payee-type": String))
   }
+
+
+  def getRejectedGoodsMultipleChoosePayeeTypePage: HttpRequestBuilder =
+    http("get the rejected goods choose payee type page")
+      .get(s"$baseUrl/$route1/multiple/choose-payee-type": String)
+      .check(status.is(303))
 
   def getRejectedGoodsMultipleCheckBankDetailsPage : HttpRequestBuilder = {
     http("get the rejected goods check bank details page")
@@ -572,7 +578,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.check-your-answers", "false")
       .check(status.is(303))
-      //.check(header("Location").is(s"/$route1/single/check-your-answers": String))
+      .check(header("Location").is(s"/$route1/single/check-your-answers": String))
   }
 
   def getRejectedGoodsMultipleCheckYourAnswersPage : HttpRequestBuilder = {

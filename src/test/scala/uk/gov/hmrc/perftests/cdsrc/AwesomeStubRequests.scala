@@ -28,45 +28,18 @@ import uk.gov.hmrc.performance.conf.ServicesConfiguration
 object AwesomeStubRequests extends ServicesConfiguration {
 
   val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
-
-//  val postSignInUrl         = s"https://www.staging.tax.service.gov.uk/claim-back-import-duty-vat"
   val authUrl: String     = baseUrlFor("auth-login-stub")
   val route: String  = "claim-back-import-duty-vat"
   val redirect: String    = s"$baseUrl/$route/start"
-//  val updateUserUrl         = s"$baseUrl/agents-external-stubs/users"
-//  val updateSpecificUserUrl = s"$baseUrl/agents-external-stubs/users/$${userId}"
-
-//  val baseUrlCdsReimbursement: String = baseUrlFor("cds-reimbursement-claim-frontend")
-
-
-//  val loginUrl: String       = s"https://www.staging.tax.service.gov.uk/auth-login-stub/gg-sign-in"
-//  val loginSubmitUrl: String =
-    s"http://localhost:9949/gg/sign-in?continue=http%3A%2F%2Flocalhost%3A7500%2Fclaim-back-import-duty-vat%2Fstart-new-return&origin=CDSRC"
 
   def getLoginPage: HttpRequestBuilder =
     http("Get login stub page")
       .get(s"$authUrl/auth-login-stub/gg-sign-in")
       .check(status.is(200))
       .check(regex("Authority Wizard").exists)
-//      .check(saveCsrfToken)
 
-//  def loginUser(userId: String): HttpRequestBuilder =
-//    http("Authenticate a user")
-//      .get(s"$authUrl/auth-login-stub/gg-sign-in")
-////      .body(StringBody(s"""{
-////      |  "userId": "$userId",
-////      |  "planetId":"cdsrc"
-////      }""".stripMargin))
-////      .header("Content-Type", "application/json")
-//        .check(status.in(200))
-////      .check(saveUserDetailsUrl)
-////      .check(saveBearerTokenHeader)
-////      .check(saveSessionIdHeader)
-////      .check(savePlanetIdHeader)
-////      .check(saveUserIdHeader)
-
-  def updateUserRole(eoriValue: String): HttpRequestBuilder =
-    http("Update current user to have HMRC-CUS-ORG enrolment")
+  def loginUser(eoriValue: String): HttpRequestBuilder =
+    http("Login the user")
       .post(s"$authUrl/auth-login-stub/gg-sign-in")
       .formParam("redirectionUrl", s"/$baseUrl/claim-back-import-duty-vat/start")
       .formParam("authorityId", "12345")
@@ -77,35 +50,7 @@ object AwesomeStubRequests extends ServicesConfiguration {
       .formParam("enrolment[0].name", "HMRC-CUS-ORG")
       .formParam("enrolment[0].taxIdentifier[0].name", "EORINumber")
       .formParam("enrolment[0].taxIdentifier[0].value", s"${eoriValue}")
-//      .body(StringBody(s"""{
-//                          |    "affinityGroup" : "Organisation",
-//                          |    "enrolments" : { "principal": [
-//                          |              {
-//                          |                  "key" : "HMRC-CUS-ORG",
-//                          |                  "identifiers" : [
-//                          |                    {
-//                          |                      "key" : "EORINumber",
-//                          |                      "value" : "$eoriValue"
-//                          |                    }
-//                          |                  ]
-//                          |              }
-//                          |          ]
-//                          |    }
-//                          |}
-//    """.stripMargin))
-//      .header("Content-Type", "application/json")
-//      .header("Authorization", "Bearer ${bearerToken}")
-        .check(status.is(303))
-//      .check(header("Location").is("/agents-external-stubs/users/${userId}"))
-
-//  def postSuccessfulLogin: HttpRequestBuilder =
-//    http("Login with user credentials")
-//      .post(loginSubmitUrl)
-//      .formParam("csrfToken", "${csrfToken}")
-//      .formParam("userId", "${userId}")
-//      .formParam("planetId", "${planetId}")
-//      .check(status.is(303))
-//      .check(header("Location").is(s"$baseUrlCdsReimbursement/$prefixCdsReimbursement/start-new-return": String))
+      .check(status.is(303))
 
   private val csrfPattern           = """<input type="hidden" name="csrfToken" value="([^"]+)"""
   private val userDetailsUrlPattern = s"""([^"]+)"""

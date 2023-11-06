@@ -41,9 +41,7 @@ class CDSRSimulation extends PerformanceTestRunner {
     if (useAwesomeStubs)
       List(
         getLoginPage,
-//        loginUser(userId),
-        updateUserRole(eoriValue),
-//        postSuccessfulLogin
+        loginUser(eoriValue),
       )
     else
       List(getMRNAuthLoginPage, loginWithAuthLoginStubMRN(eoriValue))
@@ -91,8 +89,6 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsInspectionDatePage,
         getRejectedGoodsInspectionAddressChoosePage,
         postRejectedGoodsInspectionAddressChoosePage,
-//        getRejectedGoodsRepaymentMethodPage,
-//        postRejectedGoodsRepaymentMethodPage,
         getRejectedGoodsChoosePayeeTypePage,
         getRejectedGoodsCheckBankDetailsPage,
         getRejectedGoodsBankAccountTypePage,
@@ -591,12 +587,6 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsMRNCheckClaimPage,
         getOverpaymentsSelectReimbursementMethodPage,
         postOverpaymentsSelectReimbursementMethodPage,
-//        getOverpaymentsCheckBankDetailsPage,
-//        postOverpaymentsCheckBankDetailsPage,
-//        getOverpaymentsBankAccountTypePage,
-//        postOverpaymentsBankAccountTypePage,
-//        getOverpaymentsEnterBankDetailsPage,
-//        postOverpaymentsEnterBankDetailsPage,
         getOverpaymentsChooseFileTypePage,
         postOverpaymentsChooseFileTypesPage,
         getOverpaymentsChooseFilesPage,

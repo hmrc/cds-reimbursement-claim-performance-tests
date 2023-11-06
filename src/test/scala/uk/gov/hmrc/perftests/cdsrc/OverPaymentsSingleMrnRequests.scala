@@ -458,8 +458,6 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
-      //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
-      //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
       .check(regex("Upload (.*)"))
 
@@ -517,9 +515,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   def getOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("get overpayments check your answers page")
       .get(s"$baseUrl/$route1/v2/single/check-your-answers": String)
-//      .check(saveCsrfToken())
       .check(status.is(303))
-//      .check(regex("Check your answers before sending your claim"))
 
   def postOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("post overpayments submit claim page")
@@ -532,6 +528,4 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
     http("get overpayments claim submitted page")
       .get(s"$baseUrl/$route1/v2/single/claim-submitted": String)
       .check(status.is(303))
-//      .check(regex("Claim submitted"))
-//      .check(regex("Your claim reference number"))
 }

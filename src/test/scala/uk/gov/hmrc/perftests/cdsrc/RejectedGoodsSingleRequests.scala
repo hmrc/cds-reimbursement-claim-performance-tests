@@ -329,7 +329,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       http("get the rejected goods choose payee type page")
       .get(s"$baseUrl/$route1/single/choose-payee-type": String)
       .check(status.is(303))
-//        .check(header("Location").is(s"/$route1/single/check-bank-details": String))
+
 
     def getRejectedGoodsCheckBankDetailsPage: HttpRequestBuilder =
       http("get the rejected goods check bank details page")
@@ -493,9 +493,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def getRejectedGoodsCheckYourAnswersPage: HttpRequestBuilder =
     http("get the rejected goods check your answers page")
       .get(s"$baseUrl/$route1/single/check-your-answers": String)
-//      .check(saveCsrfToken())
       .check(status.is(303))
-//      .check(regex("Check your answers before sending your claim"))
 
   def postRejectedGoodsCheckYourAnswersPage: HttpRequestBuilder =
     http("post rejected goods submit claim page")
@@ -508,6 +506,4 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
     http("get rejected goods claim submitted page")
       .get(s"$baseUrl/$route1/single/claim-submitted": String)
       .check(status.is(303))
-//      .check(regex("Claim submitted"))
-//      .check(regex("Your claim reference number"))
 }

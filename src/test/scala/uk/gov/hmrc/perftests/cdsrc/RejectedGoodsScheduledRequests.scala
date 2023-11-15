@@ -872,7 +872,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("csrfToken", "${csrfToken}")
       .formParam("inspection-address.type", "Declarant")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/choose-payee-type": String))
+      .check(header("Location").is(s"/$route1/scheduled/choose-payee-type": String))
   }
 
     def getRejectedGoodsScheduledChoosePayeeTypePage: HttpRequestBuilder =

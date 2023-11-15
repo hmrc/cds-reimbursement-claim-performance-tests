@@ -49,7 +49,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .formParam("csrfToken", "${csrfToken}")
       .formParam("overpayments.choose-how-many-mrns", "Multiple")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/multiple/enter-movement-reference-number": String))
+      .check(header("Location").is(s"/$route1/multiple/enter-movement-reference-number": String))
 
   def getOverpaymentsMultipleMrnPage : HttpRequestBuilder =
     http("get overpayments multiple MRN page")

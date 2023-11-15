@@ -49,7 +49,7 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .formParam("csrfToken", "${csrfToken}")
       .formParam("overpayments.choose-how-many-mrns", "Scheduled")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-movement-reference-number": String))
+      .check(header("Location").is(s"/$route1/scheduled/enter-movement-reference-number": String))
 
   def getOverpaymentsScheduledMRNPage : HttpRequestBuilder =
     http("get The MRN page")

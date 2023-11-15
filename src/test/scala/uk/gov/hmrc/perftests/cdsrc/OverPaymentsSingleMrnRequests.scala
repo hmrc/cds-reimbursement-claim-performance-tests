@@ -97,7 +97,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .formParam("csrfToken", "${csrfToken}")
       .formParam("overpayments.choose-how-many-mrns", "Individual")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/single/enter-movement-reference-number": String))
+      .check(header("Location").is(s"/$route1/single/enter-movement-reference-number": String))
   }
 
   def getOverpaymentsMRNPage : HttpRequestBuilder = {

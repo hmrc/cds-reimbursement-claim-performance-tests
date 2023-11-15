@@ -877,7 +877,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
 
     def getRejectedGoodsScheduledChoosePayeeTypePage: HttpRequestBuilder =
     http("get the rejected goods choose payee type page")
-      .get(s"$baseUrl/$route1/v2/scheduled/choose-payee-type": String)
+      .get(s"$baseUrl/$route1/scheduled/choose-payee-type": String)
       .check(status.is(303))
 
   def getRejectedGoodsScheduledCheckBankDetailsPage : HttpRequestBuilder = {

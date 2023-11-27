@@ -85,7 +85,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
     http("post The MRN page")
       .post(s"$baseUrl/$route1/multiple/enter-movement-reference-number/1": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number.rejected-goods", "01AAAAAAAAAAAAAAA2")
+      .formParam("enter-movement-reference-number.rejected-goods", "01AFRAAAAAAAAAAA02")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/enter-importer-eori": String))
   }
@@ -153,7 +153,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
     http("post enter movement reference number second page")
       .post(s"$baseUrl/$route1/multiple/enter-movement-reference-number/2": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number.rejected-goods", "02AAAAAAAAAAAAAAA2")
+      .formParam("enter-movement-reference-number.rejected-goods", "02AFRAAAAAAAAAAA02")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/check-movement-reference-numbers": String))
   }

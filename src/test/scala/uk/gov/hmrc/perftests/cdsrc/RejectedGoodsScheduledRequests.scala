@@ -85,7 +85,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
     http("post rejected goods scheduled the MRN page")
       .post(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number.rejected-goods", "10ABCDEFGHIJKLMNO0")
+      .formParam("enter-movement-reference-number.rejected-goods", "01AFRAAAAAAAAAAA02")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-importer-eori": String))
   }
@@ -102,7 +102,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
     http("post the rejected goods scheduled MRN importer eori entry page")
       .post(s"$baseUrl/$route1/scheduled/enter-importer-eori": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-importer-eori-number", "GB123456789012345")
+      .formParam("enter-importer-eori-number", "GB000000000000002")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-declarant-eori": String))
   }
@@ -119,7 +119,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
     http("post the rejected goods scheduled MRN declarant eori entry page")
       .post(s"$baseUrl/$route1/scheduled/enter-declarant-eori": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-declarant-eori-number", "GB123456789012345")
+      .formParam("enter-declarant-eori-number", "GB000000000000002")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/check-declaration-details": String))
   }

@@ -60,7 +60,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .get(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .check(status.is(200))
       .check(saveCsrfToken())
-      .check(regex("Choose how many MRNs you want to submit in this claim"))
+      .check(regex("How many Movement Reference Numbers do you want to submit in this claim?"))
 
   def postRejectedGoodsChooseHowManyMrnsPage: HttpRequestBuilder =
     http("post the rejected goods choose how many mrns page")

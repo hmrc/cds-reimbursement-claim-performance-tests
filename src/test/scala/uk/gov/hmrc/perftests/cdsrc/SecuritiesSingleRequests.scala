@@ -423,7 +423,12 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils{
       .post(s"$baseUrl/$route1/check-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/check-bank-details": String))
+      .check(header("Location").is(s"/$route1/choose-payee-type": String))
+
+  def getSecuritiesChoosePayeeTypePage: HttpRequestBuilder =
+    http("get the securities choose payee type page")
+      .get(s"$baseUrl/$route1/choose-payee-type": String)
+      .check(status.is(303))
 
   def getSecuritiesCheckBankDetailsPage: HttpRequestBuilder =
     http("get securities check bank details page")

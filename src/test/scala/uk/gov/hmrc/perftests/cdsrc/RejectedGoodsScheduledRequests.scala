@@ -61,7 +61,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .get(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .check(status.is(200))
       .check(saveCsrfToken())
-      .check(regex("Choose how many MRNs you want to submit in this claim"))
+      .check(regex("How many Movement Reference Numbers do you want to submit in this claim?"))
   }
 
   def postRejectedGoodsScheduledChooseHowManyMrnsPage : HttpRequestBuilder = {
@@ -1070,7 +1070,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
   }
 
   def getRejectedGoodsScheduledClaimSubmittedPage : HttpRequestBuilder = {
-    http(("get rejected goods scheduled claim submitted page"))
+    http("get rejected goods scheduled claim submitted page")
       .get(s"$baseUrl/$route1/scheduled/claim-submitted": String)
       .check(status.is(200))
       .check(regex("Claim submitted"))

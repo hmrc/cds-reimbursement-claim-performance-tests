@@ -17,10 +17,11 @@
 package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.Predef._
+import io.gatling.http.Predef._
 import io.gatling.core.action.builder.ActionBuilder
 import io.gatling.core.check.CheckBuilder
 import io.gatling.core.check.regex.RegexCheckType
-import io.gatling.http.Predef._
+import io.gatling.http.Predef.{header, http, status}
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
@@ -38,15 +39,17 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
   val redirect1       = s"$baseUrl/$route/start"
   val CsrfPattern     = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
   def postBulkScheduledSelectNumberOfClaimsPage: HttpRequestBuilder =
     http("post the select number of claims page")
-      .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
+      .post(s"$baseUrl/$route1/choose-how-many-mrns")
       .formParam("csrfToken", "${csrfToken}")
       .formParam("overpayments.choose-how-many-mrns", "Scheduled")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/scheduled/enter-movement-reference-number": String))
+      .check(
+        status.is(303),
+        header("Location").is(s"/$route1/v2/scheduled/enter-movement-reference-number")
+      )
 
   def getBulkScheduledMrnPage: HttpRequestBuilder =
     http("get Scheduled MRN page")
@@ -85,14 +88,14 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
 
   def getScheduledUploadDocumentsChooseFilePage: HttpRequestBuilder =
     http("get scheduled upload documents choose file page")
-      .get(s"$baseUrlUploadCustomsDocuments/upload-customs-documents/choose-file": String)
+      .get(s"$baseUrlUploadCustomsDocuments/upload-customs-documents/choose-file")
       .check(saveFileUploadUrl)
       .check(saveCallBack)
       .check(saveAmazonDate)
       .check(saveSuccessRedirect)
       .check(saveAmazonCredential)
-      .check(saveUpscanIniateResponse)
-      .check(saveUpscanInitiateRecieved)
+      .check(saveUpscanInitiateResponse)
+      .check(saveUpscanInitiateReceived)
       .check(saveRequestId)
       .check(saveAmazonAlgorithm)
       .check(saveKey)
@@ -102,7 +105,7 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(savePolicy)
       .check(status.is(200))
       .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
-      .check(regex("Add a document showing all MRNs in this claim"))
+      .check(regex("Add a document showing all MRNs in this claim").exists)
 
   def postScheduledUploadDocumentsChooseFilePagePage: HttpRequestBuilder =
     http("post scheduled upload documents choose file page")
@@ -743,8 +746,8 @@ object BulkScheduledMrnRequests extends ServicesConfiguration with RequestUtils 
       .check(saveAmazonDate)
       .check(saveSuccessRedirect)
       .check(saveAmazonCredential)
-      .check(saveUpscanIniateResponse)
-      .check(saveUpscanInitiateRecieved)
+      .check(saveUpscanInitiateResponse)
+      .check(saveUpscanInitiateReceived)
       .check(saveRequestId)
       .check(saveAmazonAlgorithm)
       .check(saveKey)

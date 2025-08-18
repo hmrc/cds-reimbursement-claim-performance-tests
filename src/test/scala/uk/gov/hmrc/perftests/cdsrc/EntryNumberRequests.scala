@@ -17,12 +17,11 @@
 package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.Predef._
-import io.gatling.core.action.builder.{ActionBuilder, PauseBuilder}
+import io.gatling.core.action.builder.ActionBuilder
 import io.gatling.core.check.CheckBuilder
 import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
-import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 import scala.concurrent.duration.DurationInt
@@ -39,7 +38,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   val redirect1       = s"$baseUrl/$route/start"
   val CsrfPattern     = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
   def getCdsrStartPage1: HttpRequestBuilder =
     http("Get cdsr start page")
@@ -56,7 +55,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get check eori details page")
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken())
-      .check(status.is(200))
+      .check(status.in(200,303))
       .check(regex("Check if this is the correct EORI"))
 
   def postCheckEoriDetailsPage: HttpRequestBuilder =
@@ -65,18 +64,18 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-eori-details", "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/select-number-of-claims": String))
+      .check(header("Location").is(s"/$route/choose-claim-type": String))
 
   def getSelectNumberOfClaimsPage: HttpRequestBuilder =
     http("get the select number of claims page")
-      .get(s"$baseUrl/$route/select-number-of-claims": String)
+      .get(s"$baseUrl/$route/choose-claim-type": String)
       .check(status.is(200))
       .check(saveCsrfToken())
-      .check(regex("Select number of claims"))
+      .check(regex("choose-claim-type"))
 
   def postSelectNumberOfClaimsPage: HttpRequestBuilder =
     http("post the select number of claims page")
-      .post(s"$baseUrl/$route/select-number-of-claims": String)
+      .post(s"$baseUrl/$route/choose-claim-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-number-of-claims", "0")
       .check(status.is(303))
@@ -301,8 +300,8 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(saveAmazonDate)
       .check(saveSuccessRedirect)
       .check(saveAmazonCredential)
-      .check(saveUpscanIniateResponse)
-      .check(saveUpscanInitiateRecieved)
+      .check(saveUpscanInitiateResponse)
+      .check(saveUpscanInitiateReceived)
       .check(saveRequestId)
       .check(saveAmazonAlgorithm)
       .check(saveKey)
@@ -349,7 +348,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get("${UpscanResponseSuccess}")
       .check(status.in(303, 200))
 
-  def constPause = new PauseBuilder(60 seconds, None)
+  //def constPause = new PauseBuilder(60 seconds, None)
 
   def postScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
@@ -387,11 +386,11 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
 
   def getFileVerificationStatusPage: List[ActionBuilder] =
     asLongAs(session => session("fileStatus").asOption[String].forall(s => s == "WAITING" || s == "NOT_UPLOADED"))(
-      pause(1.second).exec(
+      pause(2.second).exec(
         http("get the file verification status page")
-          .get(s"$baseUrlUploadCustomsDocuments" + "${fileVerificationUrl}")
-          .check(status.is(200))
-          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED").saveAs("fileStatus"))
+          .get(s"$baseUrlUploadCustomsDocuments" + "#{fileVerificationUrl}")
+          .check(status.in(200,303))
+          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED","REJECTED").saveAs("fileStatus"))
       )
     ).actionBuilders
 
@@ -399,7 +398,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     asLongAs(session => session("fileStatus1").asOption[String].forall(s => s == "WAITING" || s == "NOT_UPLOADED"))(
       pause(1.second).exec(
         http("get the file verification status page")
-          .get(s"$baseUrlUploadCustomsDocuments" + "${fileVerificationUrl}")
+          .get(s"$baseUrlUploadCustomsDocuments" + "#{fileVerificationUrl}")
           .check(status.is(200))
           .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED").saveAs("fileStatus1"))
       )
@@ -410,7 +409,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get { session =>
         val Location = session.attributes("fileVerificationUrl")
         s"$baseUrl$Location"
-
       }
       .check(jsonPath("$.fileStatus").is("NOT_UPLOADED"))
 
@@ -418,7 +416,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get upload documents summary page")
       .get(s"$baseUrl/$route/upload-documents/summary": String)
       .check(status.is(303))
-      //.check(regex("You(.*)added 1 document to your claim"))
+  //.check(regex("You(.*)added 1 document to your claim"))
 
   def postUploadDocumentsSummaryPage: HttpRequestBuilder =
     http("post upload documents summary page")

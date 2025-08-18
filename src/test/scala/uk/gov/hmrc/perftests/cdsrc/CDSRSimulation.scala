@@ -19,18 +19,16 @@ package uk.gov.hmrc.perftests.cdsrc
 import io.gatling.core.action.builder.ActionBuilder
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
 import uk.gov.hmrc.perftests.cdsrc.AwesomeStubRequests._
-import uk.gov.hmrc.perftests.cdsrc.MultipleMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.BulkScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.EntryNumberRequests._
-import uk.gov.hmrc.perftests.cdsrc.FeatureSwitch._
-import uk.gov.hmrc.perftests.cdsrc.OverPaymentsScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.OverPaymentsBulkMultipleMrnRequests._
+import uk.gov.hmrc.perftests.cdsrc.OverPaymentsScheduledMrnRequests._
 import uk.gov.hmrc.perftests.cdsrc.OverPaymentsSingleMrnRequests._
-import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
-import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsMultipleRequests._
 import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsScheduledRequests._
+import uk.gov.hmrc.perftests.cdsrc.RejectedGoodsSingleRequests._
 import uk.gov.hmrc.perftests.cdsrc.SecuritiesSingleRequests._
+import uk.gov.hmrc.perftests.cdsrc.SingleMrnRequests._
 
 class CDSRSimulation extends PerformanceTestRunner {
 
@@ -41,15 +39,16 @@ class CDSRSimulation extends PerformanceTestRunner {
     if (useAwesomeStubs)
       List(
         getLoginPage,
-        loginUser(eoriValue),
+        loginUser(eoriValue)
       )
     else
       List(getMRNAuthLoginPage, loginWithAuthLoginStubMRN(eoriValue))
 
+
   val RejectedGoodsSingleMRNJourney: List[ActionBuilder] =
-    LoginTheUser("user1", "GB000000000000001") ++
+   LoginTheUser("user1","GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+        //cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -57,6 +56,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsSelectClaimTypePage,
         getRejectedGoodsChooseHowManyMrnsPage,
         postRejectedGoodsChooseHowManyMrnsPage,
+        getRejectedGoodsHaveYourDocumentsReady,
         getRejectedGoodsMRNPage,
         postRejectedGoodsMRNPage,
         getRejectedGoodsImporterEoriEntryPage,
@@ -64,12 +64,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsDeclarantEoriEntryPage,
         postRejectedGoodsDeclarantEoriEntryPage,
         getRejectedGoodsCheckDeclarationPage,
-        postRejectedGoodsCheckDeclarationPage,
-        getRejectedGoodsClaimantDetailsPage,
-        getRejectedGoodsContactDetailsPage,
-        postRejectedGoodsChangeContactDetailsPage,
-        getRejectedGoodsClaimantDetailsPage1,
-        postRejectedGoodsClaimDetailsPage,
+        //postRejectedGoodsCheckDeclarationPage,
         getRejectedGoodsChooseBasisForClaimPage,
         postRejectedGoodsChooseBasisForClaimPage,
         getRejectedGoodsSpecialCircumstancesPage,
@@ -80,19 +75,21 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsEnterRejectedDetailsPage,
         getRejectedGoodsSelectDutiesPage,
         postRejectedGoodsSelectDutiesPage,
-        getRejectedGoodsEnterClaimPage,
+        //getRejectedGoodsEnterClaimPage,
         getRejectedGoodsEnterClaimDutyPage,
-        postRejectedGoodsEnterClaimDutyPage,
+        //postRejectedGoodsEnterClaimDutyPage,
         getRejectedGoodsCheckClaimPage,
-        postRejectedGoodsCheckClaimPage,
+       // postRejectedGoodsCheckClaimPage,
         getRejectedGoodsInspectionDatePage,
         postRejectedGoodsInspectionDatePage,
         getRejectedGoodsInspectionAddressChoosePage,
         postRejectedGoodsInspectionAddressChoosePage,
         getRejectedGoodsChoosePayeeTypePage,
-        getRejectedGoodsCheckBankDetailsPage,
-        getRejectedGoodsBankAccountTypePage,
-        postRejectedGoodsBankAccountTypePage,
+        getRejectedGoodsRepaymentMethodPage,
+        //postRejectedGoodsRepaymentMethodPage,
+        //getRejectedGoodsCheckBankDetailsPage,
+        //getRejectedGoodsBankAccountTypePage,
+        //postRejectedGoodsBankAccountTypePage,
         getRejectedGoodsEnterBankDetailsPage,
         postRejectedGoodsEnterBankDetailsPage,
         getRejectedGoodsChooseFileTypePage,
@@ -104,7 +101,10 @@ class CDSRSimulation extends PerformanceTestRunner {
       ) ++
       getFileVerificationStatusPage ++
       List[ActionBuilder](
-        getRejectedGoodsContinueToHostPage,
+        //getRejectedGoodsContinueToHostPage,
+        postRejectedGoodsChangeContactDetailsPage,
+        getRejectedGoodsClaimantDetailsPage1,
+        postRejectedGoodsClaimDetailsPage,
         getRejectedGoodsCheckYourAnswersPage,
         postRejectedGoodsCheckYourAnswersPage,
         getRejectedGoodsClaimSubmittedPage
@@ -116,7 +116,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val RejectedGoodsMultipleMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+        //cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -124,6 +124,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsMultipleSelectClaimTypePage,
         getRejectedGoodsMultipleChooseHowManyMrnsPage,
         postRejectedGoodsMultipleChooseHowManyMrnsPage,
+        getRejectedGoodsMultipleHaveYourDocumentsReady,
         getRejectedGoodsMultipleMRNPage,
         postRejectedGoodsMultipleMRNPage,
         getRejectedGoodsMultipleImporterEoriEntryPage,
@@ -136,11 +137,6 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsMultipleMRN2Page,
         getRejectedGoodsCheckMRNsPage,
         postRejectedGoodsCheckMRNsPage,
-        getRejectedGoodsMultipleClaimantDetailsPage,
-        getRejectedGoodsMultipleContactDetailsPage,
-        postRejectedGoodsMultipleChangeContactDetailsPage,
-        getRejectedGoodsMultipleClaimantDetailsPage1,
-        postRejectedGoodsMultipleClaimDetailsPage,
         getRejectedGoodsMultipleChooseBasisForClaimPage,
         postRejectedGoodsMultipleChooseBasisForClaimPage,
         getRejectedGoodsMultipleSpecialCircumstancesPage,
@@ -158,15 +154,16 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsMultipleEnterClaimDutyTwoPage,
         postRejectedGoodsMultipleEnterClaimDutyTwoPage,
         getRejectedGoodsMultipleCheckClaimPage,
-        postRejectedGoodsMultipleCheckClaimPage,
+        //postRejectedGoodsMultipleCheckClaimPage,
         getRejectedGoodsMultipleInspectionDatePage,
         postRejectedGoodsMultipleInspectionDatePage,
         getRejectedGoodsMultipleInspectionAddressChoosePage,
         postRejectedGoodsMultipleInspectionAddressChoosePage,
         getRejectedGoodsMultipleChoosePayeeTypePage,
-        getRejectedGoodsMultipleCheckBankDetailsPage,
-        getRejectedGoodsMultipleBankAccountTypePage,
-        postRejectedGoodsMultipleBankAccountTypePage,
+        //postRejectedGoodsMultipleChoosePayeeTypePage,
+        //getRejectedGoodsMultipleCheckBankDetailsPage,
+        //getRejectedGoodsMultipleBankAccountTypePage,
+        //postRejectedGoodsMultipleBankAccountTypePage,
         getRejectedGoodsMultipleEnterBankDetailsPage,
         postRejectedGoodsMultipleEnterBankDetailsPage,
         getRejectedGoodsMultipleChooseFileTypePage,
@@ -178,8 +175,12 @@ class CDSRSimulation extends PerformanceTestRunner {
       ) ++
       getFileVerificationStatusPage ++
       List[ActionBuilder](
+        getRejectedGoodsMultipleClaimantDetailsPage,
+        postRejectedGoodsMultipleChangeContactDetailsPage,
+        getRejectedGoodsMultipleClaimantDetailsPage1,
+        postRejectedGoodsMultipleClaimDetailsPage,
         getRejectedGoodsMultipleCheckYourAnswersPage,
-        postRejectedGoodsMultipleCheckYourAnswersPage,
+      // postRejectedGoodsMultipleCheckYourAnswersPage,
         getRejectedGoodsMultipleClaimSubmittedPage
       )
 
@@ -189,7 +190,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val RejectedGoodsScheduledMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+        //cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -307,57 +308,66 @@ class CDSRSimulation extends PerformanceTestRunner {
   setup("Rejected-Goods-Scheduled-MRN-journey", "Rejected Goods Scheduled MRN journey") withActions
     (RejectedGoodsScheduledMRNJourney: _*)
 
-  val SecuritiesSingleBod4Journey : List[ActionBuilder] =
+  val SecuritiesSingleBod4Journey: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+       // cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
         getSecuritiesSelectClaimTypePage,
         postSecuritiesSelectClaimTypePage,
         getSecuritiesEnterMovementReferenceNumberPage,
-        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAAAA1"),
+        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAA111"),
         getSecuritiesReasonForSecurityPage,
-        postSecuritiesReasonForSecurityPage(trueOrFalse = true, reasonForSecurity = "End Use Relief"),
-        getSecuritiesTotalImportDischargedPage,
-        postSecuritiesTotalImportDischargedForBod4Page,
-        getSecuritiesBod4MandatoryCheckPage,
-        postSecuritiesBod4MandatoryCheckPage,
-        getSecuritiesSelectSecuritiesPage,
-        getSecuritiesSelectSecurities1Page,
-        postSecuritiesSelectSecurities1Page,
-        getSecuritiesSelectSecurities2Page,
-        postSecuritiesSelectSecurities2Page,
+        postSecuritiesReasonForSecurityPage(
+          trueOrFalse = true,
+          reasonForSecurity = "Authorised-use (Great Britain) or end-use (Northern Ireland) relief"
+        ),
+        //getSecuritiesSelectSecuritiesPage,
+        //getSecuritiesSelectSecurities1Page,
+        //postSecuritiesSelectSecurities1Page,
+        //getSecuritiesSelectSecurities2Page,
+        //postSecuritiesSelectSecurities2Page,
         getSecuritiesCheckDeclarationDetailsPage,
         postSecuritiesCheckDeclarationDetailsPage(trueOrFalse = true),
-        getSecuritiesClaimantDetailsPage,
-        postSecuritiesClaimantDetailsPage,
-        getSecuritiesConfirmFullRepaymentPage,
-        getSecuritiesConfirmFullRepayment1of2Page,
-        postSecuritiesConfirmFullRepayment1of2Page,
-        getSecuritiesConfirmFullRepayment2of2Page,
-        postSecuritiesConfirmFullRepayment2of2Page,
-        getSecuritiesSelectDutiesPage,
-        postSecuritiesSelectDutiesPage,
-        getSecuritiesEnterClaimPage,
-        getSecuritiesEnterClaimTaxCodePage,
-        postSecuritiesEnterClaimTaxCodePage,
-        getSecuritiesCheckClaimPage,
-        postSecuritiesCheckClaimPage,
+        getSecuritiesTotalImportDischargedPage,
+        postSecuritiesTotalImportDischargedForBod4Page,
+        getSecuritiesBODChooseFileTypePage,
+        postSecuritiesBODChooseFileTypePage,
+        //postSecuritiesBod4MandatoryCheckPage,
+        getAddOtherDocuments,
+        postAddOtherDocuments,
         getSecuritiesChoosePayeeTypePage,
-        getSecuritiesCheckBankDetailsPage,
-        getSecuritiesLetterOfAuthorityPage,
-        postSecuritiesLetterOfAuthorityPage,
-        getSecuritiesChooseBankAccountTypePage,
-        postSecuritiesChooseBankAccountTypePage,
         getSecuritiesEnterBankAccountDetailsPage,
         postSecuritiesEnterBankAccountDetailsPage,
-        getSecuritiesChooseFileTypePage,
-        postSecuritiesChooseFileTypePage,
-        getSecuritiesChooseFilesPage,
-        getSecuritiesCustomsDocumentsChooseFilePage,
-        postSecuritiesUploadCustomsDocumentsChooseFilePage,
+        getEnterAdditionalDetails,
+        postEnterAdditionalDetails,
+        getSecuritiesClaimantDetailsPage,
+        postSecuritiesClaimantDetailsPage,
+        //getSecuritiesConfirmFullRepaymentPage,
+        //getSecuritiesConfirmFullRepayment1of2Page,
+        //postSecuritiesConfirmFullRepayment1of2Page,
+        //getSecuritiesConfirmFullRepayment2of2Page,
+        //postSecuritiesConfirmFullRepayment2of2Page,
+        //getSecuritiesSelectDutiesPage,
+        //postSecuritiesSelectDutiesPage,
+        //getSecuritiesEnterClaimPage,
+        //getSecuritiesEnterClaimTaxCodePage,
+        //postSecuritiesEnterClaimTaxCodePage,
+        //getSecuritiesCheckClaimPage,
+        //postSecuritiesCheckClaimPage,
+
+        //getSecuritiesLetterOfAuthorityPage,
+        //postSecuritiesLetterOfAuthorityPage,
+        //getSecuritiesChooseBankAccountTypePage,
+        //postSecuritiesChooseBankAccountTypePage,
+
+        //getSecuritiesChooseFileTypePage,
+        //postSecuritiesChooseFileTypePage,
+        //getSecuritiesChooseFilesPage,
+        //getSecuritiesCustomsDocumentsChooseFilePage,
+        //postSecuritiesUploadCustomsDocumentsChooseFilePage,
         getSecuritiesSingleScanProgressWaitPage
       ) ++
       getFileVerificationStatusPage ++
@@ -369,57 +379,68 @@ class CDSRSimulation extends PerformanceTestRunner {
   setup("Securities-Single-MRN-BOD4-journey", "Securities Single MRN with BOD4 journey") withActions
     (SecuritiesSingleBod4Journey: _*)
 
-  val SecuritiesSingleBOD3Journey : List[ActionBuilder] =
+  val SecuritiesSingleBOD3Journey: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+       // cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
         getSecuritiesSelectClaimTypePage,
         postSecuritiesSelectClaimTypePage,
         getSecuritiesEnterMovementReferenceNumberPage,
-        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAAAA1"),
+        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAA111"),
         getSecuritiesReasonForSecurityPage,
-        postSecuritiesReasonForSecurityPage(trueOrFalse = true, reasonForSecurity = "Inward Processing Relief"),
-        getSecuritiesTotalImportDischargedPage,
-        postSecuritiesTotalImportDischargedForBod3Page,
-        getSecuritiesBod3MandatoryCheckPage,
-        postSecuritiesBod3MandatoryCheckPage,
-        getSecuritiesSelectSecuritiesPage,
-        getSecuritiesSelectSecurities1Page,
-        postSecuritiesSelectSecurities1Page,
-        getSecuritiesSelectSecurities2Page,
-        postSecuritiesSelectSecurities2Page,
+        postSecuritiesReasonForSecurityPage(trueOrFalse = true, reasonForSecurity = "Inward-processing relief (IPR)"),
         getSecuritiesCheckDeclarationDetailsPage,
         postSecuritiesCheckDeclarationDetailsPage(trueOrFalse = true),
-        getSecuritiesClaimantDetailsPage,
-        postSecuritiesClaimantDetailsPage,
-        getSecuritiesConfirmFullRepaymentPage,
-        getSecuritiesConfirmFullRepayment1of2Page,
-        postSecuritiesConfirmFullRepayment1of2Page,
-        getSecuritiesConfirmFullRepayment2of2Page,
-        postSecuritiesConfirmFullRepayment2of2Page,
-        getSecuritiesSelectDutiesPage,
-        postSecuritiesSelectDutiesPage,
-        getSecuritiesEnterClaimPage,
-        getSecuritiesEnterClaimTaxCodePage,
-        postSecuritiesEnterClaimTaxCodePage,
-        getSecuritiesCheckClaimPage,
-        postSecuritiesCheckClaimPage,
+        getSecuritiesTotalImportDischargedPage,
+        postSecuritiesTotalImportDischargedForBod3Page,
+        getSecuritiesBODChooseFileTypePage,
+        postSecuritiesBODChooseFileTypePage,
+        getAddOtherDocuments,
+        postAddOtherDocuments,
         getSecuritiesChoosePayeeTypePage,
-        getSecuritiesCheckBankDetailsPage,
-        getSecuritiesLetterOfAuthorityPage,
-        postSecuritiesLetterOfAuthorityPage,
-        getSecuritiesChooseBankAccountTypePage,
-        postSecuritiesChooseBankAccountTypePage,
         getSecuritiesEnterBankAccountDetailsPage,
         postSecuritiesEnterBankAccountDetailsPage,
-        getSecuritiesChooseFileTypePage,
-        postSecuritiesChooseFileTypePage,
-        getSecuritiesChooseFilesPage,
-        getSecuritiesCustomsDocumentsChooseFilePage,
-        postSecuritiesUploadCustomsDocumentsChooseFilePage,
+        getEnterAdditionalDetails,
+        postEnterAdditionalDetails,
+        getSecuritiesClaimantDetailsPage,
+        postSecuritiesClaimantDetailsPage,
+        //postSecuritiesBod3MandatoryCheckPage,
+        //getSecuritiesSelectSecuritiesPage,
+        // getSecuritiesSelectSecurities1Page,
+        //postSecuritiesSelectSecurities1Page,
+        //getSecuritiesSelectSecurities2Page,
+        //postSecuritiesSelectSecurities2Page,
+
+        //getSecuritiesClaimantDetailsPage,
+        //postSecuritiesClaimantDetailsPage,
+        //getSecuritiesConfirmFullRepaymentPage,
+        //getSecuritiesConfirmFullRepayment1of2Page,
+        // postSecuritiesConfirmFullRepayment1of2Page,
+        //getSecuritiesConfirmFullRepayment2of2Page,
+        //postSecuritiesConfirmFullRepayment2of2Page,
+        //getSecuritiesSelectDutiesPage,
+        //postSecuritiesSelectDutiesPage,
+        //getSecuritiesEnterClaimPage,
+        //getSecuritiesEnterClaimTaxCodePage,
+        //postSecuritiesEnterClaimTaxCodePage,
+        //getSecuritiesCheckClaimPage,
+        //postSecuritiesCheckClaimPage,
+        //getSecuritiesChoosePayeeTypePage,
+        //getSecuritiesCheckBankDetailsPage,
+        //getSecuritiesLetterOfAuthorityPage,
+        //postSecuritiesLetterOfAuthorityPage,
+        //getSecuritiesChooseBankAccountTypePage,
+        //postSecuritiesChooseBankAccountTypePage,
+        //getSecuritiesEnterBankAccountDetailsPage,
+        //postSecuritiesEnterBankAccountDetailsPage,
+        //getSecuritiesChooseFileTypePage,
+        //postSecuritiesChooseFileTypePage,
+        //getSecuritiesChooseFilesPage,
+        //getSecuritiesCustomsDocumentsChooseFilePage,
+        //postSecuritiesUploadCustomsDocumentsChooseFilePage,
         getSecuritiesSingleScanProgressWaitPage
       ) ++
       getFileVerificationStatusPage ++
@@ -431,24 +452,24 @@ class CDSRSimulation extends PerformanceTestRunner {
   setup("Securities-Single-MRN-BOD3-journey", "Securities Single MRN with BOD3 journey") withActions
     (SecuritiesSingleBOD3Journey: _*)
 
-  val SecuritiesSingleTemporaryAdmissionsJourney : List[ActionBuilder] =
+  val SecuritiesSingleTemporaryAdmissionsJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+        //cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
         getSecuritiesSelectClaimTypePage,
         postSecuritiesSelectClaimTypePage,
         getSecuritiesEnterMovementReferenceNumberPage,
-          postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAAAA1"),
+        postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAA111"),
         getSecuritiesReasonForSecurityPage,
-        postSecuritiesReasonForSecurityPage(trueOrFalse = false, reasonForSecurity = "Temporary Admissions (2 months Expiration)"),
-        getSecuritiesSelectSecuritiesPage,
-        getSecuritiesSelectSecurities1Page,
-        postSecuritiesSelectSecurities1Page,
-        getSecuritiesSelectSecurities2Page,
-        postSecuritiesSelectSecurities2Page,
+        postSecuritiesReasonForSecurityPage(trueOrFalse = false, reasonForSecurity = "Temporary admissions (2 months)"),
+        //getSecuritiesSelectSecuritiesPage,
+        //getSecuritiesSelectSecurities1Page,
+        //postSecuritiesSelectSecurities1Page,
+        //getSecuritiesSelectSecurities2Page,
+        //postSecuritiesSelectSecurities2Page,
         getSecuritiesCheckDeclarationDetailsPage,
         postSecuritiesCheckDeclarationDetailsPage(trueOrFalse = false),
         getSecuritiesExportMethodPage,
@@ -493,10 +514,10 @@ class CDSRSimulation extends PerformanceTestRunner {
   setup("Securities-Single-MRN-TA-journey", "Securities Single MRN with Temporary Admissions journey") withActions
     (SecuritiesSingleTemporaryAdmissionsJourney: _*)
 
-  val SecuritiesSingleAcc14Error086Journey : List[ActionBuilder] =
+  val SecuritiesSingleAcc14Error086Journey: List[ActionBuilder] =
     LoginTheUser("user1", "AA12345678901234Z") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+        //cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -504,17 +525,17 @@ class CDSRSimulation extends PerformanceTestRunner {
         postSecuritiesSelectClaimTypePage,
         getSecuritiesEnterMovementReferenceNumberPage,
         postSecuritiesEnterMovementReferenceNumberPage("41ABCDEFGHIJKLMNO1"),
-        getSecuritiesReasonForSecurityPage,
-        postSecuritiesReasonForSecurityForErrorPage(trueOrFalse = true, reasonForSecurity = "Account Sales"),
-        getSecuritiesAcc14Error086Page
+        getSecuritiesReasonForSecurityPage
+        //postSecuritiesReasonForSecurityForErrorPage(trueOrFalse = true, reasonForSecurity = "Account Sales"),
+        //getSecuritiesAcc14Error086Page
       )
-        setup("Securities-Single-MRN-ACC14-086-journey", "Securities Single MRN with ACC14 086 journey") withActions
-          (SecuritiesSingleAcc14Error086Journey: _*)
+  setup("Securities-Single-MRN-ACC14-086-journey", "Securities Single MRN with ACC14 086 journey") withActions
+    (SecuritiesSingleAcc14Error086Journey: _*)
 
-  val SecuritiesSingleAcc14Error072Journey : List[ActionBuilder] =
+  val SecuritiesSingleAcc14Error072Journey: List[ActionBuilder] =
     LoginTheUser("user1", "AA12345678901234Z") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+       // cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -522,17 +543,17 @@ class CDSRSimulation extends PerformanceTestRunner {
         postSecuritiesSelectClaimTypePage,
         getSecuritiesEnterMovementReferenceNumberPage,
         postSecuritiesEnterMovementReferenceNumberPage("41ABCDEFGHIJKLMNO2"),
-        getSecuritiesReasonForSecurityPage,
-        postSecuritiesReasonForSecurityForErrorPage(trueOrFalse = false, reasonForSecurity = "Account Sales"),
-        getSecuritiesAcc14Error072Page
+        getSecuritiesReasonForSecurityPage
+        //postSecuritiesReasonForSecurityForErrorPage(trueOrFalse = false, reasonForSecurity = "Account Sales"),
+        // getSecuritiesAcc14Error072Page
       )
   setup("Securities-Single-MRN-ACC14-072-journey", "Securities Single MRN with ACC14 072 journey") withActions
     (SecuritiesSingleAcc14Error072Journey: _*)
 
-  val SecuritiesSingleTPI04ErrorJourney : List[ActionBuilder] =
+  val SecuritiesSingleTPI04ErrorJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Disable,
+        //cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -540,9 +561,9 @@ class CDSRSimulation extends PerformanceTestRunner {
         postSecuritiesSelectClaimTypePage,
         getSecuritiesEnterMovementReferenceNumberPage,
         postSecuritiesEnterMovementReferenceNumberPage("30ABCDEFGHIJKLMNO1"),
-        getSecuritiesReasonForSecurityPage,
-        postSecuritiesReasonForSecurityForTP104ErrorPage(trueOrFalse = true, reasonForSecurity = "Manual override of duty amount"),
-        getSecuritiesTPI04ErrorPage
+        getSecuritiesReasonForSecurityPage
+        //postSecuritiesReasonForSecurityForTP104ErrorPage(trueOrFalse = true, reasonForSecurity = "Manual override of duty amount"),
+        // getSecuritiesTPI04ErrorPage
       )
   setup("Securities-Single-MRN-TPI04-journey", "Securities Single MRN with TPI04 journey") withActions
     (SecuritiesSingleTPI04ErrorJourney: _*)
@@ -550,10 +571,11 @@ class CDSRSimulation extends PerformanceTestRunner {
   val OverPaymentsSingleMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Enable,
-        getOverPaymentsMRNCdsrStartPage,
-        getOverPaymentsMRNCheckEoriDetailsPage,
-        postOverPaymentsMRNCheckEoriDetailsPage,
+        //cdsOverPaymentsV2Enable,
+        //getOverPaymentsMRNCdsrStartPage,
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
         getOverPaymentsSelectClaimTypePage,
         postOverPaymentsSelectClaimTypePage,
         getOverpaymentsChooseHowManyMrnsPage,
@@ -595,12 +617,12 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsChooseFilesPage,
         getOverpaymentsUploadCustomsDocumentsChooseFilePage,
         postOverpaymentsUploadCustomsDocumentsChooseFilePage,
-        getOverpaymentsScanProgressWaitPage,
-        ) ++
-        getOverpaymentsFileVerificationStatusPage ++
-        List[ActionBuilder](
-          getOverpaymentsContinueToHostPage,
-            getOverpaymentsCheckYourAnswersPage,
+        getOverpaymentsScanProgressWaitPage
+      ) ++
+      getOverpaymentsFileVerificationStatusPage ++
+      List[ActionBuilder](
+        getOverpaymentsContinueToHostPage,
+        getOverpaymentsCheckYourAnswersPage,
         postOverpaymentsCheckYourAnswersPage,
         getOverpaymentsClaimSubmittedPage
       )
@@ -611,7 +633,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   val OverPaymentsBulkMultipleV2MRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Enable,
+        //cdsOverPaymentsV2Enable,
         getOverPaymentsMRNCdsrStartPage,
         getOverPaymentsMRNCheckEoriDetailsPage,
         postOverPaymentsMRNCheckEoriDetailsPage,
@@ -659,24 +681,26 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsMultipleChooseFilesPage,
         getOverpaymentsUploadCustomsDocumentsChooseFilePage,
         postOverpaymentsUploadCustomsDocumentsChooseFilePage,
-        getOverpaymentsScanProgressWaitPage,
-        ) ++
-        getOverpaymentsFileVerificationStatusPage ++
+        getOverpaymentsScanProgressWaitPage
+      ) ++
+      getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
         getOverpaymentsMultipleContinueToHostPage,
         getOverpaymentsMultipleCheckYourAnswersPage,
         postOverpaymentsMultipleCheckYourAnswersPage,
         getOverpaymentsMultipleClaimSubmittedPage
-        )
+      )
 
-  setup("OverPayments-Bulk-Multiple-V2-MRN-journey", "Overpayments Bulk Multiple V2 Movement reference number journey") withActions
+  setup(
+    "OverPayments-Bulk-Multiple-V2-MRN-journey",
+    "Overpayments Bulk Multiple V2 Movement reference number journey"
+  ) withActions
     (OverPaymentsBulkMultipleV2MRNJourney: _*)
-
 
   val OverPaymentsBulkScheduledV2MRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000002") ++
       List[ActionBuilder](
-        cdsOverPaymentsV2Enable,
+        //cdsOverPaymentsV2Enable,
         getOverPaymentsMRNCdsrStartPage,
         getOverPaymentsMRNCheckEoriDetailsPage,
         postOverPaymentsMRNCheckEoriDetailsPage,
@@ -695,7 +719,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScheduledUploadMrnListPage,
         getScheduledUploadDocumentsChooseFilePage,
         postScheduledUploadDocumentsChooseFilePagePage,
-        getScheduledDocumentUploadProgressPage,
+        getScheduledDocumentUploadProgressPage
       ) ++
       getFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -777,7 +801,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScheduledChooseFilesPage,
         getOverpaymentsUploadCustomsDocumentsChooseFilePage,
         postOverpaymentsUploadCustomsDocumentsChooseFilePage,
-        getOverpaymentsScanProgressWaitPage,
+        getOverpaymentsScanProgressWaitPage
       ) ++
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -786,7 +810,10 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScheduledClaimSubmittedPage
       )
 
-  setup("OverPayments-Bulk-Scheduled-V2-MRN-journey", "Overpayments Bulk Scheduled V2 Movement reference number journey") withActions
+  setup(
+    "OverPayments-Bulk-Scheduled-V2-MRN-journey",
+    "Overpayments Bulk Scheduled V2 Movement reference number journey"
+  ) withActions
     (OverPaymentsBulkScheduledV2MRNJourney: _*)
-    runSimulation()
+  runSimulation()
 }

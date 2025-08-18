@@ -22,23 +22,18 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 import uk.gov.hmrc.perftests.cdsrc.OverPaymentsSingleMrnRequests._
 
-
 object FeatureSwitch extends ServicesConfiguration {
 
-  def cdsOverPaymentsV2Enable: HttpRequestBuilder = {
+  def cdsOverPaymentsV2Enable: HttpRequestBuilder =
     //val url = if (trueOrFalse) s"/$overPaymentsV2/feature/overpayments_v2/enable":String else s"$overPaymentsV2/feature/overpayments_v2/disable" :String
     http(requestName = "Set Overpayments v2")
-      .get(s"$overPaymentsV2/feature/overpayments_v2/enable" :String)
-     // .body(StringBody(JsBoolean(true).toString())).asJson
+      .get(s"$overPaymentsV2/feature/overpayments_v2/enable": String)
+      // .body(StringBody(JsBoolean(true).toString())).asJson
       .check(status.is(expected = 200))
-  }
 
-  def cdsOverPaymentsV2Disable: HttpRequestBuilder = {
+  def cdsOverPaymentsV2Disable: HttpRequestBuilder =
     http(requestName = "Set Overpayments v2")
-      .get(s"$overPaymentsV2/feature/overpayments_v2/disable" :String)
+      .get(s"$overPaymentsV2/feature/overpayments_v2/disable": String)
       .check(status.is(expected = 200))
-  }
-
-
 
 }

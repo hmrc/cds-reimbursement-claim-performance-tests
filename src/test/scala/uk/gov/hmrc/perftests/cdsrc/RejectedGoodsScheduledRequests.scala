@@ -29,131 +29,117 @@ import scala.concurrent.duration.DurationInt
 object RejectedGoodsScheduledRequests extends ServicesConfiguration with RequestUtils {
 
   val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
-  val route: String = "claim-back-import-duty-vat"
-  val route1: String = "claim-back-import-duty-vat/rejected-goods"
+  val route: String   = "claim-back-import-duty-vat"
+  val route1: String  = "claim-back-import-duty-vat/rejected-goods"
 
   val authUrl: String = baseUrlFor("auth-login-stub")
-  val redirect = s"$baseUrl/$route/start/claim-for-reimbursement"
-  val redirect1 = s"$baseUrl/$route/start"
-  val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
+  val redirect        = s"$baseUrl/$route/start/claim-for-reimbursement"
+  val redirect1       = s"$baseUrl/$route/start"
+  val CsrfPattern     = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
-  def getRejectedGoodsScheduledSelectClaimTypePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledSelectClaimTypePage: HttpRequestBuilder =
     http("get select claim type page")
       .get(s"$baseUrl/$route/select-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Start a new claim"))
-  }
 
-  def postRejectedGoodsScheduledSelectClaimTypePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledSelectClaimTypePage: HttpRequestBuilder =
     http("post rejected goods scheduled select claim type page")
       .post(s"$baseUrl/$route/select-claim-type": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("choose-claim-type",  "RejectedGoods")
+      .formParam("choose-claim-type", "RejectedGoods")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/choose-how-many-mrns": String))
-  }
 
-  def getRejectedGoodsScheduledChooseHowManyMrnsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledChooseHowManyMrnsPage: HttpRequestBuilder =
     http("get the rejected goods scheduled choose how many mrns page")
       .get(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .check(status.is(200))
       .check(saveCsrfToken())
       .check(regex("How many Movement Reference Numbers do you want to submit in this claim?"))
-  }
 
-  def postRejectedGoodsScheduledChooseHowManyMrnsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledChooseHowManyMrnsPage: HttpRequestBuilder =
     http("post the rejected scheduled goods choose how many mrns page")
       .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("rejected-goods.choose-how-many-mrns", "Scheduled")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-movement-reference-number": String))
-  }
 
-  def getRejectedGoodsScheduledMRNPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMRNPage: HttpRequestBuilder =
     http("get rejected goods scheduled the MRN page")
       .get(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the first Movement Reference Number (.*)"))
-  }
 
-  def postRejectedGoodsScheduledMRNPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMRNPage: HttpRequestBuilder =
     http("post rejected goods scheduled the MRN page")
       .post(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-movement-reference-number.rejected-goods", "10ABCDEFGHIJKLMNO0")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-importer-eori": String))
-  }
 
-  def getRejectedGoodsScheduledImporterEoriEntryPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledImporterEoriEntryPage: HttpRequestBuilder =
     http("get the rejected goods scheduled MRN importer eori entry page")
       .get(s"$baseUrl/$route1/scheduled/enter-importer-eori": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the importer’s EORI number"))
-  }
 
-  def postRejectedGoodsScheduledImporterEoriEntryPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledImporterEoriEntryPage: HttpRequestBuilder =
     http("post the rejected goods scheduled MRN importer eori entry page")
       .post(s"$baseUrl/$route1/scheduled/enter-importer-eori": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-importer-eori-number", "GB123456789012345")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-declarant-eori": String))
-  }
 
-  def getRejectedGoodsScheduledDeclarantEoriEntryPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledDeclarantEoriEntryPage: HttpRequestBuilder =
     http("get the rejected goods scheduled MRN declarant eori entry page")
       .get(s"$baseUrl/$route1/scheduled/enter-declarant-eori": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the declarant’s EORI number"))
-  }
 
-  def postRejectedGoodsScheduledDeclarantEoriEntryPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledDeclarantEoriEntryPage: HttpRequestBuilder =
     http("post the rejected goods scheduled MRN declarant eori entry page")
       .post(s"$baseUrl/$route1/scheduled/enter-declarant-eori": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-declarant-eori-number", "GB123456789012345")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/check-declaration-details": String))
-  }
 
-  def getRejectedGoodsScheduledCheckDeclarationPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledCheckDeclarationPage: HttpRequestBuilder =
     http("get the rejected goods scheduled MRN check declaration details page")
       .get(s"$baseUrl/$route1/scheduled/check-declaration-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check these declaration details are correct"))
-  }
 
-  def postRejectedGoodsScheduledCheckDeclarationPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledCheckDeclarationPage: HttpRequestBuilder =
     http("post rejected goods scheduled check declaration details page")
       .post(s"$baseUrl/$route1/scheduled/check-declaration-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-declaration-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/upload-mrn-list": String))
-  }
 
-  def getRejectedGoodsScheduledUploadMrnListPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledUploadMrnListPage: HttpRequestBuilder =
     http("get rejected goods scheduled upload mrn list page")
       .get(s"$baseUrl/$route1/scheduled/upload-mrn-list": String)
       .check(status.is(303))
-  }
 
-  def getRejectedGoodsScheduledDocumentUploadChooseFilesPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledDocumentUploadChooseFilesPage: HttpRequestBuilder =
     http("get rejected goods scheduled document upload choose files page")
       .get(s"$baseUrl/$route/scheduled/scheduled-document-upload/choose-files": String)
       .check(status.is(303))
-  }
 
-  def getRejectedGoodsUploadDocumentsChooseFilePage : HttpRequestBuilder = {
+  def getRejectedGoodsUploadDocumentsChooseFilePage: HttpRequestBuilder =
     http("get rejected goods scheduled upload documents choose file page")
       .get(s"$baseUrl/$route/upload-documents/choose-file": String)
       .check(saveFileUploadUrl)
@@ -161,8 +147,8 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .check(saveAmazonDate)
       .check(saveSuccessRedirect)
       .check(saveAmazonCredential)
-      .check(saveUpscanIniateResponse)
-      .check(saveUpscanInitiateRecieved)
+      .check(saveUpscanInitiateResponse)
+      .check(saveUpscanInitiateReceived)
       .check(saveRequestId)
       .check(saveAmazonAlgorithm)
       .check(saveKey)
@@ -172,9 +158,8 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .check(savePolicy)
       .check(status.is(200))
       .check(regex("Add a document which shows all the MRNs in this claim"))
-  }
 
-  def postRejectedGoodsScheduledUploadDocumentsChooseFilePagePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledUploadDocumentsChooseFilePagePage: HttpRequestBuilder =
     http("post rejected goods scheduled upload documents choose file page")
       .post("${fileUploadAmazonUrl}")
       .header("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryjoqtomO5urVl5B6N")
@@ -203,68 +188,61 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .check(status.is(303))
       .check(header("Location").saveAs("UpscanResponseSuccess"))
 
-  }
-
-  def getRejectedGoodsScheduledDocumentUploadProgressPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledDocumentUploadProgressPage: HttpRequestBuilder =
     http("get upload progress wait page")
       .get("${UpscanResponseSuccess}")
       .check(status.is(200))
       .check(saveCsrfToken())
       .check(regex("We are checking your document"))
       .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
-  }
 
-  def postRejectedGoodsScheduledDocumentUploadProgressPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledDocumentUploadProgressPage: HttpRequestBuilder =
     http("post upload progress wait page")
       .post(s"$baseUrl" + "${actionlll}")
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
       .check(header("Location").saveAs("scanPage"))
-  }
 
-  def postRejectedGoodsScheduledDocumentUploadProgressPage1 : List[ActionBuilder] = {
+  def postRejectedGoodsScheduledDocumentUploadProgressPage1: List[ActionBuilder] =
     asLongAs(session => session("selectPage").asOption[String].isEmpty)(
-      pause(2.second).exec(http(" post scan progressing wait page1")
-        .get(s"$baseUrl" + "${scanPage}")
-        .check(status.in(303, 200))
-        .check(header("Location").optional.saveAs("selectPage")))
+      pause(2.second).exec(
+        http(" post scan progressing wait page1")
+          .get(s"$baseUrl" + "${scanPage}")
+          .check(status.in(303, 200))
+          .check(header("Location").optional.saveAs("selectPage"))
+      )
     ).actionBuilders
-  }
 
-  def getRejectedGoodsScheduledUploadDocumentsSummaryPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledUploadDocumentsSummaryPage: HttpRequestBuilder =
     http("get rejected goods scheduled upload documents summary page")
       .get(s"$baseUrl" + "${selectPage}")
       .check(status.is(200))
       .check(regex("You have successfully uploaded a document showing all the MRNs in this claim"))
       .check(css("#main-content > div > div > form", "action").saveAs("supportEvidencePageType"))
-  }
 
-  def postRejectedGoodsScheduledUploadDocumentsSummaryPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledUploadDocumentsSummaryPage: HttpRequestBuilder =
     http("post rejected goods scheduled upload documents summary page")
       //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route/upload-documents/summary": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("schedule-document.check-your-answers", "false")
       .check(status.is(303))
-      //.check(header("Location").is(s"/$route/scheduled/claimant-details": String))
-  }
+  //.check(header("Location").is(s"/$route/scheduled/claimant-details": String))
 
-  def getRejectedGoodsScheduledClaimantDetailsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledClaimantDetailsPage: HttpRequestBuilder =
     http("get rejected goods scheduled MRN claimant details page")
       .get(s"$baseUrl/$route1/scheduled/claimant-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("How we will contact you about this claim"))
-  }
 
-  def getRejectedGoodsScheduledContactDetailsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledContactDetailsPage: HttpRequestBuilder =
     http("get rejected goods scheduled change contact details page")
       .get(s"$baseUrl/$route1/scheduled/claimant-details/change-contact-details": String)
       .check(status.is(200))
       .check(regex("Change contact details"))
-  }
 
-  def postRejectedGoodsScheduledChangeContactDetailsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledChangeContactDetailsPage: HttpRequestBuilder =
     http("post rejected goods scheduled change contact details page")
       .post(s"$baseUrl/$route1/scheduled/claimant-details/change-contact-details": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -273,93 +251,82 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/claimant-details": String))
-  }
 
-  def postRejectedGoodsScheduledClaimDetailsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledClaimDetailsPage: HttpRequestBuilder =
     http("post rejected goods scheduled claim details page")
-      .post(s"$baseUrl/$route1/scheduled/claimant-details" : String)
+      .post(s"$baseUrl/$route1/scheduled/claimant-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/choose-basis-for-claim": String))
-  }
 
-  def getRejectedGoodsScheduledChooseBasisForClaimPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledChooseBasisForClaimPage: HttpRequestBuilder =
     http("get rejected goods scheduled choose basis for claim page")
       .get(s"$baseUrl/$route1/scheduled/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Choose the reason for making this claim"))
-  }
 
-  def postRejectedGoodsScheduledChooseBasisForClaimPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledChooseBasisForClaimPage: HttpRequestBuilder =
     http("post rejected goods scheduled choose basis for claim page")
-      .post(s"$baseUrl/$route1/scheduled/choose-basis-for-claim" : String)
+      .post(s"$baseUrl/$route1/scheduled/choose-basis-for-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-basis-for-claim.rejected-goods", "SpecialCircumstances")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-special-circumstances": String))
-  }
 
-  def getRejectedGoodsScheduledSpecialCircumstancesPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledSpecialCircumstancesPage: HttpRequestBuilder =
     http("get rejected goods scheduled special circumstances page")
       .get(s"$baseUrl/$route1/scheduled/enter-special-circumstances": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter any special circumstances"))
-  }
 
-  def postRejectedGoodsScheduledSpecialCircumstancesPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledSpecialCircumstancesPage: HttpRequestBuilder =
     http("post rejected goods scheduled special circumstances page")
-      .post(s"$baseUrl/$route1/scheduled/enter-special-circumstances" : String)
+      .post(s"$baseUrl/$route1/scheduled/enter-special-circumstances": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-special-circumstances.rejected-goods", "reason")
       .check(status.is(303))
-      //.check(header("Location").is(s"/$route1/scheduled/choose-disposal-method": String))
-  }
+  //.check(header("Location").is(s"/$route1/scheduled/choose-disposal-method": String))
 
-  def getRejectedGoodsScheduledChooseDisposalMethodPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledChooseDisposalMethodPage: HttpRequestBuilder =
     http("get rejected goods scheduled choose disposal method page")
       .get(s"$baseUrl/$route1/scheduled/choose-disposal-method": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Choose how you will dispose of the goods"))
-  }
 
-  def postRejectedGoodsScheduledChooseDisposalMethodPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledChooseDisposalMethodPage: HttpRequestBuilder =
     http("post rejected goods scheduled choose disposal method page")
-      .post(s"$baseUrl/$route1/scheduled/choose-disposal-method" : String)
+      .post(s"$baseUrl/$route1/scheduled/choose-disposal-method": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-method-of-disposal.rejected-goods", "PlacedInCustomsWarehouse")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-rejected-goods-details": String))
-  }
 
-  def getRejectedGoodsScheduledEnterRejectedDetailsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledEnterRejectedDetailsPage: HttpRequestBuilder =
     http("get rejected goods scheduled enter rejected goods details page")
       .get(s"$baseUrl/$route1/scheduled/enter-rejected-goods-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Provide details of the rejected goods"))
-  }
 
-  def postRejectedGoodsScheduledEnterRejectedDetailsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledEnterRejectedDetailsPage: HttpRequestBuilder =
     http("post rejected goods scheduled enter rejected goods details page")
-      .post(s"$baseUrl/$route1/scheduled/enter-rejected-goods-details" : String)
+      .post(s"$baseUrl/$route1/scheduled/enter-rejected-goods-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-rejected-goods-details.rejected-goods", "Any")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/select-duty-types": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duty types page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/select-duty-types": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Select the duty types you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duty types page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/select-duty-types": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -379,236 +346,209 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .check(status.is(303))
       .check(header("Location").saveAs("action3"))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/uk-duty": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesUkDutyPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesUkDutyPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties uk duty page")
-      .get(session => {
+      .get { session =>
         val Location = session.attributes("action3")
         s"$baseUrl$Location"
-      })
+      }
       .check(status.is(200))
       .check(regex("Select the UK duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesUkDutyPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesUkDutyPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties uk duty page")
-      .post(session => {
+      .post { session =>
         val Location = session.attributes("action3")
         s"$baseUrl$Location"
-      })
+      }
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "A00")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/uk-duty/A00": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesEuDutyPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesEuDutyPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties eu duty page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/eu-duty": String)
       .check(status.is(200))
       .check(regex("Select the EU duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesEuDutyPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesEuDutyPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties eu duty page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/eu-duty": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "A50")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/eu-duty/A50": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesBeerPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesBeerPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties beer page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/beer": String)
       .check(status.is(200))
       .check(regex("Select the beer duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesBeerPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesBeerPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties beer page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/beer": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "440")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/beer/440": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesWinePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesWinePage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties wine page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/wine": String)
       .check(status.is(200))
       .check(regex("Select the wine duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesWinePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesWinePage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties wine page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/wine": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "413")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/wine/413": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesMadeWinePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesMadeWinePage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties made wine page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/made-wine": String)
       .check(status.is(200))
       .check(regex("Select the made-wine duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesMadeWinePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesMadeWinePage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties made wine page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/made-wine": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "423")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/made-wine/423": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesLowAlcoholBeveragesPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesLowAlcoholBeveragesPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties alcohol page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/low-alcohol-beverages": String)
       .check(status.is(200))
       .check(regex("Select the low alcohol beverages duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesLowAlcoholBeveragesPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesLowAlcoholBeveragesPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties alcohol page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/low-alcohol-beverages": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "435")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/low-alcohol-beverages/435": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesSpiritsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesSpiritsPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties spirits page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/spirits": String)
       .check(status.is(200))
       .check(regex("Select the spirits duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesSpiritsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesSpiritsPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties spirits page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/spirits": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "462")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/spirits/462": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesCiderPerryPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesCiderPerryPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties cider page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/cider-perry": String)
       .check(status.is(200))
       .check(regex("Select the cider and perry duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesCiderPerryPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesCiderPerryPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties cider page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/cider-perry": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "483")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/cider-perry/483": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesHydrocarbonOilsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesHydrocarbonOilsPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties hydrocarbon oils page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/hydrocarbon-oils": String)
       .check(status.is(200))
       .check(regex("Select the hydrocarbon oil duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesHydrocarbonOilsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesHydrocarbonOilsPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties hydrocarbon oils page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/hydrocarbon-oils": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "551")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/hydrocarbon-oils/551": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesBiofuelsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesBiofuelsPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties biofuels page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/biofuels": String)
       .check(status.is(200))
       .check(regex("Select the biofuels duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesBiofuelsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesBiofuelsPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties biofuels page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/biofuels": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "589")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/biofuels/589": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesMiscellaneousPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesMiscellaneousPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties road fuels page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/miscellaneous-road-fuels": String)
       .check(status.is(200))
-      .check(regex("Select the miscellaneous road fuels duties you want to claim for all MRNs in the file you uploaded"))
-  }
+      .check(
+        regex("Select the miscellaneous road fuels duties you want to claim for all MRNs in the file you uploaded")
+      )
 
-  def postRejectedGoodsScheduledMrnSelectDutiesMiscellaneousPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesMiscellaneousPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties road fuels page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/miscellaneous-road-fuels": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "592")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/miscellaneous-road-fuels/592": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesTobaccoPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesTobaccoPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties tobacco page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/tobacco": String)
       .check(status.is(200))
       .check(regex("Select the tobacco products duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesTobaccoPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesTobaccoPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties tobacco page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/tobacco": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "611")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/tobacco/611": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSelectDutiesClimatePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSelectDutiesClimatePage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties climate change levy page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/climate-change-levy": String)
       .check(status.is(200))
       .check(regex("Select the Climate Change Levy duties you want to claim for all MRNs in the file you uploaded"))
-  }
 
-  def postRejectedGoodsScheduledMrnSelectDutiesClimatePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSelectDutiesClimatePage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties climate change levy page")
       .post(s"$baseUrl/$route1/scheduled/select-duties/climate-change-levy": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-duty-codes[]", "99A")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-claim/climate-change-levy/99A": String))
-  }
 
-  def getRejectedGoodsScheduledMrnEnterClaimPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnEnterClaimPage: HttpRequestBuilder =
     http("get rejected goods scheduled MRN enter claim page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim": String)
       .check(status.is(303))
-  }
 
-  def getRejectedGoodsScheduledMrnUkDutyPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnUkDutyPage: HttpRequestBuilder =
     http("get rejected goods scheduled enter claim uk duty tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/uk-duty/A00": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under UK Duty A00"))
-  }
 
-  def postRejectedGoodsScheduledMrnUkDutyPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnUkDutyPage: HttpRequestBuilder =
     http("post rejected goods scheduled enter claim uk duty tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/uk-duty/A00": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -616,16 +556,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "3.50")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/eu-duty": String))
-  }
 
-  def getRejectedGoodsScheduledMrnEuDutyPage: HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnEuDutyPage: HttpRequestBuilder =
     http("get rejected goods scheduled enter claim eu duty tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/eu-duty/A50": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under EU Duty A50"))
-  }
 
-  def postRejectedGoodsScheduledMrnEuDutyPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnEuDutyPage: HttpRequestBuilder =
     http("post rejected goods scheduled enter claim eu duty tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/eu-duty/A50": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -633,16 +571,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "4.50")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/beer": String))
-  }
 
-  def getRejectedGoodsScheduledMrnBeerPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnBeerPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties beer tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/beer/440": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Beer 440"))
-  }
 
-  def postRejectedGoodsScheduledMrnBeerPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnBeerPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties beer tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/beer/440": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -650,16 +586,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/wine": String))
-  }
 
-  def getRejectedGoodsScheduledMrnWinePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnWinePage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties wine tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/wine/413": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Wine 413"))
-  }
 
-  def postRejectedGoodsScheduledMrnWinePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnWinePage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties wine tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/wine/413": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -667,16 +601,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/made-wine": String))
-  }
 
-  def getRejectedGoodsScheduledMrnMadeWinePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnMadeWinePage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties made wine tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/made-wine/423": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Made-wine 423"))
-  }
 
-  def postRejectedGoodsScheduledMrnMadeWinePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnMadeWinePage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties made wine tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/made-wine/423": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -684,16 +616,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/low-alcohol-beverages": String))
-  }
 
-  def getRejectedGoodsScheduledMrnLowAlcoholPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnLowAlcoholPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties alcohol tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/low-alcohol-beverages/435": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Low alcohol beverages 435"))
-  }
 
-  def postRejectedGoodsScheduledMrnLowAlcoholPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnLowAlcoholPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties alcohol tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/low-alcohol-beverages/435": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -701,16 +631,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/spirits": String))
-  }
 
-  def getRejectedGoodsScheduledMrnSpiritsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnSpiritsPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties spirits tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/spirits/462": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Spirits 462"))
-  }
 
-  def postRejectedGoodsScheduledMrnSpiritsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnSpiritsPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties spirits tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/spirits/462": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -718,16 +646,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/cider-perry": String))
-  }
 
-  def getRejectedGoodsScheduledMrnCiderPerryPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnCiderPerryPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties cider tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/cider-perry/483": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Cider and perry 483"))
-  }
 
-  def postRejectedGoodsScheduledMrnCiderPerryPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnCiderPerryPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties cider tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/cider-perry/483": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -735,16 +661,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/hydrocarbon-oils": String))
-  }
 
-  def getRejectedGoodsScheduledMrnHydroOilsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnHydroOilsPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties hydrocarbon oils tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/hydrocarbon-oils/551": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Hydrocarbon oil 551"))
-  }
 
-  def postRejectedGoodsScheduledMrnHydroOilsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnHydroOilsPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties hydrocarbon oils tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/hydrocarbon-oils/551": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -752,16 +676,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/biofuels": String))
-  }
 
-  def getRejectedGoodsScheduledMrnBiofuelsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnBiofuelsPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties biofuels tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/biofuels/589": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Biofuels 589"))
-  }
 
-  def postRejectedGoodsScheduledMrnBiofuelsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnBiofuelsPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties biofuels tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/biofuels/589": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -769,16 +691,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/miscellaneous-road-fuels": String))
-  }
 
-  def getRejectedGoodsScheduledMrnRoadFuelsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnRoadFuelsPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties miscellaneous road tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/miscellaneous-road-fuels/592": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Miscellaneous road fuels 592"))
-  }
 
-  def postRejectedGoodsScheduledMrnRoadFuelsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnRoadFuelsPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties miscellaneous road tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/miscellaneous-road-fuels/592": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -786,16 +706,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/tobacco": String))
-  }
 
-  def getRejectedGoodsScheduledMrnTobaccoPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnTobaccoPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties tobacco tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/tobacco/611": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Tobacco products 611"))
-  }
 
-  def postRejectedGoodsScheduledMrnTobaccoPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnTobaccoPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties tobacco tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/tobacco/611": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -803,16 +721,14 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/select-duties/climate-change-levy": String))
-  }
 
-  def getRejectedGoodsScheduledMrnClimateLevyPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledMrnClimateLevyPage: HttpRequestBuilder =
     http("get rejected goods scheduled select duties climate change tax page")
       .get(s"$baseUrl/$route1/scheduled/enter-claim/climate-change-levy/99A": String)
       .check(status.is(200))
       .check(regex("Claim details for all MRNs under Climate Change Levy 99A"))
-  }
 
-  def postRejectedGoodsScheduledMrnClimateLevyPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledMrnClimateLevyPage: HttpRequestBuilder =
     http("post rejected goods scheduled select duties climate change tax page")
       .post(s"$baseUrl/$route1/scheduled/enter-claim/climate-change-levy/99A": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -820,140 +736,124 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-claim-scheduled.rejected-goods.claim-amount", "2")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/check-claim": String))
-  }
 
-  def getRejectedGoodsScheduledCheckClaimPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledCheckClaimPage: HttpRequestBuilder =
     http("get rejected goods scheduled check claim page")
       .get(s"$baseUrl/$route1/scheduled/check-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check the repayment totals for this claim"))
-  }
 
-  def postRejectedGoodsScheduledCheckClaimPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledCheckClaimPage: HttpRequestBuilder =
     http("post rejected goods scheduled check claim page")
-      .post(s"$baseUrl/$route1/scheduled/check-claim" : String)
+      .post(s"$baseUrl/$route1/scheduled/check-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("check-claim-summary", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-inspection-date": String))
-  }
 
-  def getRejectedGoodsScheduledInspectionDatePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledInspectionDatePage: HttpRequestBuilder =
     http("get rejected goods scheduled inspection date page")
       .get(s"$baseUrl/$route1/scheduled/enter-inspection-date": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Tell us when the goods will be available until for inspection"))
-  }
 
-  def postRejectedGoodsScheduledInspectionDatePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledInspectionDatePage: HttpRequestBuilder =
     http("post rejected goods scheduled inspection date page")
-      .post(s"$baseUrl/$route1/scheduled/enter-inspection-date" : String)
+      .post(s"$baseUrl/$route1/scheduled/enter-inspection-date": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-inspection-date.rejected-goods.day", "19")
       .formParam("enter-inspection-date.rejected-goods.month", "10")
       .formParam("enter-inspection-date.rejected-goods.year", "2000")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/inspection-address/choose-type": String))
-  }
 
-  def getRejectedGoodsScheduledInspectionAddressChoosePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledInspectionAddressChoosePage: HttpRequestBuilder =
     http("get rejected goods scheduled inspection address choose type page")
       .get(s"$baseUrl/$route1/scheduled/inspection-address/choose-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Choose an address for the inspection"))
-  }
 
-  def postRejectedGoodsScheduledInspectionAddressChoosePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledInspectionAddressChoosePage: HttpRequestBuilder =
     http("post rejected goods scheduled inspection address choose type page")
-      .post(s"$baseUrl/$route1/scheduled/inspection-address/choose-type" : String)
+      .post(s"$baseUrl/$route1/scheduled/inspection-address/choose-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("inspection-address.type", "Declarant")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/choose-payee-type": String))
-  }
 
-    def getRejectedGoodsScheduledChoosePayeeTypePage: HttpRequestBuilder =
+  def getRejectedGoodsScheduledChoosePayeeTypePage: HttpRequestBuilder =
     http("get the rejected goods choose payee type page")
       .get(s"$baseUrl/$route1/scheduled/choose-payee-type": String)
       .check(status.is(303))
 
-  def getRejectedGoodsScheduledCheckBankDetailsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledCheckBankDetailsPage: HttpRequestBuilder =
     http("get rejected goods scheduled check bank details page")
       .get(s"$baseUrl/$route1/scheduled/check-bank-details": String)
       .check(status.is(200))
       .check(regex("Check these bank details are correct"))
-  }
 
-  def getRejectedGoodsScheduledBankAccountTypePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledBankAccountTypePage: HttpRequestBuilder =
     http("get rejected goods scheduled bank account type page")
       .get(s"$baseUrl/$route1/scheduled/choose-bank-account-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("What type of account details are you providing?"))
-  }
 
-  def postRejectedGoodsScheduledBankAccountTypePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledBankAccountTypePage: HttpRequestBuilder =
     http("post rejected goods scheduled bank account type page")
-      .post(s"$baseUrl/$route1/scheduled/choose-bank-account-type" : String)
+      .post(s"$baseUrl/$route1/scheduled/choose-bank-account-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-bank-account-type", "Business")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-bank-account-details": String))
-  }
 
-  def getRejectedGoodsScheduledEnterBankDetailsPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledEnterBankDetailsPage: HttpRequestBuilder =
     http("get rejected goods scheduled enter bank details page")
       .get(s"$baseUrl/$route1/scheduled/enter-bank-account-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter your bank account details"))
-  }
 
-  def postRejectedGoodsScheduledEnterBankDetailsPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledEnterBankDetailsPage: HttpRequestBuilder =
     http("post rejected goods scheduled enter bank details page")
-      .post(s"$baseUrl/$route1/scheduled/enter-bank-account-details" : String)
+      .post(s"$baseUrl/$route1/scheduled/enter-bank-account-details": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("enter-bank-account-details.account-name", "Mybank")
       .formParam("enter-bank-account-details.sort-code", "123456")
       .formParam("enter-bank-account-details.account-number", "26152639")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/check-bank-details": String))
-  }
 
-  def getRejectedGoodsScheduledChooseFileTypePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledChooseFileTypePage: HttpRequestBuilder =
     http("get rejected goods scheduled choose file type page")
       .get(s"$baseUrl/$route1/scheduled/choose-file-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Add supporting documents to your claim"))
-  }
 
-  def postRejectedGoodsScheduledChooseFileTypesPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledChooseFileTypesPage: HttpRequestBuilder =
     http("post rejected goods scheduled choose file type page")
-      .post(s"$baseUrl/$route1/scheduled/choose-file-type" : String)
+      .post(s"$baseUrl/$route1/scheduled/choose-file-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("choose-file-type", "ImportAndExportDeclaration")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/choose-files": String))
-  }
 
-  def getRejectedGoodsScheduledChooseFilesPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledChooseFilesPage: HttpRequestBuilder =
     http("get rejected goods scheduled choose files page")
       .get(s"$baseUrl/$route1/scheduled/choose-files": String)
       .check(status.is(303))
-  }
 
-  def getRejectedGoodsScheduledChooseFilePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledChooseFilePage: HttpRequestBuilder =
     http("get rejected goods scheduled choose file page")
       .get(s"$baseUrl/$route/upload-documents/choose-file": String)
       .check(status.is(200))
       .check(regex("Upload (.*)"))
-  }
 
-  def getRejectedGoodsScheduledUploadDocumentsChooseFilePage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledUploadDocumentsChooseFilePage: HttpRequestBuilder =
     http("get rejected goods scheduled upload documents choose file page")
       .get(s"$baseUrl/$route/upload-documents/choose-file": String)
       .check(saveFileUploadUrl)
@@ -961,8 +861,8 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .check(saveAmazonDate)
       .check(saveSuccessRedirect)
       .check(saveAmazonCredential)
-      .check(saveUpscanIniateResponse)
-      .check(saveUpscanInitiateRecieved)
+      .check(saveUpscanInitiateResponse)
+      .check(saveUpscanInitiateReceived)
       .check(saveRequestId)
       .check(saveAmazonAlgorithm)
       .check(saveKey)
@@ -976,9 +876,8 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
       //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("Upload (.*)"))
-  }
 
-  def postRejectedGoodsScheduledUploadDocumentsChooseFilePage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledUploadDocumentsChooseFilePage: HttpRequestBuilder =
     http("post rejected goods scheduled upload support evidence page")
       .post("${fileUploadAmazonUrl}")
       .header("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryjoqtomO5urVl5B6N")
@@ -1007,73 +906,65 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .check(status.is(303))
       .check(header("Location").saveAs("UpscanResponseSuccess"))
 
-  }
-
-  def getRejectedGoodsScheduledScanProgressWaitPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledScanProgressWaitPage: HttpRequestBuilder =
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
       .check(status.is(200))
       .check(saveCsrfToken())
       .check(regex("We are checking your document"))
       .check(css("#main-content > div > div > form", "action").saveAs("actionlll"))
-  }
 
-  def postRejectedGoodsScheduledScanProgressWaitPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
       .post(s"$baseUrl" + "${actionlll}")
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
       .check(header("Location").saveAs("scanPage"))
-  }
 
-  def postRejectedGoodsScheduledScanProgressWaitPage1 : List[ActionBuilder] = {
+  def postRejectedGoodsScheduledScanProgressWaitPage1: List[ActionBuilder] =
     asLongAs(session => session("selectPage").asOption[String].isEmpty)(
-      pause(2.second).exec(http(" post scan progressing wait page1")
-        .get(s"$baseUrl" + "${scanPage}")
-        .check(status.in(303, 200))
-        .check(header("Location").is(s"/$route/upload-documents/summary": String))
-        .check(header("Location").optional.saveAs("selectPage1")))
+      pause(2.second).exec(
+        http(" post scan progressing wait page1")
+          .get(s"$baseUrl" + "${scanPage}")
+          .check(status.in(303, 200))
+          .check(header("Location").is(s"/$route/upload-documents/summary": String))
+          .check(header("Location").optional.saveAs("selectPage1"))
+      )
     ).actionBuilders
-  }
 
-  def getRejectedGoodsScheduledDocumentsSummaryPage1 : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledDocumentsSummaryPage1: HttpRequestBuilder =
     http("get rejected goods scheduled upload documents summary page1")
       .get(s"$baseUrl/$route/upload-documents/summary": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("You have added 1 document to your claim"))
-  }
 
-  def postRejectedGoodsScheduledDocumentsSummaryPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledDocumentsSummaryPage: HttpRequestBuilder =
     http("post rejected goods scheduled upload documents page")
-      .post(s"$baseUrl/$route/upload-documents/summary" : String)
+      .post(s"$baseUrl/$route/upload-documents/summary": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("supporting-evidence.check-your-answers", "false")
       .check(status.is(303))
-      //.check(header("Location").is(s"/$route1/single/check-your-answers": String))
-  }
+  //.check(header("Location").is(s"/$route1/single/check-your-answers": String))
 
-  def getRejectedGoodsScheduledCheckYourAnswersPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledCheckYourAnswersPage: HttpRequestBuilder =
     http("get rejected goods scheduled check your answers page")
       .get(s"$baseUrl/$route1/scheduled/check-your-answers": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Check your answers before sending your claim"))
-  }
 
-  def postRejectedGoodsScheduledCheckYourAnswersPage : HttpRequestBuilder = {
+  def postRejectedGoodsScheduledCheckYourAnswersPage: HttpRequestBuilder =
     http("post rejected goods scheduled submit claim page")
-      .post(s"$baseUrl/$route1/scheduled/submit-claim" : String)
+      .post(s"$baseUrl/$route1/scheduled/submit-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/claim-submitted": String))
-  }
 
-  def getRejectedGoodsScheduledClaimSubmittedPage : HttpRequestBuilder = {
+  def getRejectedGoodsScheduledClaimSubmittedPage: HttpRequestBuilder =
     http("get rejected goods scheduled claim submitted page")
       .get(s"$baseUrl/$route1/scheduled/claim-submitted": String)
       .check(status.is(200))
       .check(regex("Claim submitted"))
       .check(regex("Your claim reference number"))
-  }
 }

@@ -17,41 +17,36 @@
 package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.Predef._
-import io.gatling.core.action.builder.ActionBuilder
 import io.gatling.core.check.CheckBuilder
 import io.gatling.core.check.regex.RegexCheckType
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
-import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
-
-import scala.concurrent.duration.DurationInt
-
 
 object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with RequestUtils {
 
-  val baseUrl: String = baseUrlFor("cds-reimbursement-claim-frontend")
-  val route: String = "claim-back-import-duty-vat"
-  val route1: String = "claim-back-import-duty-vat/overpayments"
-  val overPaymentsV2: String = baseUrlFor("cds-reimbursement-claim-frontend") + s"/claim-back-import-duty-vat/test-only"
+  val baseUrl: String                       = baseUrlFor("cds-reimbursement-claim-frontend")
+  val route: String                         = "claim-back-import-duty-vat"
+  val route1: String                        = "claim-back-import-duty-vat/overpayments"
+  val overPaymentsV2: String                = baseUrlFor("cds-reimbursement-claim-frontend") + s"/claim-back-import-duty-vat/test-only"
   val baseUrlUploadCustomsDocuments: String = baseUrlFor("upload-customs-documents-frontend")
 
   val authUrl: String = baseUrlFor("auth-login-stub")
-  val redirect = s"$baseUrl/$route/start/claim-for-reimbursement"
-  val redirect1 = s"$baseUrl/$route/start"
-  val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
+  val redirect        = s"$baseUrl/$route/start/claim-for-reimbursement"
+  val redirect1       = s"$baseUrl/$route/start"
+  val CsrfPattern     = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+  def saveCsrfToken(): CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
-  def postOverpaymentsScheduledChooseHowManyMrnsPage : HttpRequestBuilder =
+  def postOverpaymentsScheduledChooseHowManyMrnsPage: HttpRequestBuilder =
     http("post overpayments scheduled choose how many mrns page")
       .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("overpayments.choose-how-many-mrns", "Scheduled")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-movement-reference-number": String))
 
-  def getOverpaymentsScheduledMRNPage : HttpRequestBuilder =
+  def getOverpaymentsScheduledMRNPage: HttpRequestBuilder =
     http("get The MRN page")
       .get(s"$baseUrl/$route1/scheduled/enter-movement-reference-number": String)
       .check(saveCsrfToken())
@@ -66,14 +61,14 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-importer-eori": String))
 
-  def getOverpaymentsScheduledImporterEoriEntryPage : HttpRequestBuilder =
+  def getOverpaymentsScheduledImporterEoriEntryPage: HttpRequestBuilder =
     http("get the overpayments scheduled MRN importer eori entry page")
       .get(s"$baseUrl/$route1/scheduled/enter-importer-eori": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the importer’s EORI number"))
 
-  def postOverpaymentsScheduledImporterEoriEntryPage : HttpRequestBuilder =
+  def postOverpaymentsScheduledImporterEoriEntryPage: HttpRequestBuilder =
     http("post the overpayments scheduled MRN importer eori entry page")
       .post(s"$baseUrl/$route1/scheduled/enter-importer-eori": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -81,15 +76,14 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-declarant-eori": String))
 
-  def getOverpaymentsScheduledDeclarantEoriEntryPage : HttpRequestBuilder = {
+  def getOverpaymentsScheduledDeclarantEoriEntryPage: HttpRequestBuilder =
     http("get overpayments scheduled MRN declarant eori entry page")
       .get(s"$baseUrl/$route1/scheduled/enter-declarant-eori": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Enter the declarant’s EORI number"))
-  }
 
-  def postOverpaymentsScheduledDeclarantEoriEntryPage : HttpRequestBuilder =
+  def postOverpaymentsScheduledDeclarantEoriEntryPage: HttpRequestBuilder =
     http("post overpayments scheduled MRN declarant eori entry page")
       .post(s"$baseUrl/$route1/scheduled/enter-declarant-eori": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -112,25 +106,25 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/upload-mrn-list": String))
 
-  def getOverpaymentsScheduledUploadMrnListPage : HttpRequestBuilder =
+  def getOverpaymentsScheduledUploadMrnListPage: HttpRequestBuilder =
     http("get overpayments scheduled upload mrn list page")
       .get(s"$baseUrl/$route1/scheduled/upload-mrn-list": String)
       .check(status.is(303))
 
-  def getOverpaymentsScheduledClaimantDetailsPage : HttpRequestBuilder =
+  def getOverpaymentsScheduledClaimantDetailsPage: HttpRequestBuilder =
     http("get overpayments scheduled MRN claimant details page")
       .get(s"$baseUrl/$route1/scheduled/claimant-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("How we will contact you about this claim"))
 
-  def getOverpaymentsScheduledContactDetailsPage : HttpRequestBuilder =
+  def getOverpaymentsScheduledContactDetailsPage: HttpRequestBuilder =
     http("get overpayments scheduled change contact details page")
       .get(s"$baseUrl/$route1/scheduled/claimant-details/change-contact-details": String)
       .check(status.is(200))
       .check(regex("Change contact details"))
 
-  def postOverpaymentsScheduledChangeContactDetailsPage : HttpRequestBuilder =
+  def postOverpaymentsScheduledChangeContactDetailsPage: HttpRequestBuilder =
     http("post overpayments scheduled change contact details page")
       .post(s"$baseUrl/$route1/scheduled/claimant-details/change-contact-details": String)
       .formParam("csrfToken", "${csrfToken}")
@@ -168,22 +162,22 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/choose-basis-for-claim": String))
 
-  def getOverpaymentsScheduledChooseBasisForClaimPage : HttpRequestBuilder =
+  def getOverpaymentsScheduledChooseBasisForClaimPage: HttpRequestBuilder =
     http("get overpayments scheduled choose basis for claim page")
       .get(s"$baseUrl/$route1/scheduled/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Choose the reason for making this claim"))
 
-  def postOverpaymentsScheduledChooseBasisForClaimPage : HttpRequestBuilder =
+  def postOverpaymentsScheduledChooseBasisForClaimPage: HttpRequestBuilder =
     http("post overpayments scheduled choose basis for claim page")
-      .post(s"$baseUrl/$route1/scheduled/choose-basis-for-claim" : String)
+      .post(s"$baseUrl/$route1/scheduled/choose-basis-for-claim": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("select-basis-for-claim", "DutySuspension")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/enter-additional-details": String))
 
-  def getOverpaymentsScheduledEnterAdditionalDetailsPage : HttpRequestBuilder =
+  def getOverpaymentsScheduledEnterAdditionalDetailsPage: HttpRequestBuilder =
     http("get overpayments scheduled enter additional details page")
       .get(s"$baseUrl/$route1/scheduled/enter-additional-details": String)
       .check(saveCsrfToken())
@@ -369,7 +363,8 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
     http("get overpayments select duties road fuels page")
       .get(s"$baseUrl/$route1/scheduled/select-duties/miscellaneous-road-fuels": String)
       .check(status.is(200))
-      .check(regex("Select the miscellaneous road fuels duties you want to claim for all MRNs in the file you uploaded")
+      .check(
+        regex("Select the miscellaneous road fuels duties you want to claim for all MRNs in the file you uploaded")
       )
 
   def postOverpaymentsScheduledMrnSelectDutiesMiscellaneousPage: HttpRequestBuilder =
@@ -664,16 +659,16 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/scheduled/check-bank-details": String))
 
-  def getOverpaymentsScheduledChooseFileTypePage : HttpRequestBuilder =
+  def getOverpaymentsScheduledChooseFileTypePage: HttpRequestBuilder =
     http("get overpayments scheduled choose file type page")
       .get(s"$baseUrl/$route1/scheduled/choose-file-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(regex("Add supporting documents to your claim"))
 
-  def postOverpaymentsScheduledChooseFileTypesPage : HttpRequestBuilder =
+  def postOverpaymentsScheduledChooseFileTypesPage: HttpRequestBuilder =
     http("post overpayments rejected goods scheduled choose file type page")
-      .post(s"$baseUrl/$route1/scheduled/choose-file-type" : String)
+      .post(s"$baseUrl/$route1/scheduled/choose-file-type": String)
       .formParam("csrfToken", "${csrfToken}")
       .formParam("choose-file-type", "PackingList")
       .check(status.is(303))
@@ -704,40 +699,5 @@ object OverPaymentsScheduledMrnRequests extends ServicesConfiguration with Reque
       .check(status.is(200))
       .check(regex("Claim submitted"))
       .check(regex("Your claim reference number"))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

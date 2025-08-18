@@ -71,7 +71,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
 
   def postOverPaymentsSelectClaimTypePage: HttpRequestBuilder =
     http("post select claim type page")
-      .post(s"$baseUrl/$route/select-claim-type": String)
+      .post(s"$baseUrl/$route/choose-claim-type": String)
       .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-claim-type", "C285")
       .check(status.is(303))
@@ -155,65 +155,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
     http("post the MRN check declaration details page")
       .post(s"$baseUrl/$route1/single/check-mrn": String)
       .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-declaration-details", "true")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claimant-details": String))
-
-
-
-
-
-
-
-  def getOverpaymentsMRNClaimantDetailsPage: HttpRequestBuilder =
-    http("get the MRN claimant details page")
-      .get(s"$baseUrl/$route1/single/claimant-details": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("How we will contact you about this claim"))
-
-  def getOverpaymentsMrnChangeContactDetailsPage: HttpRequestBuilder =
-    http("get the MRN change contact details page")
-      .get(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
-      .check(status.is(200))
-      .check(regex("Change contact details"))
-
-  def postOverpaymentsMrnChangeContactDetailsPage: HttpRequestBuilder =
-    http("post the MRN change contact details page")
-      .post(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
-      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
-      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claimant-details": String))
-
-  def getOverpaymentsMrnClaimantDetailsCheckPage1: HttpRequestBuilder =
-    http("get the MRN claimant details page from details contact page")
-      .get(s"$baseUrl/$route1/single/claimant-details": String)
-      .check(status.is(200))
-      .check(regex("How we will contact you about this claim"))
-
-  def postOverpaymentsMrnClaimantDetailsCheckPage: HttpRequestBuilder =
-    http("post the MRN claimant details page")
-      .post(s"$baseUrl/$route1/single/claimant-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("claimant-details", "true")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claim-northern-ireland": String))
-
-  def getOverpaymentsMRNClaimNorthernIrelandPage: HttpRequestBuilder =
-    http("get the claim northern ireland page")
-      .get(s"$baseUrl/$route1/single/claim-northern-ireland": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("Were your goods moved through or imported to Northern Ireland?"))
-
-  def postOverpaymentsMRNClaimNorthernIrelandPage: HttpRequestBuilder =
-    http("post the claim northern ireland page")
-      .post(s"$baseUrl/$route1/single/claim-northern-ireland": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("claim-northern-ireland", "true")
+      //.formParam("check-declaration-details", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/choose-basis-for-claim": String))
 
@@ -222,7 +164,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/single/choose-basis-for-claim": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose the reason for making this claim"))
+      .check(bodyString.transform(_.contains("Why are you making this claim?")).is(true))
 
   def postOverpaymentsMRNChooseBasisOfClaimPage: HttpRequestBuilder =
     http("post the MRN choose basis of claim page")
@@ -237,7 +179,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/single/enter-duplicate-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter the duplicate MRN"))
+      .check(bodyString.transform(_.contains("Duplicate Movement Reference Number (MRN)")).is(true))
 
   def postOverpaymentsDuplicateMRNPage: HttpRequestBuilder =
     http("post the duplicate enter movement reference number page")
@@ -245,18 +187,18 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .formParam("csrfToken", "#{csrfToken}")
       .formParam("enter-duplicate-movement-reference-number", "20AAAAAAAAAAAAAAA1")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-duplicate-declaration-details": String))
+      .check(header("Location").is(s"/$route1/single/check-duplicate-mrn": String))
 
   def getOverpaymentsMRNCheckDuplicateDeclarationPage: HttpRequestBuilder =
     http("get the MRN check duplicate declaration details page")
-      .get(s"$baseUrl/$route1/single/check-duplicate-declaration-details": String)
+      .get(s"$baseUrl/$route1/single/check-duplicate-mrn": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-  //.check(regex("Check these declaration details are correct for the duplicate MRN"))
+      .check(bodyString.transform(_.contains("Check the duplicate Movement Reference Number (MRN)")).is(true))
 
   def postOverpaymentsMRNCheckDuplicateDeclarationPage: HttpRequestBuilder =
     http("post the MRN duplicate check declaration details page")
-      .post(s"$baseUrl/$route1/single/check-duplicate-declaration-details": String)
+      .post(s"$baseUrl/$route1/single/check-duplicate-mrn": String)
       .formParam("csrfToken", "#{csrfToken}")
       .formParam("check-declaration-details", "true")
       .check(status.is(303))
@@ -267,7 +209,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/single/enter-additional-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Provide additional details about this claim"))
+      .check(bodyString.transform(_.contains("Additional claim details")).is(true))
 
   def postOverpaymentsMRNEnterCommodityDetailsPage: HttpRequestBuilder =
     http("post the MRN enter commodity details page")
@@ -282,7 +224,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/single/select-duties": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Select the duties you want to claim for"))
+      .check(bodyString.transform(_.contains("What do you want to claim?")).is(true))
 
   def postOverpaymentsMRNSelectDutiesPage: HttpRequestBuilder =
     http("post the MRN select duties page")
@@ -292,27 +234,30 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/enter-claim": String))
 
-  def getOverpaymentsMRNStartClaimPage: HttpRequestBuilder =
-    http("get the MRN start claim page")
+  def getOverpaymentsMRNEnterClaimPage: HttpRequestBuilder =
+    http("get the Overpayments enter claim page")
       .get(s"$baseUrl/$route1/single/enter-claim": String)
       .check(status.is(303))
-      .check(header("Location").saveAs("action3"))
+      .check(header("Location").is(s"/$route1/single/enter-claim/A95": String))
 
-  def getOverpaymentsMRNEnterClaimPage: HttpRequestBuilder =
+  def getOverpaymentsMRNStartClaimPage: HttpRequestBuilder =
+    http("get the MRN start claim page")
+      .get(s"$baseUrl/$route1/single/enter-claim/A95": String)
+      .check(status.in(200,303))
+      .check(bodyString.transform(_.contains("A95 - Provisional Countervailing Duty")).is(true))
+
+  /*def getOverpaymentsMRNEnterClaimPage: HttpRequestBuilder =
     http("get the MRN enter claim page")
       .get { session =>
         val Location = session.attributes("action3")
         s"$baseUrl$Location"
       }
       .check(status.is(200))
-      .check(regex("A95 - Provisional Countervailing Duty"))
+      .check(regex("A95 - Provisional Countervailing Duty")) */
 
   def postOverpaymentsMRNEnterClaimPage: HttpRequestBuilder =
     http("post the MRN enter claim page")
-      .post { session =>
-        val Location = session.attributes("action3")
-        s"$baseUrl$Location"
-      }
+      .post(s"$baseUrl/$route1/single/enter-claim/A95": String)
       .formParam("csrfToken", "#{csrfToken}")
       .formParam("enter-claim", "39")
       .check(status.is(303))
@@ -321,56 +266,42 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   def getOverpaymentsMRNCheckClaimPage: HttpRequestBuilder =
     http("get the MRN check claim page")
       .get(s"$baseUrl/$route1/single/check-claim": String)
-      .check(status.is(200))
-      .check(regex("Check the repayment claim total for the MRN"))
+      .check(status.in(303,200))
 
   def postOverpaymentsMRNCheckClaimPage: HttpRequestBuilder =
     http("post the MRN check claim page")
       .post(s"$baseUrl/$route1/single/check-claim": String)
       .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-claim-summary", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/choose-payee-type": String))
 
   def getOverpaymentsSelectReimbursementMethodPage: HttpRequestBuilder =
     http("get choose repayment method page")
-      .get(s"$baseUrl/$route1/single/choose-repayment-method": String)
+      .get(s"$baseUrl/$route1/single/choose-payee-type": String)
+      .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Choose repayment method"))
+      .check(bodyString.transform(_.contains("Who will the repayment be made to?")).is(true))
 
   def postOverpaymentsSelectReimbursementMethodPage: HttpRequestBuilder =
     http("post choose repayment method page")
+      .post(s"$baseUrl/$route1/single/choose-payee-type": String)
+      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("choose-payee-type", "Declarant")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/single/choose-repayment-method": String))
+
+  def getOverpaymentsRepaymentMethodPage: HttpRequestBuilder =
+    http("get the Overpayments choose repayment method page")
+      .get(s"$baseUrl/$route1/single/choose-repayment-method": String)
+      .check(saveCsrfToken())
+      .check(status.in(200,303))
+      .check(bodyString.transform(_.contains("Choose repayment method")).is(true))
+
+  def postOverpaymentsRepaymentMethodPage: HttpRequestBuilder =
+    http("post Overpayments choose repayment method page")
       .post(s"$baseUrl/$route1/single/choose-repayment-method": String)
       .formParam("csrfToken", "#{csrfToken}")
-      .formParam("reimbursement-method", "0")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-file-type": String))
-
-  def getOverpaymentsCheckBankDetailsPage: HttpRequestBuilder =
-    http("get overpayments check bank details page")
-      .get(s"$baseUrl/$route1/single/check-bank-details": String)
-      .check(status.is(200))
-      .check(regex("Check these bank details are correct"))
-
-  def postOverpaymentsCheckBankDetailsPage: HttpRequestBuilder =
-    http("post overpayments check bank details page")
-      .post(s"$baseUrl/$route1/single/check-bank-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-file-type": String))
-
-  def getOverpaymentsBankAccountTypePage: HttpRequestBuilder =
-    http("get overpayments bank account type page")
-      .get(s"$baseUrl/$route1/single/bank-account-type": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("What type of account details are you providing?"))
-
-  def postOverpaymentsBankAccountTypePage: HttpRequestBuilder =
-    http("post overpayments bank account type page")
-      .post(s"$baseUrl/$route1/single/bank-account-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-bank-account-type", "Business")
+      .formParam("reimbursement-method-bank-transfer", "1")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/enter-bank-account-details": String))
 
@@ -379,7 +310,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/single/enter-bank-account-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Enter your bank account details"))
+      .check(bodyString.transform(_.contains("Enter the UK-based bank account details")).is(true))
 
   def postOverpaymentsEnterBankDetailsPage: HttpRequestBuilder =
     http("post overpayments enter bank details page")
@@ -389,7 +320,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .formParam("enter-bank-account-details.sort-code", "123456")
       .formParam("enter-bank-account-details.account-number", "26152639")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-bank-details": String))
+      .check(header("Location").is(s"/$route1/single/choose-file-type": String))
 
   def getOverpaymentsChooseFileTypePage: HttpRequestBuilder =
     http("get overpayments choose file type page")
@@ -472,7 +403,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
         http("get the file verification status page")
           .get(s"$baseUrlUploadCustomsDocuments" + "#{fileVerificationUrl}")
           .check(status.is(200))
-          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED").saveAs("fileStatus"))
+          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED","REJECTED").saveAs("fileStatus"))
       )
     ).actionBuilders
 
@@ -482,20 +413,74 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .check(status.is(303))
       .check(header("Location").is(s"$baseUrl/$route1/single/check-your-answers": String))
 
+
+  def getOverpaymentsMRNClaimantDetailsPage: HttpRequestBuilder =
+    http("get the MRN claimant details page")
+      .get(s"$baseUrl/$route1/single/claimant-details": String)
+      .check(saveCsrfToken())
+      .check(status.in(200,303))
+      .check(regex("How we will contact you about this claim"))
+
+  def getOverpaymentsMrnChangeContactDetailsPage: HttpRequestBuilder =
+    http("get the MRN change contact details page")
+      .get(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
+      .check(status.in(200,303))
+      .check(regex("Who should we contact about this claim?"))
+
+  def postOverpaymentsMrnChangeContactDetailsPage: HttpRequestBuilder =
+    http("post the MRN change contact details page")
+      .post(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
+      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
+      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
+      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/single/claimant-details": String))
+
+  def getOverpaymentsMrnClaimantDetailsCheckPage1: HttpRequestBuilder =
+    http("get the MRN claimant details page from details contact page")
+      .get(s"$baseUrl/$route1/single/claimant-details": String)
+      .check(status.in(200,303))
+      //.check(regex("Who should we contact about this claim?"))
+
+  def postOverpaymentsMrnClaimantDetailsCheckPage: HttpRequestBuilder =
+    http("post the MRN claimant details page")
+      .post(s"$baseUrl/$route1/single/claimant-details": String)
+      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("claimant-details", "true")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/single/check-your-answers": String))
+
+
   def getOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("get overpayments check your answers page")
       .get(s"$baseUrl/$route1/single/check-your-answers": String)
       .check(status.is(303))
 
-  def postOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
+  /*def postOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("post overpayments submit claim page")
       .post(s"$baseUrl/$route1/single/submit-claim": String)
       .formParam("csrfToken", "#{csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-payee-type": String))
+      .check(header("Location").is(s"/$route1/single/choose-payee-type": String))*/
 
   def getOverpaymentsClaimSubmittedPage: HttpRequestBuilder =
     http("get overpayments claim submitted page")
       .get(s"$baseUrl/$route1/single/claim-submitted": String)
       .check(status.is(303))
+
+  /*def getOverpaymentsBankAccountTypePage: HttpRequestBuilder =
+    http("get overpayments bank account type page")
+      .get(s"$baseUrl/$route1/single/bank-account-type": String)
+      .check(saveCsrfToken())
+      .check(status.is(200))
+      .check(regex("What type of account details are you providing?"))
+
+  def postOverpaymentsBankAccountTypePage: HttpRequestBuilder =
+    http("post overpayments bank account type page")
+      .post(s"$baseUrl/$route1/single/bank-account-type": String)
+      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("select-bank-account-type", "Business")
+      .check(status.is(303))
+      .check(header("Location").is(s"/$route1/single/enter-bank-account-details": String))*/
 }

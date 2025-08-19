@@ -39,15 +39,15 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
 
   def getSecuritiesSelectClaimTypePage: HttpRequestBuilder =
     http("get select claim type page")
-      .get(s"$baseUrl/$route/select-claim-type": String)
+      .get(s"$baseUrl/$route/choose-claim-type": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(regex("Start a new claim"))
+      .check(css("title").is("Start a new claim - Claim back import duty and VAT - GOV.UK"))
 
   def postSecuritiesSelectClaimTypePage: HttpRequestBuilder =
     http("post securities select claim type page")
-      .post(s"$baseUrl/$route/select-claim-type": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .post(s"$baseUrl/$route/choose-claim-type": String)
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-claim-type", "Securities")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/enter-movement-reference-number": String))
@@ -62,7 +62,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesEnterMovementReferenceNumberPage(MRN: String): HttpRequestBuilder =
     http("post securities enter movement reference number page")
       .post(s"$baseUrl/$route1/enter-movement-reference-number": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("enter-movement-reference-number", MRN)
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/choose-reason-for-security": String))
@@ -88,10 +88,10 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       case "Missing proof of origin"                                             => "MissingPreferenceCertificate"
       //case "Missing document: quota license" => "MissingLicenseQuota"
       //case "Revenue Dispute or Inland Pre-Clearance (IPC)" => "OutwardProcessingRelief"
-      case "Temporary admissions (2 months)"                                     => "TemporaryAdmission2M"
-      case "Temporary admissions (24 months)"                                    => "TemporaryAdmission2Y"
-      case "Temporary admissions (3 months)"                                     => "TemporaryAdmission3M"
-      case "Temporary admissions (6 months)"                                     => "TemporaryAdmission6M"
+      case "Temporary Admission (2 months)"                                     => "TemporaryAdmission2M"
+      case "Temporary Admission (24 months)"                                    => "TemporaryAdmission2Y"
+      case "Temporary Admission (3 months)"                                     => "TemporaryAdmission3M"
+      case "Temporary Admission (6 months)"                                     => "TemporaryAdmission6M"
       // case "UKAP Entry Price" => "UKAPEntryPrice"
       //case "UKAP Safeguard Duties" => "UKAPSafeguardDuties"
       // case _ => throw new IllegalArgumentException("Location not found " + reasonForSecurity)
@@ -102,7 +102,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
 
     http("post securities choose reason for security page")
       .post(s"$baseUrl/$route1/choose-reason-for-security": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-reason-for-security.securities", reasonForSecurityUrl)
       .check(status.is(303))
       .check(header("Location").is(url))
@@ -136,7 +136,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
 
     http("post securities choose reason for security for error page")
       .post(s"$baseUrl/$route1/choose-reason-for-security": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-reason-for-security.securities", reasonForSecurityUrl)
       .check(status.is(303))
       .check(header("Location").is(url))
@@ -170,10 +170,10 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       case "Missing proof of origin"                                             => "MissingPreferenceCertificate"
       //case "Missing document: quota license" => "MissingLicenseQuota"
       //case "Revenue Dispute or Inland Pre-Clearance (IPC)" => "OutwardProcessingRelief"
-      case "Temporary admissions (2 months)"                                     => "TemporaryAdmission2M"
-      case "Temporary admissions (24 months)"                                    => "TemporaryAdmission2Y"
-      case "Temporary admissions (3 months)"                                     => "TemporaryAdmission3M"
-      case "Temporary admissions (6 months)"                                     => "TemporaryAdmission6M"
+      case "Temporary Admission (2 months)"                                     => "TemporaryAdmission2M"
+      case "Temporary Admission (24 months)"                                    => "TemporaryAdmission2Y"
+      case "Temporary Admission (3 months)"                                     => "TemporaryAdmission3M"
+      case "Temporary Admission (6 months)"                                     => "TemporaryAdmission6M"
       // case "UKAP Entry Price" => "UKAPEntryPrice"
       //case "UKAP Safeguard Duties" => "UKAPSafeguardDuties"
       case _                                                                     => throw new IllegalArgumentException("Location not found " + reasonForSecurity)
@@ -184,7 +184,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
 
     http("post securities choose reason for security for error page")
       .post(s"$baseUrl/$route1/choose-reason-for-security": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-reason-for-security.securities", reasonForSecurityUrl)
       .check(status.is(303))
       .check(header("Location").is(url))
@@ -207,7 +207,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesTotalImportDischargedForBod4Page: HttpRequestBuilder =
     http("post securities check total import discharged for bod4 page")
       .post(s"$baseUrl/$route1/check-total-import-discharged": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("check-total-import-discharged", "true")
       .check(status.is(303))
       .check(header("Location").is(s"$baseUrlUploadCustomsDocuments/upload-customs-documents/choose-file": String))
@@ -247,22 +247,22 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .post("${fileUploadAmazonUrl}")
       .header("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryjoqtomO5urVl5B6N")
       .asMultipartForm
-      .bodyPart(StringBodyPart("x-amz-meta-callback-url", "${callBack}"))
-      .bodyPart(StringBodyPart("x-amz-date", "${amazonDate}"))
-      .bodyPart(StringBodyPart("success_action_redirect", "${successRedirect}"))
-      .bodyPart(StringBodyPart("x-amz-credential", "${amazonCredential}"))
-      .bodyPart(StringBodyPart("x-amz-meta-upscan-initiate-response", "${upscanInitiateResponse}"))
-      .bodyPart(StringBodyPart("x-amz-meta-upscan-initiate-received", "${upscanInitiateReceived}"))
-      .bodyPart(StringBodyPart("x-amz-meta-request-id", "${requestId}"))
-      .bodyPart(StringBodyPart("x-amz-algorithm", "${amazonAlgorithm}"))
-      .bodyPart(StringBodyPart("key", "${key}"))
-      .bodyPart(StringBodyPart("x-amz-signature", "${amazonSignature}"))
-      .bodyPart(StringBodyPart("error_action_redirect", "${errorRedirect}"))
+      .bodyPart(StringBodyPart("x-amz-meta-callback-url", "#{callBack}"))
+      .bodyPart(StringBodyPart("x-amz-date", "#{amazonDate}"))
+      .bodyPart(StringBodyPart("success_action_redirect", "#{successRedirect}"))
+      .bodyPart(StringBodyPart("x-amz-credential", "#{amazonCredential}"))
+      .bodyPart(StringBodyPart("x-amz-meta-upscan-initiate-response", "#{upscanInitiateResponse}"))
+      .bodyPart(StringBodyPart("x-amz-meta-upscan-initiate-received", "#{upscanInitiateReceived}"))
+      .bodyPart(StringBodyPart("x-amz-meta-request-id", "#{requestId}"))
+      .bodyPart(StringBodyPart("x-amz-algorithm", "#{amazonAlgorithm}"))
+      .bodyPart(StringBodyPart("key", "#{key}"))
+      .bodyPart(StringBodyPart("x-amz-signature", "#{amazonSignature}"))
+      .bodyPart(StringBodyPart("error_action_redirect", "#{errorRedirect}"))
       .bodyPart(StringBodyPart("x-amz-meta-original-filename", "validFile.png"))
       .bodyPart(StringBodyPart("acl", "private"))
-      .bodyPart(StringBodyPart("x-amz-meta-session-id", "${sessionId}"))
+      .bodyPart(StringBodyPart("x-amz-meta-session-id", "#{sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
-      .bodyPart(StringBodyPart("policy", "${policy}"))
+      .bodyPart(StringBodyPart("policy", "#{policy}"))
       .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
       //              alternative way to upload file:
       //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
@@ -275,7 +275,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesTotalImportDischargedForBod3Page: HttpRequestBuilder =
     http("post securities check total import discharged page")
       .post(s"$baseUrl/$route1/check-total-import-discharged": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("check-total-import-discharged", "true")
       .check(status.is(303))
       .check(header("Location").is(s"$baseUrlUploadCustomsDocuments/upload-customs-documents/choose-file": String))
@@ -312,7 +312,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postAddOtherDocuments: HttpRequestBuilder =
     http("add other documents to support your claim")
       .post(s"$baseUrl/$route1/add-other-documents": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("add-other-documents-2", "false")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/choose-payee-type": String))
@@ -326,7 +326,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postEnterAdditionalDetails: HttpRequestBuilder =
     http("add other documents to support your claim")
       .post(s"$baseUrl/$route1/enter-additional-details": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("enter-additional-details", "Test")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/change-contact-details": String))
@@ -374,7 +374,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
 
     http("post securities check declaration details page")
       .post(s"$baseUrl/$route1/check-declaration-details": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(url))
   }
@@ -389,7 +389,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesExportMethodPage: HttpRequestBuilder =
     http("post securities export method page")
       .post(s"$baseUrl/$route1/export-method": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-export-method", "ExportedInSingleShipment")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/enter-export-movement-reference-number": String))
@@ -404,7 +404,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesExportMRNPage: HttpRequestBuilder =
     http("post securities export MRN page")
       .post(s"$baseUrl/$route1/enter-export-movement-reference-number": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("enter-export-movement-reference-number", "41ABCDEFGHIJKLMNO1")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/claimant-details": String))
@@ -419,7 +419,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesClaimantDetailsPage: HttpRequestBuilder =
     http("post securities claimant details page")
       .post(s"$baseUrl/$route1/claimant-details/change-contact-details": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/confirm-full-repayment": String))
 
@@ -439,7 +439,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesConfirmFullRepayment1of2Page: HttpRequestBuilder =
     http("post securities confirm full repayment 1 of 2  page")
       .post(s"$baseUrl/$route1/confirm-full-repayment/ABC0123456": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("confirm-full-repayment", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/confirm-full-repayment/DEF6543213": String))
@@ -454,7 +454,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def postSecuritiesConfirmFullRepayment2of2Page: HttpRequestBuilder =
     http("post securities confirm full repayment 2 of 2  page")
       .post(s"$baseUrl/$route1/confirm-full-repayment/DEF6543213": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", "#{csrfToken}")
       .formParam("confirm-full-repayment", "false")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/select-duties/DEF6543213": String))

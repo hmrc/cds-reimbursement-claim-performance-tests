@@ -52,7 +52,7 @@ object AwesomeStubRequests extends ServicesConfiguration {
       .formParam("redirectionUrl", s"$baseUrl/claim-back-import-duty-vat/start")
      //.formParam("redirectionUrl", s"$baseUrl/claim-back-import-duty-vat/start")
       .formParam("authorityId", "12349")
-      .formParam("excludeGnapToken","Yes")
+      .formParam("excludeGnapToken","false")
       .formParam("credentialStrength", "strong")
      .formParam("confidenceLevel", "200")
       .formParam("affinityGroup", "Organisation")

@@ -15,32 +15,33 @@ Run the following command to start the services locally:
 ```
 docker run --rm -d --name mongo -d -p 27017:27017 mongo:3.6
 
-sm --start CDSRC_DEV
+sm2 -start CDSRC_ALL
 ```
 
 ## Logging
 
 The template uses [logback.xml](src/test/resources) to configure log levels. The default log level is *WARN*. This can be updated to use a lower level for example *TRACE* to view the requests sent and responses received during the test.
 
+### **Local environment**
+
 #### Smoke test
 
 It might be useful to try the journey with one user to check that everything works fine before running the full performance test
 ```
-sbt -Dperftest.runSmokeTest=true -DrunLocal=true -DuseAwesomeStubs=true gatling:test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=true -DuseAwesomeStubs=true Gatling/test
 ```
 
-#### Running the performance test
+#### Running the full performance test
 ```
-sbt -DrunLocal=true -DuseAwesomeStubs=true gatling:test
+sbt -DrunLocal=true -DuseAwesomeStubs=true Gatling/test
 ```
-### Run the example test against staging environment
+###  **Staging environment**
 
 #### Smoke test
 ```
-sbt -Dperftest.runSmokeTest=true -DrunLocal=false gatling:test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=false Gatling/test
 ```
-
-#### Run the performance test
+#### Run the full performance test
 
 To run a full performance test against staging environment, implement a job builder and run the test **only** from Jenkins.
 

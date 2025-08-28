@@ -297,7 +297,6 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
     http("post rejected goods check claim page")
       .post(s"$baseUrl/$route1/multiple/check-claim": String)
       .formParam("csrfToken", "#{csrfToken}")
-      //.formParam("check-claim.rejected-goods", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/multiple/enter-inspection-date": String))
 
@@ -532,24 +531,5 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .check(status.in(200,303))
 
 
-  def getRejectedGoodsMultipleCheckBankDetailsPage: HttpRequestBuilder =
-    http("get the rejected goods check bank details page")
-      .get(s"$baseUrl/$route1/multiple/check-bank-details": String)
-      .check(status.is(200))
-      .check(regex("Check these bank details are correct"))
 
-  def getRejectedGoodsMultipleBankAccountTypePage: HttpRequestBuilder =
-    http("get the rejected goods bank account type page")
-      .get(s"$baseUrl/$route1/multiple/bank-account-type": String)
-      .check(saveCsrfToken())
-      .check(status.is(200))
-      .check(regex("What type of account details are you providing?"))
-
-  def postRejectedGoodsMultipleBankAccountTypePage: HttpRequestBuilder =
-    http("post rejected goods bank account type page")
-      .post(s"$baseUrl/$route1/multiple/bank-account-type": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-bank-account-type", "Business")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-bank-account-details": String))
 }

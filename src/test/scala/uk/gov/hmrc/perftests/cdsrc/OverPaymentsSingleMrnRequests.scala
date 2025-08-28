@@ -60,7 +60,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .formParam("csrfToken", "#{csrfToken}")
       .formParam("check-eori-details", "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/select-claim-type": String))
+      .check(header("Location").is(s"/$route/choose-claim-type": String))
 
   def getOverPaymentsSelectClaimTypePage: HttpRequestBuilder =
     http("get select claim type page")

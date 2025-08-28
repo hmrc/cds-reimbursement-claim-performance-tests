@@ -376,13 +376,14 @@ class CDSRSimulation extends PerformanceTestRunner {
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
         //cdsOverPaymentsV2Enable,
-        getOverPaymentsMRNCdsrStartPage,
-        getOverPaymentsMRNCheckEoriDetailsPage,
-        postOverPaymentsMRNCheckEoriDetailsPage,
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
         getOverPaymentsSelectClaimTypePage,
         postOverPaymentsSelectClaimTypePage,
         getOverpaymentsChooseHowManyMrnsPage,
         postOverpaymentsMultipleChooseHowManyMrnsPage,
+        getOverpaymentsMultipleHaveYourDocumentsReady,
         getOverpaymentsMultipleMrnPage,
         postOverpaymentsMultipleMrnPage,
         getOverpaymentsMultipleMrnCheckDeclarationPage,
@@ -391,13 +392,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsMultipleEnterSecondMRNPage,
         getOverpaymentsMultipleCheckMRNPage,
         postOverpaymentsMultipleCheckMRNPage,
-        getOverpaymentsMultipleMrnClaimantDetailsPage,
-        getOverpaymentsMultipleChangeContactDetailsPage,
-        postOverpaymentsMultipleChangeContactDetailsPage,
-        getOverpaymentsMultipleClaimantDetailsCheckPage1,
-        postOverpaymentsMultipleClaimantDetailsCheckPage,
-        getOverpaymentsMultipleClaimMrnClaimNorthernIrelandPage,
-        postOverpaymentsMultipleClaimNorthernIrelandPage,
+
         getOverpaymentsMultipleChooseBasisOfClaimPage,
         postOverpaymentsMultipleChooseBasisOfClaimPage,
         getOverpaymentsMultipleEnterCommodityDetailsPage,
@@ -411,11 +406,9 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsMultipleSelectDutiesSecondDutyPage,
         postOverpaymentsMultipleSelectDutiesSecondDutyPage,
         getOverpaymentsMultipleCheckClaimPage,
-        postOverpaymentsMultipleCheckClaimPage,
+        //postOverpaymentsMultipleCheckClaimPage,
         getOverpaymentsMultipleChoosePayeeTypePage,
-        getOverpaymentsMultipleCheckBankDetailsPage,
-        getOverpaymentsMultipleBankAccountTypePage,
-        postOverpaymentsMultipleBankAccountTypePage,
+        postOverpaymentsMultipleChoosePayeeTypePage,
         getOverpaymentsMultipleEnterBankAccountDetailsPage,
         postOverpaymentsMultipleEnterBankAccountDetailsPage,
         getOverpaymentsMultipleChooseFileTypePage,
@@ -423,19 +416,21 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsMultipleChooseFilesPage,
         getOverpaymentsUploadCustomsDocumentsChooseFilePage,
         postOverpaymentsUploadCustomsDocumentsChooseFilePage,
-        getOverpaymentsScanProgressWaitPage
+        getOverpaymentsScanProgressWaitPage,
+        getOverpaymentsMultipleChangeContactDetailsPage,
+        postOverpaymentsMultipleChangeContactDetailsPage,
+        getOverpaymentsMultipleClaimantDetailsCheckPage1,
       ) ++
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
-        getOverpaymentsMultipleContinueToHostPage,
         getOverpaymentsMultipleCheckYourAnswersPage,
         postOverpaymentsMultipleCheckYourAnswersPage,
         getOverpaymentsMultipleClaimSubmittedPage
       )
 
   setup(
-    "OverPayments-Bulk-Multiple-V2-MRN-journey",
-    "Overpayments Bulk Multiple V2 Movement reference number journey"
+   "OverPayments-Bulk-Multiple-V2-MRN-journey",
+    "Overpayments Bulk Multiple journey"
   ) withActions
     (OverPaymentsBulkMultipleV2MRNJourney: _*)
 
@@ -443,13 +438,14 @@ class CDSRSimulation extends PerformanceTestRunner {
     LoginTheUser("user1", "GB000000000000002") ++
       List[ActionBuilder](
         //cdsOverPaymentsV2Enable,
-        getOverPaymentsMRNCdsrStartPage,
-        getOverPaymentsMRNCheckEoriDetailsPage,
-        postOverPaymentsMRNCheckEoriDetailsPage,
+        getMRNCdsrStartPage,
+        getTheMRNCheckEoriDetailsPage,
+        postTheMRNCheckEoriDetailsPage,
         getOverPaymentsSelectClaimTypePage,
         postOverPaymentsSelectClaimTypePage,
         getOverpaymentsChooseHowManyMrnsPage,
         postOverpaymentsScheduledChooseHowManyMrnsPage,
+        getOverpaymentsScheduledHaveYourDocumentsReady,
         getOverpaymentsScheduledMRNPage,
         postOverpaymentsScheduledMrnPage,
         getOverpaymentsScheduledImporterEoriEntryPage,
@@ -459,19 +455,12 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScheduledMrnCheckDeclarationPage,
         postOverpaymentsScheduledMrnCheckDeclarationPage,
         getOverpaymentsScheduledUploadMrnListPage,
-        getScheduledUploadDocumentsChooseFilePage,
-        postScheduledUploadDocumentsChooseFilePagePage,
-        getScheduledDocumentUploadProgressPage
+       // getScheduledUploadDocumentsChooseFilePage,
+        //postScheduledUploadDocumentsChooseFilePagePage,
+        //getScheduledDocumentUploadProgressPage
       ) ++
-      getFileVerificationStatusPage ++
+      //getFileVerificationStatusPage ++
       List[ActionBuilder](
-        getOverpaymentsScheduledClaimantDetailsPage,
-        getOverpaymentsScheduledContactDetailsPage,
-        postOverpaymentsScheduledChangeContactDetailsPage,
-        getOverpaymentsScheduledMrnClaimantDetailsCheckPage1,
-        postOverpaymentsScheduledMrnClaimantDetailsCheckPage,
-        getOverpaymentsScheduledMrnClaimNorthernIrelandPage,
-        postOverpaymentsScheduledMrnClaimNorthernIrelandPage,
         getOverpaymentsScheduledChooseBasisForClaimPage,
         postOverpaymentsScheduledChooseBasisForClaimPage,
         getOverpaymentsScheduledEnterAdditionalDetailsPage,
@@ -486,6 +475,8 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsScheduledMrnSelectDutiesEuDutyPage,
         getOverpaymentsScheduledMrnEuDutyPage,
         postOverpaymentsScheduledMrnEuDutyPage,
+        getScheduledMrnExciseSelectDutiesPage,
+        postScheduledMrnExciseSelectDutiesPage,
         getOverpaymentsScheduledMrnSelectDutiesBeerPage,
         postOverpaymentsScheduledMrnSelectDutiesBeerPage,
         getOverpaymentsScheduledMrnBeerPage,
@@ -510,6 +501,10 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsScheduledMrnSelectDutiesCiderPerryPage,
         getOverpaymentsScheduledMrnCiderPerryPage,
         postOverpaymentsScheduledMrnCiderPerryPage,
+        getOverpaymentsScheduledMrnSelectDutiesOtherFermentedProductsPage,
+        postOverpaymentsScheduledMrnSelectDutiesOtherFermentedProductsPage,
+        getOverpaymentsScheduledMrnOtherFermentedProductsPage,
+        postOverpaymentsScheduledMrnOtherFermentedProductsPage,
         getOverpaymentsScheduledMrnSelectDutiesHydrocarbonOilsPage,
         postOverpaymentsScheduledMrnSelectDutiesHydrocarbonOilsPage,
         getOverpaymentsScheduledMrnHydroOilsPage,
@@ -533,9 +528,9 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScheduledMrnCheckClaimPage,
         postOverpaymentsScheduledMrnCheckClaimPage,
         getOverpaymentScheduledChoosePayeeTypePage,
-        getOverpaymentsScheduledMrnCheckBankDetailsPage,
-        getOverpaymentsScheduledMRNBankAccountTypePage,
-        postOverpaymentsScheduledMRNBankAccountTypePage,
+        //getOverpaymentsScheduledMrnCheckBankDetailsPage,
+        //getOverpaymentsScheduledMRNBankAccountTypePage,
+        postOverpaymentsScheduledMRNChoosePayeeTypePage,
         getOverpaymentsScheduledMRNEnterBankAccountDetailsPage,
         postOverpaymentsScheduledEnterBankAccountDetailsPage,
         getOverpaymentsScheduledChooseFileTypePage,
@@ -543,7 +538,12 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScheduledChooseFilesPage,
         getOverpaymentsUploadCustomsDocumentsChooseFilePage,
         postOverpaymentsUploadCustomsDocumentsChooseFilePage,
-        getOverpaymentsScanProgressWaitPage
+        getOverpaymentsScanProgressWaitPage,
+        //getOverpaymentsScheduledClaimantDetailsPage,
+        getOverpaymentsScheduledContactDetailsPage,
+        postOverpaymentsScheduledChangeContactDetailsPage,
+        getOverpaymentsScheduledMrnClaimantDetailsCheckPage1,
+        postOverpaymentsScheduledMrnClaimantDetailsCheckPage,
       ) ++
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -554,7 +554,7 @@ class CDSRSimulation extends PerformanceTestRunner {
 
   setup(
     "OverPayments-Bulk-Scheduled-V2-MRN-journey",
-    "Overpayments Bulk Scheduled V2 Movement reference number journey"
+    "Overpayments Bulk Scheduled journey"
   ) withActions
     (OverPaymentsBulkScheduledV2MRNJourney: _*)
 

@@ -36,7 +36,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def saveCsrfToken: CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
-  //def saveCsrfToken: CheckBuilder[CssCheckType, NodeSelector] = css("input[name='csrfToken']", "value").optional.saveAs("csrfToken")
 
   def getMRNAuthLoginPage: HttpRequestBuilder =
     http("Navigate to auth login stub page")
@@ -114,9 +113,8 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def getMRNCdsrStartPage: HttpRequestBuilder =
     http("post cdsr start page")
       .get(s"$baseUrl/$route/start": String)
-      //.check(saveCsrfToken)
       .check(status.is(303))
-     // .check(status.is(200))
+
 
   def getTheMRNCheckEoriDetailsPage: HttpRequestBuilder =
     http("get check eori details page")
@@ -215,27 +213,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/check-mrn": String))
 
-  def getTheMRNCheckDeclarationPage: HttpRequestBuilder =
-    http("get the MRN check declaration details page")
-      .get(s"$baseUrl/$route1/single/check-mrn": String)
-      .check(saveCsrfToken)
-      .check(status.is(200))
-      .check(regex("Check the Movement Reference Number (MRN) you entered"))
-
-  def postTheMRNCheckDeclarationPage: HttpRequestBuilder =
-    http("post the MRN check declaration details page")
-      .post(s"$baseUrl/$route1/single/check-mrn": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-declaration-details", "true")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-basis-for-claim": String))
-
-  def getTheMRNChooseBasisOfClaimPage: HttpRequestBuilder =
-    http("get the MRN choose basis of claim page")
-      .get(s"$baseUrl/$route1/single/choose-basis-for-claim": String)
-      .check(saveCsrfToken)
-      .check(status.is(200))
-      .check(regex("Why are you making this claim?"))
 
   def postTheMRNChooseBasisOfClaimPage: HttpRequestBuilder =
     http("post the MRN choose basis of claim page")
@@ -280,7 +257,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrl/$route1/single/enter-additional-details": String)
       .check(saveCsrfToken)
       .check(status.is(200))
-      .check(regex("Additional claim details"))
+      .check(regex("Tell us more about your claim"))
 
   def postTheMRNEnterCommodityDetailsPage: HttpRequestBuilder =
     http("post the MRN enter commodity details page")
@@ -401,7 +378,7 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
     http("get choose repayment method page")
       .get(s"$baseUrl/$route1/single/choose-repayment-method": String)
       .check(status.is(200))
-      .check(regex("Choose repayment method"))
+      .check(regex("How would you like to be repaid?"))
 
   def postSelectReimbursementMethodPage: HttpRequestBuilder =
     http("post choose repayment method page")
@@ -464,7 +441,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def postSelectSupportingEvidenceTypePage: HttpRequestBuilder =
     http("post select supporting evidence type page")
-      //.post(s"$baseUrl" + "${supportEvidencePageType}")
       .post(s"$baseUrl/$route1/single/supporting-evidence/select-supporting-evidence-type": String)
       .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-file-type", "AirWayBill")

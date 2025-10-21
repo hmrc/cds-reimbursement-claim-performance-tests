@@ -62,12 +62,7 @@ object AwesomeStubRequests extends ServicesConfiguration {
      .formParam("enrolment[0].taxIdentifier[0].value", s"$eoriValue")
       .check(status.is(303))
 
-  //private val csrfPattern           = """<input type="hidden" name="csrfToken" value="([^"]+)"""
   private val userDetailsUrlPattern = s"""([^"]+)"""
-
-  //def saveCsrfToken: CheckBuilder[RegexCheckType, String] =
-  // regex(_ => csrfPattern).saveAs("csrfToken")
-
 
   def saveBearerTokenHeader: CheckBuilder.Final[HttpHeaderRegexCheckType, Response] =
     headerRegex("Authorization", """Bearer\s([^"]+)""").saveAs("bearerToken")

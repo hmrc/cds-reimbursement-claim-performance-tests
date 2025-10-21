@@ -311,7 +311,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .check(savePolicy)
       .check(status.is(200))
       .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
-      //.check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("Add documents to support your claim"))
 
   def postUploadDocumentsChoosefilesPage: HttpRequestBuilder =
@@ -336,10 +335,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "${policy}"))
       .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
-      //              alternative way to upload file:
-      //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
-      //                .fileName("NewArrangement.xml")
-      //                .transferEncoding("binary"))
       .check(status.is(303))
       .check(header("Location").saveAs("UpscanResponseSuccess"))
 
@@ -348,7 +343,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get("${UpscanResponseSuccess}")
       .check(status.in(303, 200))
 
-  //def constPause = new PauseBuilder(60 seconds, None)
+
 
   def postScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
@@ -372,11 +367,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrlUploadCustomsDocuments/upload-customs-documents")
       .check(status.is(303))
 
-  def getUploadCustomsDocumentsChooseFilesPage =
-    http("get upload customs documents choose files page")
-      .get(s"$baseUrlUploadCustomsDocuments/upload-customs-documents/choose-files")
-      .check(status.is(200))
-  // .check(headerRegex("Set-Cookie", """mdtp=(.*)""").saveAs("mdtpCookie"))
 
   def getUploadCustomsDocumentsChooseFilePage: HttpRequestBuilder =
     http("get upload customs documents choose files page")
@@ -394,37 +384,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       )
     ).actionBuilders
 
-  def getFileVerificationStatusPage1: List[ActionBuilder] =
-    asLongAs(session => session("fileStatus1").asOption[String].forall(s => s == "WAITING" || s == "NOT_UPLOADED"))(
-      pause(1.second).exec(
-        http("get the file verification status page")
-          .get(s"$baseUrlUploadCustomsDocuments" + "#{fileVerificationUrl}")
-          .check(status.is(200))
-          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED").saveAs("fileStatus1"))
-      )
-    ).actionBuilders
-
-  def getFileVerifyBody: HttpRequestBuilder =
-    http("get page")
-      .get { session =>
-        val Location = session.attributes("fileVerificationUrl")
-        s"$baseUrl$Location"
-      }
-      .check(jsonPath("$.fileStatus").is("NOT_UPLOADED"))
-
-  def getUploadDocumentsSummaryPage: HttpRequestBuilder =
-    http("get upload documents summary page")
-      .get(s"$baseUrl/$route/upload-documents/summary": String)
-      .check(status.is(303))
-  //.check(regex("You(.*)added 1 document to your claim"))
-
-  def postUploadDocumentsSummaryPage: HttpRequestBuilder =
-    http("post upload documents summary page")
-      .post(s"$baseUrl/$route/upload-documents/summary": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("choice", "no")
-      .check(status.is(303))
-      .check(header("Location").is(s"/upload-customs-documents/continue-to-host": String))
 
   def getCheckAnswersAcceptSendPage: HttpRequestBuilder =
     http("get check answers and send page")

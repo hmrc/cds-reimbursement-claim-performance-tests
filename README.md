@@ -3,7 +3,6 @@
 # cds-reimbursement-claim-performance-tests
 Performance test suite for the `<digital service name>`, using [performance-test-runner](https://github.com/hmrc/performance-test-runner) under the hood.
 
-
 ## Running the tests
 
 Prior to executing the tests ensure you have:
@@ -28,12 +27,12 @@ The template uses [logback.xml](src/test/resources) to configure log levels. The
 
 It might be useful to try the journey with one user to check that everything works fine before running the full performance test
 ```
-sbt -Dperftest.runSmokeTest=true -DrunLocal=true -DuseAwesomeStubs=true Gatling/test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=true  Gatling/test
 ```
 
 #### Running the full performance test
 ```
-sbt -DrunLocal=true -DuseAwesomeStubs=true Gatling/test
+sbt -DrunLocal=true  Gatling/test
 ```
 ###  **Staging environment**
 

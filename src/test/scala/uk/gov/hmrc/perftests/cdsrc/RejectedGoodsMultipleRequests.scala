@@ -80,7 +80,6 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/multiple/enter-movement-reference-number": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      //.formParam("enter-movement-reference-number.rejected-goods", "01AAAAAAAAAAAAAAA2")
       .check(bodyString.transform(_.contains("First Movement Reference Number (MRN)")).is(true))
 
   def postRejectedGoodsMultipleMRNPage: HttpRequestBuilder =
@@ -216,7 +215,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .get(s"$baseUrl/$route1/multiple/enter-rejected-goods-details": String)
       .check(saveCsrfToken())
       .check(status.is(200))
-      .check(bodyString.transform(_.contains("Additional claim details")).is(true))
+      .check(bodyString.transform(_.contains("Tell us more about your claim")).is(true))
 
   def postRejectedGoodsMultipleEnterRejectedDetailsPage: HttpRequestBuilder =
     http("post rejected goods enter rejected goods details page")
@@ -409,8 +408,6 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .check(saveSessionId)
       .check(savePolicy)
       .check(status.is(200))
-      //      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
-      //      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("Upload (.*)"))
 
   def postRejectedGoodsMultipleUploadDocumentsChooseFilePage: HttpRequestBuilder =
@@ -435,10 +432,6 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "#{policy}"))
       .bodyPart(RawFileBodyPart("file", "data/validFile.png"))
-      //              alternative way to upload file:
-      //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
-      //                .fileName("NewArrangement.xml")
-      //                .transferEncoding("binary"))
       .check(status.is(303))
       .check(header("Location").saveAs("UpscanResponseSuccess"))
 

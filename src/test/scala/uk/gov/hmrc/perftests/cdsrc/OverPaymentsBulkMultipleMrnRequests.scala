@@ -37,7 +37,6 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
   val redirect1       = s"$baseUrl/$route/start"
   val CsrfPattern     = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  //def saveCsrfToken: CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
   def saveCsrfToken: CheckBuilder[CssCheckType, NodeSelector] = css("input[name='csrfToken']", "value").optional.saveAs("csrfToken")
 
@@ -135,7 +134,7 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .get(s"$baseUrl/$route1/multiple/enter-additional-details": String)
       .check(saveCsrfToken)
       .check(status.is(200))
-      .check(bodyString.transform(_.contains("Additional claim details")).is(true))
+      .check(bodyString.transform(_.contains("Tell us more about your claim")).is(true))
 
   def postOverpaymentsMultipleEnterCommodityDetailsPage: HttpRequestBuilder =
     http("post overpayments multiple MRN enter commodity details page")
@@ -235,33 +234,6 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .check(header("Location").is(s"/$route1/multiple/enter-bank-account-details": String))
 
 
-  /*def getOverpaymentsMultipleChoosePayeeTypePage: HttpRequestBuilder =
-    http("get overpayments multiple MRN check bank details page")
-      .get(s"$baseUrl/$route1/multiple/choose-payee-type": String)
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/check-bank-details": String))
-
-  def getOverpaymentsMultipleCheckBankDetailsPage: HttpRequestBuilder =
-    http("get overpayments multiple MRN check bank details page")
-      .get(s"$baseUrl/$route1/multiple/check-bank-details": String)
-      .check(status.is(200))
-      .check(regex("Check these bank details are correct"))
-      .check(css(".govuk-button", "href").saveAs("uploadSupportingEvidencePage"))
-
-  def getOverpaymentsMultipleBankAccountTypePage: HttpRequestBuilder =
-    http("get overpayments multiple bank account type")
-      .get(s"$baseUrl/$route1/multiple/bank-account-type": String)
-      .check(status.is(200))
-      .check(regex("What type of account details are you providing?"))
-
-  def postOverpaymentsMultipleBankAccountTypePage: HttpRequestBuilder =
-    http("post overpayments multiple bank account type")
-      .post(s"$baseUrl/$route1/multiple/bank-account-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-bank-account-type", "Business")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-bank-account-details": String)) */
-
   def getOverpaymentsMultipleEnterBankAccountDetailsPage: HttpRequestBuilder =
     http("get overpayments multiple enter bank account details page")
       .get(s"$baseUrl/$route1/multiple/enter-bank-account-details": String)
@@ -335,28 +307,6 @@ object OverPaymentsBulkMultipleMrnRequests extends ServicesConfiguration with Re
       .check(status.in(200,303))
       .check(header("Location").is(s"/$route1/multiple/claimant-details/lookup-address": String))
 
-
-  /*def postOverpaymentsMultipleClaimantDetailsCheckPage: HttpRequestBuilder =
-    http("post overpayments multiple claimant details check page")
-      .post(s"$baseUrl/$route1/multiple/claimant-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/claim-northern-ireland": String))
-
-  def getOverpaymentsMultipleClaimMrnClaimNorthernIrelandPage: HttpRequestBuilder =
-    http("get overpayments multiple claim northern ireland page")
-      .get(s"$baseUrl/$route1/multiple/claim-northern-ireland": String)
-      .check(saveCsrfToken)
-      .check(status.is(200))
-      .check(regex("Were your goods moved through or imported to Northern Ireland?"))
-
-  def postOverpaymentsMultipleClaimNorthernIrelandPage: HttpRequestBuilder =
-    http("post overpayments multiple claim northern ireland page")
-      .post(s"$baseUrl/$route1/multiple/claim-northern-ireland": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("claim-northern-ireland", "true")
-      .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/choose-basis-for-claim": String))*/
 
   def getOverpaymentsMultipleCheckYourAnswersPage: HttpRequestBuilder =
     http("get overpayments multiple check your answers page")

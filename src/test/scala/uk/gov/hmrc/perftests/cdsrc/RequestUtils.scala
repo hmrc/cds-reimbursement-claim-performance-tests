@@ -36,11 +36,8 @@ trait RequestUtils {
   private val signaturePattern        = """name="x-amz-signature" value="(.*?)""""
   private val policyPattern           = """name="policy" value="(.*?)""""
   private val referencePattern        = """data-reference="(.*?)""""
- // private val fileTypePattern         = """data-filetype="(.*?)""""
   private val successRedirectPattern  = """name="success_action_redirect" value="(.*?)""""
   private val errorRedirectPattern    = """name="error_action_redirect" value="(.*?)""""
-  //private val metaRequestIDPattern    = """name="x-amz-meta-request-id" value="(.*?)""""
-  //private val metaSesssionIDPattern   = """name="x-amz-meta-session-id" value="(.*?)""""
   private val sessionIdPattern        = """name="x-amz-meta-session-id" value="(.*?)""""
   private val requestIdPattern        = """name="x-amz-meta-request-id" value="(.*?)""""
 
@@ -99,13 +96,5 @@ trait RequestUtils {
   def saveReference: CheckBuilder[RegexCheckType, String] =
     regex(referencePattern).saveAs("reference")
 
- /* def saveFileType: CheckBuilder[RegexCheckType, String] =
-    regex(fileTypePattern).saveAs("fileType")
-
-  def saveAMZMetaRequestId: CheckBuilder[RegexCheckType, String] =
-    regex(metaRequestIDPattern).saveAs("amazonMetaRequestID")
-
-  def saveAMZMetaSessionId: CheckBuilder[RegexCheckType, String] =
-    regex(metaSesssionIDPattern).saveAs("amazonMetaSessionID")*/
 
 }

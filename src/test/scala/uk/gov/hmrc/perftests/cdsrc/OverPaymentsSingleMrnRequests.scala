@@ -422,7 +422,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .formParam("enter-contact-details.contact-email", "someemail@mail.com")
       .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claimant-details": String))
+      .check(header("Location").is(s"/$route1/single/claimant-details/lookup-address": String))
 
   def getOverpaymentsMrnClaimantDetailsCheckPage1: HttpRequestBuilder =
     http("get the MRN claimant details page from details contact page")

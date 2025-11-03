@@ -244,7 +244,7 @@ object RejectedGoodsScheduledRequests extends ServicesConfiguration with Request
       .formParam("enter-contact-details.contact-email", "someemail@mail.com")
       .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/scheduled/claimant-details": String))
+      .check(header("Location").is(s"/$route1/scheduled/claimant-details/lookup-address": String))
 
   def postRejectedGoodsScheduledClaimDetailsPage: HttpRequestBuilder =
     http("post rejected goods scheduled claim details page")

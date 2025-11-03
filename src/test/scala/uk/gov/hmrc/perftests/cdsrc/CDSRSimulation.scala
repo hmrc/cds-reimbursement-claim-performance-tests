@@ -91,8 +91,6 @@ class CDSRSimulation extends PerformanceTestRunner {
       getFileVerificationStatusPage ++
       List[ActionBuilder](
         postRejectedGoodsChangeContactDetailsPage,
-        getRejectedGoodsClaimantDetailsPage1,
-        postRejectedGoodsClaimDetailsPage,
         getRejectedGoodsCheckYourAnswersPage,
         postRejectedGoodsCheckYourAnswersPage,
         getRejectedGoodsClaimSubmittedPage
@@ -159,8 +157,6 @@ class CDSRSimulation extends PerformanceTestRunner {
       List[ActionBuilder](
         getRejectedGoodsMultipleClaimantDetailsPage,
         postRejectedGoodsMultipleChangeContactDetailsPage,
-        getRejectedGoodsMultipleClaimantDetailsPage1,
-        postRejectedGoodsMultipleClaimDetailsPage,
         getRejectedGoodsMultipleCheckYourAnswersPage,
         getRejectedGoodsMultipleClaimSubmittedPage
       )
@@ -249,7 +245,6 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsSingleScanProgressWaitPage,
         getRejectedGoodsScheduledContactDetailsPage,
         postRejectedGoodsScheduledChangeContactDetailsPage,
-        postRejectedGoodsScheduledClaimDetailsPage,
       ) ++
       getFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -309,8 +304,6 @@ class CDSRSimulation extends PerformanceTestRunner {
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
         postOverpaymentsMrnChangeContactDetailsPage,
-        getOverpaymentsMrnClaimantDetailsCheckPage1,
-        postOverpaymentsMrnClaimantDetailsCheckPage,
         getOverpaymentsCheckYourAnswersPage,
         getOverpaymentsClaimSubmittedPage
       )
@@ -362,7 +355,6 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScanProgressWaitPage,
         getOverpaymentsMultipleChangeContactDetailsPage,
         postOverpaymentsMultipleChangeContactDetailsPage,
-        getOverpaymentsMultipleClaimantDetailsCheckPage1,
       ) ++
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -477,8 +469,6 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsScanProgressWaitPage,
         getOverpaymentsScheduledContactDetailsPage,
         postOverpaymentsScheduledChangeContactDetailsPage,
-        getOverpaymentsScheduledMrnClaimantDetailsCheckPage1,
-        postOverpaymentsScheduledMrnClaimantDetailsCheckPage,
       ) ++
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -530,7 +520,6 @@ class CDSRSimulation extends PerformanceTestRunner {
   val SecuritiesSingleBOD3Journey: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
-        // cdsOverPaymentsV2Disable,
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
         postTheMRNCheckEoriDetailsPage,
@@ -571,23 +560,19 @@ class CDSRSimulation extends PerformanceTestRunner {
         postSecuritiesEnterMovementReferenceNumberPage(MRN = "01AAAAAAAAAAAAA111"),
         getSecuritiesReasonForSecurityPage,
         postSecuritiesReasonForSecurityPage(reasonForSecurity = "Temporary Admission (2 months)"),
-        //postSecuritiesSingleReasonForSecurityPage,
         getSecuritiesCheckDeclarationDetailsPage,
         postSecuritiesTACheckDeclarationDetailsPage,
         getSecuritiesHaveYourDocumentsReady,
         getSecuritiesConfirmPaymentExportMethodPage,
-        //postSecuritiesConfirmPaymentExportMethodPage,
         getSecuritiesPartialClaimPage,
         postSecuritiesPartialClaimPage,
         getSecuritiesSelectDutyPage,
-        //postSecuritiesSelectDutyPage,
         getSecuritiesConfirmDutyRepaymentPage,
         postSecuritiesEnterClaimRedTaxCodePage,
         postSecuritiesEnterClaimTaxCodePage,
         getSecuritiesCheckClaimPage,
         postSecuritiesCheckClaimPage,
         getSecuritiesExportMethodPage,
-       // postSecuritiesExportMethodPage,
         getSecuritiesExportMRNPage,
         postSecuritiesExportMRNPage,
         getSecuritiesChoosePayeeTypePage,
@@ -604,7 +589,6 @@ class CDSRSimulation extends PerformanceTestRunner {
       List[ActionBuilder](
         getSecuritiesClaimantDetailsPage,
         postSecuritiesClaimantDetailsPage,
-        getSecuritiesClaimantDetailsCheckPage1,
         getSecuritiesCheckYourAnswersPage,
         postSecuritiesCheckYourAnswersPage,
         getSecuritiesClaimSubmittedPage

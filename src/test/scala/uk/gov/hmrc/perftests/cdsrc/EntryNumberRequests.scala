@@ -55,7 +55,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get check eori details page")
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken())
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(regex("Check if this is the correct EORI"))
 
   def postCheckEoriDetailsPage: HttpRequestBuilder =
@@ -334,7 +334,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "${sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "${policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
+      .bodyPart(RawFileBodyPart("file", "data/pixel.jpg"))
       .check(status.is(303))
       .check(header("Location").saveAs("UpscanResponseSuccess"))
 
@@ -342,8 +342,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
     http("get scan progress wait page")
       .get("${UpscanResponseSuccess}")
       .check(status.in(303, 200))
-
-
 
   def postScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
@@ -367,7 +365,6 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .get(s"$baseUrlUploadCustomsDocuments/upload-customs-documents")
       .check(status.is(303))
 
-
   def getUploadCustomsDocumentsChooseFilePage: HttpRequestBuilder =
     http("get upload customs documents choose files page")
       .get(s"$baseUrlUploadCustomsDocuments/upload-customs-documents/choose-file": String)
@@ -379,11 +376,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       pause(2.second).exec(
         http("get the file verification status page")
           .get(s"$baseUrlUploadCustomsDocuments" + "#{fileVerificationUrl}")
-          .check(status.in(200,303))
-          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED","REJECTED").saveAs("fileStatus"))
+          .check(status.in(200, 303))
+          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED", "REJECTED").saveAs("fileStatus"))
       )
     ).actionBuilders
-
 
   def getCheckAnswersAcceptSendPage: HttpRequestBuilder =
     http("get check answers and send page")

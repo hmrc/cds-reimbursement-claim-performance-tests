@@ -30,3 +30,4 @@ project/metals.sbt
 .bloop
 .metals
 .vscode
+.cursor/mcp.json

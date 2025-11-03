@@ -36,7 +36,8 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   val redirect1       = s"$baseUrl/$route/start"
   val CsrfPattern     = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken: CheckBuilder[CssCheckType, NodeSelector] = css("input[name='csrfToken']", "value").optional.saveAs("csrfToken")
+  def saveCsrfToken: CheckBuilder[CssCheckType, NodeSelector] =
+    css("input[name='csrfToken']", "value").optional.saveAs("csrfToken")
 
   def getSecuritiesSelectClaimTypePage: HttpRequestBuilder =
     http("get select claim type page")
@@ -87,10 +88,10 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       case "Missing proof of origin"                                             => "MissingPreferenceCertificate"
       //case "Missing document: quota license" => "MissingLicenseQuota"
       //case "Revenue Dispute or Inland Pre-Clearance (IPC)" => "OutwardProcessingRelief"
-      case "Temporary Admission (2 months)"                                     => "TemporaryAdmission2M"
-      case "Temporary Admission (24 months)"                                    => "TemporaryAdmission2Y"
-      case "Temporary Admission (3 months)"                                     => "TemporaryAdmission3M"
-      case "Temporary Admission (6 months)"                                     => "TemporaryAdmission6M"
+      case "Temporary Admission (2 months)"                                      => "TemporaryAdmission2M"
+      case "Temporary Admission (24 months)"                                     => "TemporaryAdmission2Y"
+      case "Temporary Admission (3 months)"                                      => "TemporaryAdmission3M"
+      case "Temporary Admission (6 months)"                                      => "TemporaryAdmission6M"
       // case "UKAP Entry Price" => "UKAPEntryPrice"
       //case "UKAP Safeguard Duties" => "UKAPSafeguardDuties"
       // case _ => throw new IllegalArgumentException("Location not found " + reasonForSecurity)
@@ -107,13 +108,12 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
     http("post securities single choose reason for security page")
       .post(s"$baseUrl/$route1/select-securities": String)
       .formParam("csrfToken", "#{csrfToken}")
-     .check(header("Location").is(s"/$route1/single/check-mrn": String))
-
+      .check(header("Location").is(s"/$route1/single/check-mrn": String))
 
   def getSecuritiesHaveYourDocumentsReady: HttpRequestBuilder =
     http("get the supporting documents ready page")
       .get(s"$baseUrl/$route1/have-your-documents-ready": String)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(bodyString.transform(_.contains("Have your supporting documents ready")).is(true))
 
   def getSecuritiesTotalImportDischargedPage: HttpRequestBuilder =
@@ -130,7 +130,6 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .formParam("check-total-import-discharged", "true")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/upload-bill-of-discharge4": String))
-
 
   def getSecuritiesBODChooseFileTypePage: HttpRequestBuilder =
     http("get BOD upload documents choose file page")
@@ -149,11 +148,10 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .check(saveErrorRedirect)
       .check(saveSessionId)
       .check(savePolicy)
-      .check(status.in(200,303))
-           .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
-            .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
+      .check(status.in(200, 303))
+      .check(regex("""form action="(.*)" method""").saveAs("actionlll"))
+      .check(regex("""supporting-evidence/scan-progress/(.*)">""").saveAs("action1"))
       .check(regex("""data-file-upload-check-status-url="(.*)"""").saveAs("fileVerificationUrl"))
-
 
   def postSecuritiesBODChooseFileTypePage: HttpRequestBuilder =
     http("post BOD upload support evidence page")
@@ -176,7 +174,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "#{sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "#{policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
+      .bodyPart(RawFileBodyPart("file", "data/pixel.jpg"))
       //              alternative way to upload file:
       //                .bodyPart(RawFileBodyPart("file", "data/NewArrangement.xml")
       //                .fileName("NewArrangement.xml")
@@ -192,7 +190,6 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/upload-bill-of-discharge3": String))
 
-
   def getSecuritiesBod3MandatoryCheckPage: HttpRequestBuilder =
     http("get securities bod3 mandatory check page")
       .get(s"$baseUrl/$route1/bod3-mandatory-check": String)
@@ -204,7 +201,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
     http("add other documents to support your claim")
       .get(s"$baseUrl/$route1/add-other-documents": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
 
   def postAddOtherDocuments: HttpRequestBuilder =
     http("post add other documents to support your claim")
@@ -218,7 +215,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
     http("add other documents to support your claim")
       .get(s"$baseUrl/$route1/enter-additional-details": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
 
   def postEnterAdditionalDetails: HttpRequestBuilder =
     http("add other documents to support your claim")
@@ -228,21 +225,19 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/change-contact-details": String))
 
-
   def getSecuritiesCheckDeclarationDetailsPage: HttpRequestBuilder =
     http("get securities check declaration details page")
       .get(s"$baseUrl/$route1/single/check-mrn": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(bodyString.transform(_.contains("Check the Movement Reference Number (MRN) you entered")).is(true))
 
-  def postSecuritiesCheckDeclarationDetailsPage: HttpRequestBuilder = {
+  def postSecuritiesCheckDeclarationDetailsPage: HttpRequestBuilder =
     http("post securities check declaration details page")
       .post(s"$baseUrl/$route1/single/check-mrn": String)
       .formParam("csrfToken", "#{csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/confirm-full-repayment": String))
-  }
 
   def getSecuritiesTACheckDeclarationDetailsPage: HttpRequestBuilder =
     http("get securities check declaration details page")
@@ -251,14 +246,12 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .check(status.is(200))
       .check(bodyString.transform(_.contains("Check the Movement Reference Number (MRN) you entered")).is(true))
 
-
-  def postSecuritiesTACheckDeclarationDetailsPage: HttpRequestBuilder = {
+  def postSecuritiesTACheckDeclarationDetailsPage: HttpRequestBuilder =
     http("post securities TA next check declaration details page")
       .post(s"$baseUrl/$route1/single/check-mrn": String)
       .formParam("csrfToken", "#{csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/have-your-documents-ready": String))
-  }
 
   def getSecuritiesConfirmPaymentExportMethodPage: HttpRequestBuilder =
     http("get securities Confirm Payment export method page")
@@ -316,7 +309,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
     http("post securities enter claim tax code page")
       .post(s"$baseUrl/$route1/select-duties/ABC0123456": String)
       .formParam("csrfToken", "#{csrfToken}")
-      .check(status.in(303,200))
+      .check(status.in(303, 200))
 
   def postSecuritiesEnterClaimTaxCodePage: HttpRequestBuilder =
     http("post securities enter claim tax code page")
@@ -330,7 +323,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
     http("get securities check claim page")
       .get(s"$baseUrl/$route1/single/check-claim": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
 
   def postSecuritiesCheckClaimPage: HttpRequestBuilder =
     http("post securities check claim page")
@@ -347,7 +340,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
 
   def postSecuritiesExportMethodPage: HttpRequestBuilder =
     http("post securities export method page")
-     .post(s"$baseUrl/$route1/export-method": String)
+      .post(s"$baseUrl/$route1/export-method": String)
       .formParam("csrfToken", "#{csrfToken}")
       .formParam("choose-export-method[]", "ExportedInSingleOrMultipleShipments")
       .check(status.is(303))
@@ -357,7 +350,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
     http("get securities export MRN page")
       .get(s"$baseUrl/$route1/enter-export-movement-reference-number": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
 
   def postSecuritiesExportMRNPage: HttpRequestBuilder =
     http("post securities export MRN page")
@@ -370,13 +363,13 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def getSecuritiesChoosePayeeTypePage: HttpRequestBuilder =
     http("get the securities choose payee type page")
       .get(s"$baseUrl/$route1/choose-payee-type": String)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
 
   def getSecuritiesEnterBankAccountDetailsPage: HttpRequestBuilder =
     http("get securities enter bank account details page")
       .get(s"$baseUrl/$route1/enter-bank-account-details": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(bodyString.transform(_.contains("Enter the UK-based bank account details")).is(true))
 
   def postSecuritiesEnterBankAccountDetailsPage: HttpRequestBuilder =
@@ -386,14 +379,13 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .formParam("enter-bank-account-details.account-name", "Mybank")
       .formParam("enter-bank-account-details.sort-code", "123456")
       .formParam("enter-bank-account-details.account-number", "26152639")
-      .check(status.in(200,303))
-
+      .check(status.in(200, 303))
 
   def postSecuritiesMoreDetailsPage: HttpRequestBuilder =
     http("post securities more details page")
       .post(s"$baseUrl/$route/securities/enter-bank-account-details": String)
       .formParam("csrfToken", "#{csrfToken}")
-      .check(status.in(200,303,400))
+      .check(status.in(200, 303, 400))
 
   def getSecuritiesChooseFileTypePage: HttpRequestBuilder =
     http("get securities choose file type page")
@@ -457,7 +449,7 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "#{sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "#{policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
+      .bodyPart(RawFileBodyPart("file", "data/pixel.jpg"))
       .check(status.is(303))
       .check(header("Location").saveAs("UpscanResponseSuccess"))
 
@@ -487,14 +479,14 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
     http("get Securities claimant details page from details contact page")
       .get(s"$baseUrl/$route1/claimant-details": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(header("Location").is(s"/$route1/claimant-details/lookup-address": String))
 
   def getSecuritiesCheckYourAnswersPage: HttpRequestBuilder =
     http("get securities check your answers page")
       .get(s"$baseUrl/$route1/check-your-answers": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
 
   def postSecuritiesCheckYourAnswersPage: HttpRequestBuilder =
     http("post securities submit claim page")
@@ -505,6 +497,6 @@ object SecuritiesSingleRequests extends ServicesConfiguration with RequestUtils 
   def getSecuritiesClaimSubmittedPage: HttpRequestBuilder =
     http("get securities claim submitted page")
       .get(s"$baseUrl/$route1/claim-submitted": String)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
 
 }

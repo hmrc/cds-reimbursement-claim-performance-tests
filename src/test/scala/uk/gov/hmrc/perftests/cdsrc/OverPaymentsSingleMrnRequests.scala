@@ -34,7 +34,6 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   val overPaymentsV2: String                = baseUrlFor("cds-reimbursement-claim-frontend") + s"/claim-back-import-duty-vat/start"
   val baseUrlUploadCustomsDocuments: String = baseUrlFor("upload-customs-documents-frontend")
 
-
   val authUrl: String = baseUrlFor("auth-login-stub")
   val redirect        = s"$baseUrl/$route/start/claim-for-reimbursement"
   val redirect1       = s"$baseUrl/$route/start"
@@ -51,7 +50,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
     http("get check eori details page")
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken())
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(regex("Check these EORI details are correct"))
 
   def postOverPaymentsMRNCheckEoriDetailsPage: HttpRequestBuilder =
@@ -95,7 +94,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   def getOverpaymentsHaveYourDocumentsReady: HttpRequestBuilder =
     http("get the supporting documents ready page")
       .get(s"$baseUrl/$route1/single/have-your-documents-ready": String)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(bodyString.transform(_.contains("Have your supporting documents ready")).is(true))
 
   def getOverpaymentsMRNPage: HttpRequestBuilder =
@@ -149,7 +148,6 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .check(saveCsrfToken())
       .check(status.is(200))
       .check(bodyString.transform(_.contains("Check the Movement Reference Number (MRN) you entered")).is(true))
-
 
   def postOverpaymentsMRNCheckDeclarationPage: HttpRequestBuilder =
     http("post the MRN check declaration details page")
@@ -243,7 +241,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   def getOverpaymentsMRNStartClaimPage: HttpRequestBuilder =
     http("get the MRN start claim page")
       .get(s"$baseUrl/$route1/single/enter-claim/A95": String)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(bodyString.transform(_.contains("A95 - Provisional Countervailing Duty")).is(true))
 
   def postOverpaymentsMRNEnterClaimPage: HttpRequestBuilder =
@@ -257,7 +255,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   def getOverpaymentsMRNCheckClaimPage: HttpRequestBuilder =
     http("get the MRN check claim page")
       .get(s"$baseUrl/$route1/single/check-claim": String)
-      .check(status.in(303,200))
+      .check(status.in(303, 200))
 
   def postOverpaymentsMRNCheckClaimPage: HttpRequestBuilder =
     http("post the MRN check claim page")
@@ -285,7 +283,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
     http("get the Overpayments choose repayment method page")
       .get(s"$baseUrl/$route1/single/choose-repayment-method": String)
       .check(saveCsrfToken())
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(bodyString.transform(_.contains("How would you like to be repaid?")).is(true))
 
   def postOverpaymentsRepaymentMethodPage: HttpRequestBuilder =
@@ -375,7 +373,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "#{sessionId}"))
       .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "#{policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/testImage95.jpg"))
+      .bodyPart(RawFileBodyPart("file", "data/pixel.jpg"))
       .check(status.is(303))
       .check(header("Location").saveAs("UpscanResponseSuccess"))
 
@@ -390,7 +388,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
         http("get the file verification status page")
           .get(s"$baseUrlUploadCustomsDocuments" + "#{fileVerificationUrl}")
           .check(status.is(200))
-          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED","REJECTED").saveAs("fileStatus"))
+          .check(jsonPath("$.fileStatus").in("WAITING", "ACCEPTED", "NOT_UPLOADED", "REJECTED").saveAs("fileStatus"))
       )
     ).actionBuilders
 
@@ -400,18 +398,17 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .check(status.is(303))
       .check(header("Location").is(s"$baseUrl/$route1/single/check-your-answers": String))
 
-
   def getOverpaymentsMRNClaimantDetailsPage: HttpRequestBuilder =
     http("get the MRN claimant details page")
       .get(s"$baseUrl/$route1/single/claimant-details": String)
       .check(saveCsrfToken())
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(regex("How we will contact you about this claim"))
 
   def getOverpaymentsMrnChangeContactDetailsPage: HttpRequestBuilder =
     http("get the MRN change contact details page")
       .get(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(regex("Who should we contact about this claim?"))
 
   def postOverpaymentsMrnChangeContactDetailsPage: HttpRequestBuilder =
@@ -427,8 +424,7 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
   def getOverpaymentsMrnClaimantDetailsCheckPage1: HttpRequestBuilder =
     http("get the MRN claimant details page from details contact page")
       .get(s"$baseUrl/$route1/single/claimant-details": String)
-      .check(status.in(200,303))
-
+      .check(status.in(200, 303))
 
   def postOverpaymentsMrnClaimantDetailsCheckPage: HttpRequestBuilder =
     http("post the MRN claimant details page")
@@ -438,12 +434,10 @@ object OverPaymentsSingleMrnRequests extends ServicesConfiguration with RequestU
       .check(status.is(303))
       .check(header("Location").is(s"/$route1/single/check-your-answers": String))
 
-
   def getOverpaymentsCheckYourAnswersPage: HttpRequestBuilder =
     http("get overpayments check your answers page")
       .get(s"$baseUrl/$route1/single/check-your-answers": String)
       .check(status.is(303))
-
 
   def getOverpaymentsClaimSubmittedPage: HttpRequestBuilder =
     http("get overpayments claim submitted page")

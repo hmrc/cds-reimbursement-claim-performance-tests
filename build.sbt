@@ -1,5 +1,4 @@
 lazy val root = (project in file("."))
-  .enablePlugins(SbtAutoBuildPlugin)
   .enablePlugins(GatlingPlugin)
  // .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(

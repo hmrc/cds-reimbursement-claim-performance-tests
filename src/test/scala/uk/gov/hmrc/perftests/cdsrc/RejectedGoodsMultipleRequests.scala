@@ -43,16 +43,16 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
     http("get multiple select claim type page")
       .get(s"$baseUrl/$route/choose-claim-type": String)
       .check(saveCsrfToken())
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(regex("Start a new claim"))
 
   def postRejectedGoodsMultipleSelectClaimTypePage: HttpRequestBuilder =
     http("post rejected goods select claim type page")
       .post(s"$baseUrl/$route/choose-claim-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("choose-claim-type", "RejectedGoods")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("choose-claim-type", _ => "RejectedGoods")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/choose-how-many-mrns": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/choose-how-many-mrns": String))
 
   def getRejectedGoodsMultipleChooseHowManyMrnsPage: HttpRequestBuilder =
     http("get the rejected goods choose how many mrns page")
@@ -64,15 +64,15 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleChooseHowManyMrnsPage: HttpRequestBuilder =
     http("post the rejected goods choose how many mrns page")
       .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("rejected-goods.choose-how-many-mrns", "Multiple")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("rejected-goods.choose-how-many-mrns", _ => "Multiple")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/have-your-documents-ready": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/have-your-documents-ready": String))
 
   def getRejectedGoodsMultipleHaveYourDocumentsReady: HttpRequestBuilder =
     http("get the rejected goods supporting documents ready page")
       .get(s"$baseUrl/$route1/multiple/have-your-documents-ready": String)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(bodyString.transform(_.contains("Have your supporting documents ready")).is(true))
 
   def getRejectedGoodsMultipleMRNPage: HttpRequestBuilder =
@@ -85,10 +85,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleMRNPage: HttpRequestBuilder =
     http("post The MRN page")
       .post(s"$baseUrl/$route1/multiple/enter-movement-reference-number/1": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-movement-reference-number", "01AAAAAAAAAAAAAAA2")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-movement-reference-number", _ => "01AAAAAAAAAAAAAAA2")
       .check(status.in(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-importer-eori": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-importer-eori": String))
 
   def getRejectedGoodsMultipleImporterEoriEntryPage: HttpRequestBuilder =
     http("get the MRN importer eori entry page")
@@ -100,10 +100,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleImporterEoriEntryPage: HttpRequestBuilder =
     http("post the MRN importer eori entry page")
       .post(s"$baseUrl/$route1/multiple/enter-importer-eori": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-importer-eori-number", "GB000000000000002")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-importer-eori-number", _ => "GB000000000000002")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-declarant-eori": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-declarant-eori": String))
 
   def getRejectedGoodsMultipleDeclarantEoriEntryPage: HttpRequestBuilder =
     http("get the MRN declarant eori entry page")
@@ -115,10 +115,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleDeclarantEoriEntryPage: HttpRequestBuilder =
     http("post the MRN declarant eori entry page")
       .post(s"$baseUrl/$route1/multiple/enter-declarant-eori": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-declarant-eori-number", "GB000000000000002")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-declarant-eori-number", _ => "GB000000000000002")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/check-mrn": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/check-mrn": String))
 
   def getRejectedGoodsMultipleCheckDeclarationPage: HttpRequestBuilder =
     http("get the MRN check declaration details page")
@@ -130,10 +130,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleCheckDeclarationPage: HttpRequestBuilder =
     http("post the MRN check declaration details page")
       .post(s"$baseUrl/$route1/multiple/check-mrn": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-declaration-details", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-declaration-details", _ => "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-movement-reference-number/2": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-movement-reference-number/2": String))
 
   def getRejectedGoodsMultipleMRN2Page: HttpRequestBuilder =
     http("get enter movement reference number second page")
@@ -145,10 +145,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleMRN2Page: HttpRequestBuilder =
     http("post enter movement reference number second page")
       .post(s"$baseUrl/$route1/multiple/enter-movement-reference-number/2": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-movement-reference-number", "02AAAAAAAAAAAAAAA2")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-movement-reference-number", _ => "02AAAAAAAAAAAAAAA2")
       .check(status.in(303))
-      .check(header("Location").is(s"/$route1/multiple/check-movement-reference-numbers": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/check-movement-reference-numbers": String))
 
   def getRejectedGoodsCheckMRNsPage: HttpRequestBuilder =
     http("get check movement reference numbers page")
@@ -160,10 +160,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsCheckMRNsPage: HttpRequestBuilder =
     http("post check movement reference numbers page")
       .post(s"$baseUrl/$route1/multiple/check-movement-reference-numbers": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-movement-reference-numbers.rejected-goods", "false")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-movement-reference-numbers.rejected-goods", _ => "false")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/choose-basis-for-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/choose-basis-for-claim": String))
 
   def getRejectedGoodsMultipleChooseBasisForClaimPage: HttpRequestBuilder =
     http("get the rejected goods choose basis for claim page")
@@ -175,10 +175,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleChooseBasisForClaimPage: HttpRequestBuilder =
     http("post rejected goods choose basis for claim page")
       .post(s"$baseUrl/$route1/multiple/choose-basis-for-claim": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-basis-for-claim.rejected-goods", "SpecialCircumstances")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-basis-for-claim.rejected-goods", _ => "SpecialCircumstances")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-special-circumstances": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-special-circumstances": String))
 
   def getRejectedGoodsMultipleSpecialCircumstancesPage: HttpRequestBuilder =
     http("get the rejected goods special circumstances page")
@@ -190,10 +190,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleSpecialCircumstancesPage: HttpRequestBuilder =
     http("post rejected goods special circumstances page")
       .post(s"$baseUrl/$route1/multiple/enter-special-circumstances": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-special-circumstances.rejected-goods", "reason")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-special-circumstances.rejected-goods", _ => "reason")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/choose-disposal-method": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/choose-disposal-method": String))
 
   def getRejectedGoodsMultipleChooseDisposalMethodPage: HttpRequestBuilder =
     http("get the rejected goods choose disposal method page")
@@ -205,10 +205,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleChooseDisposalMethodPage: HttpRequestBuilder =
     http("post rejected goods choose disposal method page")
       .post(s"$baseUrl/$route1/multiple/choose-disposal-method": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-method-of-disposal.rejected-goods", "PlacedInCustomsWarehouse")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-method-of-disposal.rejected-goods", _ => "PlacedInCustomsWarehouse")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-rejected-goods-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-rejected-goods-details": String))
 
   def getRejectedGoodsMultipleEnterRejectedDetailsPage: HttpRequestBuilder =
     http("get the rejected goods enter rejected goods details page")
@@ -220,10 +220,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleEnterRejectedDetailsPage: HttpRequestBuilder =
     http("post rejected goods enter rejected goods details page")
       .post(s"$baseUrl/$route1/multiple/enter-rejected-goods-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-rejected-goods-details.rejected-goods", "Any")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-rejected-goods-details.rejected-goods", _ => "Any")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/select-duties": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/select-duties": String))
 
   def getRejectedGoodsMultipleSelectDutiesPage: HttpRequestBuilder =
     http("get the rejected goods select duties page")
@@ -235,10 +235,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleSelectDutiesOnePage: HttpRequestBuilder =
     http("post rejected goods select duties one page")
       .post(s"$baseUrl/$route1/multiple/select-duties/1": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-duties[]", "A90")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-duties[]", _ => "A90")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-claim/1/A90": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-claim/1/A90": String))
 
   def getRejectedGoodsMultipleEnterClaimDutyOnePage: HttpRequestBuilder =
     http("get the rejected goods enter claim page")
@@ -250,10 +250,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleEnterClaimDutyOnePage: HttpRequestBuilder =
     http("post rejected goods enter claim page")
       .post(s"$baseUrl/$route1/multiple/enter-claim/1/A90": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-claim-amount", "67")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-claim-amount", _ => "67")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/select-duties/2": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/select-duties/2": String))
 
   def getRejectedGoodsMultipleSelectDutiesTwoPage: HttpRequestBuilder =
     http("get the rejected goods select duties two page")
@@ -265,10 +265,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleSelectDutiesTwoPage: HttpRequestBuilder =
     http("post rejected goods select duties two page")
       .post(s"$baseUrl/$route1/multiple/select-duties/2": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-duties[]", "A95")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-duties[]", _ => "A95")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-claim/2/A95": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-claim/2/A95": String))
 
   def getRejectedGoodsMultipleEnterClaimDutyTwoPage: HttpRequestBuilder =
     http("get the rejected goods enter claim two page")
@@ -280,24 +280,23 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleEnterClaimDutyTwoPage: HttpRequestBuilder =
     http("post rejected goods enter claim page")
       .post(s"$baseUrl/$route1/multiple/enter-claim/2/A95": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-claim-amount", "23")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-claim-amount", _ => "23")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/check-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/check-claim": String))
 
   def getRejectedGoodsMultipleCheckClaimPage: HttpRequestBuilder =
     http("get the rejected goods check claim page")
       .get(s"$baseUrl/$route1/multiple/check-claim": String)
-     // .check(saveCsrfToken())
       .check(status.is(200))
       .check(bodyString.transform(_.contains("Check the repayment totals for this claim")).is(true))
 
   def postRejectedGoodsMultipleCheckClaimPage: HttpRequestBuilder =
     http("post rejected goods check claim page")
       .post(s"$baseUrl/$route1/multiple/check-claim": String)
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/enter-inspection-date": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/enter-inspection-date": String))
 
   def getRejectedGoodsMultipleInspectionDatePage: HttpRequestBuilder =
     http("get the rejected goods inspection date page")
@@ -309,12 +308,12 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleInspectionDatePage: HttpRequestBuilder =
     http("post rejected goods inspection date page")
       .post(s"$baseUrl/$route1/multiple/enter-inspection-date": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-inspection-date.rejected-goods.day", "19")
-      .formParam("enter-inspection-date.rejected-goods.month", "10")
-      .formParam("enter-inspection-date.rejected-goods.year", "2000")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-inspection-date.rejected-goods.day", _ => "19")
+      .formParam("enter-inspection-date.rejected-goods.month", _ => "10")
+      .formParam("enter-inspection-date.rejected-goods.year", _ => "2000")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/inspection-address/choose-type": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/inspection-address/choose-type": String))
 
   def getRejectedGoodsMultipleInspectionAddressChoosePage: HttpRequestBuilder =
     http("get the rejected goods inspection address choose type page")
@@ -326,26 +325,24 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleInspectionAddressChoosePage: HttpRequestBuilder =
     http("post rejected goods inspection address choose type page")
       .post(s"$baseUrl/$route1/multiple/inspection-address/choose-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("inspection-address.type", "Declarant")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("inspection-address.type", _ => "Declarant")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/choose-payee-type": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/choose-payee-type": String))
 
   def getRejectedGoodsMultipleChoosePayeeTypePage: HttpRequestBuilder =
     http("get the rejected goods choose payee type page")
       .get(s"$baseUrl/$route1/multiple/choose-payee-type": String)
       .check(saveCsrfToken())
-      .check(status.in(303,200))
+      .check(status.in(303, 200))
       .check(bodyString.transform(_.contains("Who will the repayment be made to?")).is(true))
-
 
   def postRejectedGoodsMultipleChoosePayeeTypePage: HttpRequestBuilder =
     http("post the rejected goods choose payee type page")
       .post(s"$baseUrl/$route1/multiple/choose-payee-type": String)
-      .formParam("choose-payee-type", "Declarant")
+      .formParam("choose-payee-type", _ => "Declarant")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-bank-account-details": String))
-
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-bank-account-details": String))
 
   def getRejectedGoodsMultipleEnterBankDetailsPage: HttpRequestBuilder =
     http("get the rejected goods enter bank details page")
@@ -357,12 +354,12 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleEnterBankDetailsPage: HttpRequestBuilder =
     http("post rejected goods enter bank details page")
       .post(s"$baseUrl/$route1/multiple/enter-bank-account-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-bank-account-details.account-name", "Mybank")
-      .formParam("enter-bank-account-details.sort-code", "123456")
-      .formParam("enter-bank-account-details.account-number", "26152639")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-bank-account-details.account-name", _ => "Mybank")
+      .formParam("enter-bank-account-details.sort-code", _ => "123456")
+      .formParam("enter-bank-account-details.account-number", _ => "26152639")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/choose-file-type": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/choose-file-type": String))
 
   def getRejectedGoodsMultipleChooseFileTypePage: HttpRequestBuilder =
     http("get the rejected goods choose file type page")
@@ -374,10 +371,10 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleChooseFileTypesPage: HttpRequestBuilder =
     http("post rejected goods choose file type page")
       .post(s"$baseUrl/$route1/multiple/choose-file-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("choose-file-type", "ImportAndExportDeclaration")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("choose-file-type", _ => "ImportAndExportDeclaration")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/choose-files": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/choose-files": String))
 
   def getRejectedGoodsMultipleChooseFilesPage: HttpRequestBuilder =
     http("get the rejected goods choose files page")
@@ -422,18 +419,18 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .bodyPart(StringBodyPart("x-amz-meta-upscan-initiate-response", "#{upscanInitiateResponse}"))
       .bodyPart(StringBodyPart("x-amz-meta-upscan-initiate-received", "#{upscanInitiateReceived}"))
       .bodyPart(StringBodyPart("x-amz-meta-request-id", "#{requestId}"))
-      .bodyPart(StringBodyPart("x-amz-algorithm", "#{amazonAlgorithm}"))
-      .bodyPart(StringBodyPart("key", "#{key}"))
+      .bodyPart(StringBodyPart("x-amz-algorithm", session => session("amazonAlgorithm").as[String]))
+      .bodyPart(StringBodyPart("key", session => session("key").as[String]))
       .bodyPart(StringBodyPart("x-amz-signature", "#{amazonSignature}"))
       .bodyPart(StringBodyPart("error_action_redirect", "#{errorRedirect}"))
-      .bodyPart(StringBodyPart("x-amz-meta-original-filename", "validFile.png"))
-      .bodyPart(StringBodyPart("acl", "private"))
+      .bodyPart(StringBodyPart("x-amz-meta-original-filename", _ => "validFile.png"))
+      .bodyPart(StringBodyPart("acl", _ => "private"))
       .bodyPart(StringBodyPart("x-amz-meta-session-id", "#{sessionId}"))
-      .bodyPart(StringBodyPart("x-amz-meta-consuming-service", "cds-reimbursement-claim-frontend"))
+      .bodyPart(StringBodyPart("x-amz-meta-consuming-service", _ => "cds-reimbursement-claim-frontend"))
       .bodyPart(StringBodyPart("policy", "#{policy}"))
-      .bodyPart(RawFileBodyPart("file", "data/validFile.png"))
+      .bodyPart(RawFileBodyPart("file", _ => "data/validFile.png"))
       .check(status.is(303))
-      .check(header("Location").saveAs("UpscanResponseSuccess"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("UpscanResponseSuccess"))
 
   def getRejectedGoodsMultipleScanProgressWaitPage: HttpRequestBuilder =
     http("get scan progress wait page")
@@ -446,9 +443,9 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
   def postRejectedGoodsMultipleScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
       .post(s"$baseUrl" + "#{actionlll}")
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").saveAs("scanPage"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("scanPage"))
 
   def postRejectedGoodsMultipleScanProgressWaitPage1: List[ActionBuilder] =
     asLongAs(session => session("selectPage").asOption[String].isEmpty)(
@@ -456,7 +453,7 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
         http(" post scan progressing wait page1")
           .get(s"$baseUrl" + "#{scanPage}")
           .check(status.in(303, 200))
-          .check(header("Location").optional.saveAs("selectPage"))
+          .check(header("Location".asInstanceOf[CharSequence]).optional.saveAs("selectPage"))
       )
     ).actionBuilders
 
@@ -474,55 +471,49 @@ object RejectedGoodsMultipleRequests extends ServicesConfiguration with RequestU
       .check(status.is(200))
       .check(bodyString.transform(_.contains("Who should we contact about this claim?")).is(true))
 
-
   def postRejectedGoodsMultipleChangeContactDetailsPage: HttpRequestBuilder =
     http("post the rejected goods change contact details page")
       .post(s"$baseUrl/$route1/multiple/claimant-details/change-contact-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
-      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
-      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-contact-details.contact-name", _ => "Online Sales LTD")
+      .formParam("enter-contact-details.contact-email", _ => "someemail@mail.com")
+      .formParam("enter-contact-details.contact-phone-number", _ => "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/claimant-details/lookup-address": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/claimant-details/lookup-address": String))
 
   def getRejectedGoodsMultipleClaimantDetailsPage1: HttpRequestBuilder =
     http("get the rejected goods claimant details page from details contact page")
       .get(s"$baseUrl/$route1/multiple/claimant-details": String)
-      .check(status.in(200,303))
-      //.check(bodyString.transform(_.contains("Who should we contact about this claim?")).is(true))
+      .check(status.in(200, 303))
 
   def postRejectedGoodsMultipleClaimDetailsPage: HttpRequestBuilder =
     http("post rejected goods claim details page")
       .post(s"$baseUrl/$route1/multiple/claimant-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/check-your-answers": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/check-your-answers": String))
 
   def postRejectedGoodsMultipleDocumentsSummaryPage: HttpRequestBuilder =
     http("post rejected goods upload documents page")
       .post(s"$baseUrl/$route/upload-documents/summary": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("supporting-evidence.check-your-answers", "false")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("supporting-evidence.check-your-answers", _ => "false")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/multiple/check-your-answers": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/multiple/check-your-answers": String))
 
   def getRejectedGoodsMultipleCheckYourAnswersPage: HttpRequestBuilder =
     http("get the rejected goods check your answers page")
       .get(s"$baseUrl/$route1/multiple/check-your-answers": String)
-      .check(status.in(200,303))
-
+      .check(status.in(200, 303))
 
   def postRejectedGoodsMultipleCheckYourAnswersPage: HttpRequestBuilder =
     http("post rejected goods submit claim page")
       .post(s"$baseUrl/$route1/multiple/submit-claim": String)
       .check(status.is(303))
 
-
   def getRejectedGoodsMultipleClaimSubmittedPage: HttpRequestBuilder =
     http("get rejected goods claim submitted page")
       .get(s"$baseUrl/$route1/multiple/claim-submitted": String)
-      .check(status.in(200,303))
-
-
+      .check(status.in(200, 303))
 
 }

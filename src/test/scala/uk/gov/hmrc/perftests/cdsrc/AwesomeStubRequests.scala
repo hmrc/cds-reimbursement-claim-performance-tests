@@ -23,19 +23,17 @@ import io.gatling.http.Predef._
 import io.gatling.http.check.header.{HttpHeaderCheckType, HttpHeaderRegexCheckType}
 import io.gatling.http.request.builder.HttpRequestBuilder
 import jodd.lagarto.dom.NodeSelector
-import uk.gov.hmrc.performance._
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 object AwesomeStubRequests extends ServicesConfiguration {
 
-
- def saveCsrfToken: CheckBuilder[CssCheckType, NodeSelector] = css("input[name='csrfToken']", "value").optional.saveAs("csrfToken")
+  def saveCsrfToken: CheckBuilder[CssCheckType, NodeSelector] =
+    css("input[name='csrfToken']", "value").optional.saveAs("csrfToken")
 
   val baseUrl: String  = baseUrlFor("cds-reimbursement-claim-frontend")
   val authUrl: String  = baseUrlFor("auth-login-stub")
   val route: String    = "claim-back-import-duty-vat"
   val redirect: String = s"$baseUrl/$route/start"
-
 
   def getLoginPage: HttpRequestBuilder =
     http("Get login stub page")
@@ -44,38 +42,36 @@ object AwesomeStubRequests extends ServicesConfiguration {
       .check(saveCsrfToken)
       .check(regex("Authority Wizard").exists)
 
-
   def loginUser(eoriValue: String): HttpRequestBuilder =
     http("Login the user")
-     .post(s"$authUrl/auth-login-stub/gg-sign-in" :String)
-      .formParam("csrfToken","#{csrfToken}")
-      .formParam("redirectionUrl", s"$baseUrl/claim-back-import-duty-vat/start")
-     //.formParam("redirectionUrl", s"$baseUrl/claim-back-import-duty-vat/start")
-      .formParam("authorityId", "12349")
-      .formParam("excludeGnapToken","false")
-      .formParam("credentialStrength", "strong")
-     .formParam("confidenceLevel", "200")
-      .formParam("affinityGroup", "Organisation")
-      .formParam("enrolment[0].state", "Activated")
-      .formParam("enrolment[0].name", "HMRC-CUS-ORG")
-      .formParam("enrolment[0].taxIdentifier[0].name", "EORINumber")
-     .formParam("enrolment[0].taxIdentifier[0].value", s"$eoriValue")
+      .post(s"$authUrl/auth-login-stub/gg-sign-in": String)
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("redirectionUrl", _ => s"$baseUrl/claim-back-import-duty-vat/start")
+      .formParam("authorityId", _ => "12349")
+      .formParam("excludeGnapToken", _ => "false")
+      .formParam("credentialStrength", _ => "strong")
+      .formParam("confidenceLevel", _ => "200")
+      .formParam("affinityGroup", _ => "Organisation")
+      .formParam("enrolment[0].state", _ => "Activated")
+      .formParam("enrolment[0].name", _ => "HMRC-CUS-ORG")
+      .formParam("enrolment[0].taxIdentifier[0].name", _ => "EORINumber")
+      .formParam("enrolment[0].taxIdentifier[0].value", _ => s"$eoriValue")
       .check(status.is(303))
 
   private val userDetailsUrlPattern = s"""([^"]+)"""
 
   def saveBearerTokenHeader: CheckBuilder.Final[HttpHeaderRegexCheckType, Response] =
-    headerRegex("Authorization", """Bearer\s([^"]+)""").saveAs("bearerToken")
+    headerRegex("Authorization".asInstanceOf[CharSequence], """Bearer\s([^"]+)""").saveAs("bearerToken")
 
-   def saveSessionIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
-    header("X-Session-ID").saveAs("sessionId")
+  def saveSessionIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
+    header("X-Session-ID".asInstanceOf[CharSequence]).saveAs("sessionId")
 
-   def savePlanetIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
-    header("X-Planet-ID").saveAs("planetId")
+  def savePlanetIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
+    header("X-Planet-ID".asInstanceOf[CharSequence]).saveAs("planetId")
 
-   def saveUserIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
-    header("X-User-ID").saveAs("userId")
+  def saveUserIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
+    header("X-User-ID".asInstanceOf[CharSequence]).saveAs("userId")
 
-   def saveUserDetailsUrl: CheckBuilder[HttpHeaderRegexCheckType, Response] =
-    headerRegex("Location", userDetailsUrlPattern).saveAs("userDetailsUrl")
+  def saveUserDetailsUrl: CheckBuilder[HttpHeaderRegexCheckType, Response] =
+    headerRegex("Location".asInstanceOf[CharSequence], userDetailsUrlPattern).saveAs("userDetailsUrl")
 }

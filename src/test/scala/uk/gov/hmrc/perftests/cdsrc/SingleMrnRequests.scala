@@ -36,7 +36,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def saveCsrfToken: CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
-
   def getMRNAuthLoginPage: HttpRequestBuilder =
     http("Navigate to auth login stub page")
       .get(s"$authUrl/auth-login-stub/gg-sign-in")
@@ -53,83 +52,82 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   ): HttpRequestBuilder =
     http("Login with user credentials")
       .post(s"$authUrl/auth-login-stub/gg-sign-in")
-      .formParam("authorityId", "")
-      .formParam("gatewayToken", "")
-      .formParam("redirectionUrl", redirect1)
-      .formParam("credentialStrength", "strong")
-      .formParam("excludeGnapToken","false")
-      .formParam("confidenceLevel", "50")
-      .formParam("affinityGroup", "Individual")
-      .formParam("usersName", "")
-      .formParam("email", "user@test.com")
-      .formParam("credentialRole", "User")
-      .formParam("oauthTokens.accessToken", "")
-      .formParam("oauthTokens.refreshToken", "")
-      .formParam("oauthTokens.idToken", "")
-      .formParam("additionalInfo.profile", "")
-      .formParam("additionalInfo.groupProfile", "")
-      .formParam("additionalInfo.emailVerified", "N/A")
-      .formParam("nino", "")
-      .formParam("groupIdentifier", "")
-      .formParam("agent.agentId", "")
-      .formParam("agent.agentCode", "")
-      .formParam("agent.agentFriendlyName", "")
-      .formParam("unreadMessageCount", "")
-      .formParam("mdtp.sessionId", "")
-      .formParam("mdtp.deviceId", "")
-      .formParam("presets-dropdown", "SA")
-      .formParam("enrolment[0].name", "HMRC-CUS-ORG")
-      .formParam("enrolment[0].taxIdentifier[0].name", "EORINumber")
-      .formParam("enrolment[0].taxIdentifier[0].value", s"$eoriValue")
-      .formParam("enrolment[0].state", "Activated")
-      .formParam("enrolment[1].name", "")
-      .formParam("enrolment[1].taxIdentifier[0].name", "")
-      .formParam("enrolment[1].taxIdentifier[0].value", "")
-      .formParam("enrolment[1].state", "Activated")
-      .formParam("enrolment[2].name", "")
-      .formParam("enrolment[2].taxIdentifier[0].name", "")
-      .formParam("enrolment[2].taxIdentifier[0].value", "")
-      .formParam("enrolment[2].state", "Activated")
-      .formParam("enrolment[3].name", "")
-      .formParam("enrolment[3].taxIdentifier[0].name", "")
-      .formParam("enrolment[3].taxIdentifier[0].value", "")
-      .formParam("enrolment[3].state", "Activated")
-      .formParam("itmp.givenName", "")
-      .formParam("itmp.middleName", "")
-      .formParam("itmp.familyName", "")
-      .formParam("itmp.dateOfBirth", "")
-      .formParam("itmp.address.line1", "")
-      .formParam("itmp.address.line2", "")
-      .formParam("itmp.address.line3", "")
-      .formParam("itmp.address.line4", "")
-      .formParam("itmp.address.line5", "")
-      .formParam("itmp.address.postCode", "")
-      .formParam("itmp.address.countryName", "")
-      .formParam("itmp.address.countryCode", "")
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("authorityId", _ => "")
+      .formParam("gatewayToken", _ => "")
+      .formParam("redirectionUrl", _ => redirect1)
+      .formParam("credentialStrength", _ => "strong")
+      .formParam("excludeGnapToken", _ => "false")
+      .formParam("confidenceLevel", _ => "50")
+      .formParam("affinityGroup", _ => "Individual")
+      .formParam("usersName", _ => "")
+      .formParam("email", _ => "user@test.com")
+      .formParam("credentialRole", _ => "User")
+      .formParam("oauthTokens.accessToken", _ => "")
+      .formParam("oauthTokens.refreshToken", _ => "")
+      .formParam("oauthTokens.idToken", _ => "")
+      .formParam("additionalInfo.profile", _ => "")
+      .formParam("additionalInfo.groupProfile", _ => "")
+      .formParam("additionalInfo.emailVerified", _ => "N/A")
+      .formParam("nino", _ => "")
+      .formParam("groupIdentifier", _ => "")
+      .formParam("agent.agentId", _ => "")
+      .formParam("agent.agentCode", _ => "")
+      .formParam("agent.agentFriendlyName", _ => "")
+      .formParam("unreadMessageCount", _ => "")
+      .formParam("mdtp.sessionId", _ => "")
+      .formParam("mdtp.deviceId", _ => "")
+      .formParam("presets-dropdown", _ => "SA")
+      .formParam("enrolment[0].name", _ => "HMRC-CUS-ORG")
+      .formParam("enrolment[0].taxIdentifier[0].name", _ => "EORINumber")
+      .formParam("enrolment[0].taxIdentifier[0].value", _ => s"$eoriValue")
+      .formParam("enrolment[0].state", _ => "Activated")
+      .formParam("enrolment[1].name", _ => "")
+      .formParam("enrolment[1].taxIdentifier[0].name", _ => "")
+      .formParam("enrolment[1].taxIdentifier[0].value", _ => "")
+      .formParam("enrolment[1].state", _ => "Activated")
+      .formParam("enrolment[2].name", _ => "")
+      .formParam("enrolment[2].taxIdentifier[0].name", _ => "")
+      .formParam("enrolment[2].taxIdentifier[0].value", _ => "")
+      .formParam("enrolment[2].state", _ => "Activated")
+      .formParam("enrolment[3].name", _ => "")
+      .formParam("enrolment[3].taxIdentifier[0].name", _ => "")
+      .formParam("enrolment[3].taxIdentifier[0].value", _ => "")
+      .formParam("enrolment[3].state", _ => "Activated")
+      .formParam("itmp.givenName", _ => "")
+      .formParam("itmp.middleName", _ => "")
+      .formParam("itmp.familyName", _ => "")
+      .formParam("itmp.dateOfBirth", _ => "")
+      .formParam("itmp.address.line1", _ => "")
+      .formParam("itmp.address.line2", _ => "")
+      .formParam("itmp.address.line3", _ => "")
+      .formParam("itmp.address.line4", _ => "")
+      .formParam("itmp.address.line5", _ => "")
+      .formParam("itmp.address.postCode", _ => "")
+      .formParam("itmp.address.countryName", _ => "")
+      .formParam("itmp.address.countryCode", _ => "")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").is(s"$baseUrl/$route/start": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"$baseUrl/$route/start": String))
 
   def getMRNCdsrStartPage: HttpRequestBuilder =
     http("post cdsr start page")
       .get(s"$baseUrl/$route/start": String)
       .check(status.is(303))
 
-
   def getTheMRNCheckEoriDetailsPage: HttpRequestBuilder =
     http("get check eori details page")
       .get(s"$baseUrl/$route/check-eori-details": String)
       .check(saveCsrfToken)
-      .check(status.in(200,303))
+      .check(status.in(200, 303))
       .check(regex("Check your EORI number"))
 
   def postTheMRNCheckEoriDetailsPage: HttpRequestBuilder =
     http("post check eori details page")
       .post(s"$baseUrl/$route/check-eori-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-eori-details", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-eori-details", _ => "true")
       .check(status.is(303))
-     .check(header("Location").is(s"/claim-back-import-duty-vat/choose-claim-type": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/claim-back-import-duty-vat/choose-claim-type": String))
 
   def getSelectClaimTypePage: HttpRequestBuilder =
     http("get select claim type page")
@@ -141,10 +139,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postSelectClaimTypePage: HttpRequestBuilder =
     http("post select claim type page")
       .post(s"$baseUrl/$route/choose-claim-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("choose-claim-type", "C285")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("choose-claim-type", _ => "C285")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/choose-how-many-mrns": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/choose-how-many-mrns": String))
 
   def getChooseHowManyMrnsPage: HttpRequestBuilder =
     http("get the choose how many mrns page")
@@ -163,10 +161,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postChooseHowManyMrnsPage: HttpRequestBuilder =
     http("post the choose how many mrns page")
       .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("overpayments.choose-how-many-mrns", "Individual")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("overpayments.choose-how-many-mrns", _ => "Individual")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/single/enter-movement-reference-number": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/v2/single/enter-movement-reference-number": String))
 
   def getTheMRNPage: HttpRequestBuilder =
     http("get The MRN page")
@@ -178,10 +176,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNPage: HttpRequestBuilder =
     http("post The MRN page")
       .post(s"$baseUrl/$route1/v2/single/enter-movement-reference-number": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-movement-reference-number", "10ABCDEFGHIJKLMNO0")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-movement-reference-number", _ => "10ABCDEFGHIJKLMNO0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/v2/single/enter-importer-eori": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/v2/single/enter-importer-eori": String))
 
   def getTheMRNImporterEoriEntryPage: HttpRequestBuilder =
     http("get the MRN importer eori entry page")
@@ -193,10 +191,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNImporterEoriEntryPage: HttpRequestBuilder =
     http("post the MRN importer eori entry page")
       .post(s"$baseUrl/$route1/single/enter-importer-eori": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-importer-eori-number", "GB123456789012345")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-importer-eori-number", _ => "GB123456789012345")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-declarant-eori": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-declarant-eori": String))
 
   def getTheMRNDeclarantEoriEntryPage: HttpRequestBuilder =
     http("get the MRN declarant eori entry page")
@@ -208,19 +206,18 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNDeclarantEoriEntryPage: HttpRequestBuilder =
     http("post the MRN declarant eori entry page")
       .post(s"$baseUrl/$route1/single/enter-declarant-eori": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-declarant-eori-number", "GB123456789012345")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-declarant-eori-number", _ => "GB123456789012345")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-mrn": String))
-
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-mrn": String))
 
   def postTheMRNChooseBasisOfClaimPage: HttpRequestBuilder =
     http("post the MRN choose basis of claim page")
       .post(s"$baseUrl/$route1/single/choose-basis-for-claim": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-basis-for-claim", "DuplicateEntry")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-basis-for-claim", _ => "DuplicateEntry")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-duplicate-movement-reference-number": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-duplicate-movement-reference-number": String))
 
   def getTheDuplicateMRNPage: HttpRequestBuilder =
     http("get the duplicate enter movement reference number page")
@@ -232,10 +229,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheDuplicateMRNPage: HttpRequestBuilder =
     http("post the duplicate enter movement reference number page")
       .post(s"$baseUrl/$route1/single/enter-duplicate-movement-reference-number": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-duplicate-movement-reference-number", "20AAAAAAAAAAAAAAA1")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-duplicate-movement-reference-number", _ => "20AAAAAAAAAAAAAAA1")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-duplicate-mrn": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-duplicate-mrn": String))
 
   def getTheMRNCheckDuplicateDeclarationPage: HttpRequestBuilder =
     http("get the MRN check duplicate declaration details page")
@@ -247,10 +244,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNCheckDuplicateDeclarationPage: HttpRequestBuilder =
     http("post the MRN duplicate check declaration details page")
       .post(s"$baseUrl/$route1/single/check-duplicate-mrn": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-declaration-details", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-declaration-details", _ => "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-additional-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-additional-details": String))
 
   def getTheMRNEnterCommodityDetailsPage: HttpRequestBuilder =
     http("get the MRN enter commodity details page")
@@ -262,10 +259,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNEnterCommodityDetailsPage: HttpRequestBuilder =
     http("post the MRN enter commodity details page")
       .post(s"$baseUrl/$route1/single/enter-additional-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-additional-details", "phones")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-additional-details", _ => "phones")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/select-duties": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/select-duties": String))
 
   def getTheMRNSelectDutiesPage: HttpRequestBuilder =
     http("get the MRN select duties page")
@@ -277,16 +274,16 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNSelectDutiesPage: HttpRequestBuilder =
     http("post the MRN select duties page")
       .post(s"$baseUrl/$route1/single/select-duties": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-duties[]", "A95")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-duties[]", _ => "A95")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-claim/A95": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-claim/A95": String))
 
   def getTheMRNStartClaimPage: HttpRequestBuilder =
     http("get the MRN start claim page")
       .get(s"$baseUrl/$route1/single/enter-claim/A95": String)
       .check(status.is(303))
-      .check(header("Location").saveAs("action3"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("action3"))
 
   def getTheMRNEnterClaimPage: HttpRequestBuilder =
     http("get the MRN enter claim page")
@@ -303,10 +300,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
         val Location = session.attributes("action3")
         s"$baseUrl$Location"
       }
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-claim", "39")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-claim", _ => "39")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-claim": String))
 
   def getTheMRNCheckClaimPage: HttpRequestBuilder =
     http("get the MRN check claim page")
@@ -317,10 +314,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNCheckClaimPage: HttpRequestBuilder =
     http("post the MRN check claim page")
       .post(s"$baseUrl/$route1/single/check-claim": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-claim-summary", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-claim-summary", _ => "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-repayment-method": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-repayment-method": String))
 
   def getTheMRNClaimantDetailsPage: HttpRequestBuilder =
     http("get the MRN claimant details page")
@@ -338,12 +335,12 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMrnChangeContactDetailsPage: HttpRequestBuilder =
     http("post the MRN change contact details page")
       .post(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
-      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
-      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-contact-details.contact-name", _ => "Online Sales LTD")
+      .formParam("enter-contact-details.contact-email", _ => "someemail@mail.com")
+      .formParam("enter-contact-details.contact-phone-number", _ => "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claimant-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/claimant-details": String))
 
   def getTheMrnClaimantDetailsCheckPage1: HttpRequestBuilder =
     http("get the MRN claimant details page from details contact page")
@@ -354,10 +351,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMrnClaimantDetailsCheckPage: HttpRequestBuilder =
     http("post the MRN claimant details page")
       .post(s"$baseUrl/$route1/single/claimant-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("claimant-details", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("claimant-details", _ => "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claim-northern-ireland": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/claim-northern-ireland": String))
 
   def getTheMRNClaimNorthernIrelandPage: HttpRequestBuilder =
     http("get the claim northern ireland page")
@@ -369,10 +366,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNClaimNorthernIrelandPage: HttpRequestBuilder =
     http("post the claim northern ireland page")
       .post(s"$baseUrl/$route1/single/claim-northern-ireland": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("claim-northern-ireland", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("claim-northern-ireland", _ => "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-basis-for-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-basis-for-claim": String))
 
   def getSelectReimbursementMethodPage: HttpRequestBuilder =
     http("get choose repayment method page")
@@ -383,10 +380,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postSelectReimbursementMethodPage: HttpRequestBuilder =
     http("post choose repayment method page")
       .post(s"$baseUrl/$route1/single/choose-repayment-method": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("reimbursement-method", "1")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("reimbursement-method", _ => "1")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-these-bank-details-are-correct": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-these-bank-details-are-correct": String))
 
   def getTheMRNCheckTheseBankDetailsAreCorrectPage: HttpRequestBuilder =
     http("get the MRN check these bank details are correct page")
@@ -404,10 +401,10 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNBankAccountTypePage: HttpRequestBuilder =
     http("post the MRN bank account type")
       .post(s"$baseUrl/$route1/single/bank-account-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-bank-account-type", "Personal")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-bank-account-type", _ => "Personal")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-bank-account-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-bank-account-details": String))
 
   def getTheMRNEnterBankAccountDetailsPage: HttpRequestBuilder =
     http("get the MRN enter bank account details page")
@@ -418,12 +415,12 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postTheMRNEnterBankAccountDetailsPage: HttpRequestBuilder =
     http("post the MRN enter bank account details page")
       .post(s"$baseUrl/$route1/single/enter-bank-account-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-bank-account-details.account-name", "Halifax")
-      .formParam("enter-bank-account-details.sort-code", "123456")
-      .formParam("enter-bank-account-details.account-number", "23456789")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-bank-account-details.account-name", _ => "Halifax")
+      .formParam("enter-bank-account-details.sort-code", _ => "123456")
+      .formParam("enter-bank-account-details.account-number", _ => "23456789")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-these-bank-details-are-correct": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-these-bank-details-are-correct": String))
 
   def postTheMRNCheckTheseBankDetailsAreCorrectPage: HttpRequestBuilder =
     http("post the MRN check these bank details are correct page")
@@ -432,7 +429,6 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
 
   def getSelectSelectSupportingEvidenceTypePage: HttpRequestBuilder =
     http("get select supporting evidence type page")
-      //.get(s"$baseUrl" + "${selectPage}")
       .get(s"$baseUrl/$route1/single/supporting-evidence/select-supporting-evidence-type": String)
       .check(saveCsrfToken)
       .check(status.is(200))
@@ -442,14 +438,13 @@ object SingleMrnRequests extends ServicesConfiguration with RequestUtils {
   def postSelectSupportingEvidenceTypePage: HttpRequestBuilder =
     http("post select supporting evidence type page")
       .post(s"$baseUrl/$route1/single/supporting-evidence/select-supporting-evidence-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("choose-file-type", "AirWayBill")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("choose-file-type", _ => "AirWayBill")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/supporting-evidence/choose-files": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/supporting-evidence/choose-files": String))
 
   def getSupportingEvidenceChooseFilesPage: HttpRequestBuilder =
     http("get supporting evidence choose files page")
       .get(s"$baseUrl/$route1/single/supporting-evidence/choose-files": String)
       .check(status.is(303))
-
 }

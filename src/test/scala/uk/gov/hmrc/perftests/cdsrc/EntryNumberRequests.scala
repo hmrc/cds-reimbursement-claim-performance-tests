@@ -61,10 +61,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postCheckEoriDetailsPage: HttpRequestBuilder =
     http("post check eori details page")
       .post(s"$baseUrl/$route/check-eori-details": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-eori-details", "0")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-eori-details", _ => "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/choose-claim-type": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/choose-claim-type": String))
 
   def getSelectNumberOfClaimsPage: HttpRequestBuilder =
     http("get the select number of claims page")
@@ -76,10 +76,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postSelectNumberOfClaimsPage: HttpRequestBuilder =
     http("post the select number of claims page")
       .post(s"$baseUrl/$route/choose-claim-type": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-number-of-claims", "0")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-number-of-claims", _ => "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-movement-reference-number": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/enter-movement-reference-number": String))
 
   def getStartMRNPage: HttpRequestBuilder =
     http("get MRN page")
@@ -97,10 +97,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postMRNPage: HttpRequestBuilder =
     http("post MRN page")
       .post(s"$baseUrl/$route/single/enter-movement-reference-number": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-movement-reference-number", "666541198B49856762")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-movement-reference-number", _ => "666541198B49856762")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-declaration-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/enter-declaration-details": String))
 
   def getEnterDeclarationDetails: HttpRequestBuilder =
     http("get declaration details page")
@@ -112,19 +112,19 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postEnterDeclarationDetails: HttpRequestBuilder =
     http("post declaration details page")
       .post(s"$baseUrl/$route/single/enter-declaration-details": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-declaration-details.day", "01")
-      .formParam("enter-declaration-details.month", "01")
-      .formParam("enter-declaration-details.year", "2020")
-      .formParam("enter-declaration-details.place-of-import", "london")
-      .formParam("enter-declaration-details.importer-name", "john")
-      .formParam("enter-declaration-details.importer-email-address", "test@test.com")
-      .formParam("enter-declaration-details.importer-phone-number", "0783635281")
-      .formParam("enter-declaration-details.declarant-name", "steeve")
-      .formParam("enter-declaration-details.declarant-email-address", "steeve@test.com")
-      .formParam("enter-declaration-details.declarant-phone-number", "0783635281")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-declaration-details.day", _ => "01")
+      .formParam("enter-declaration-details.month", _ => "01")
+      .formParam("enter-declaration-details.year", _ => "2020")
+      .formParam("enter-declaration-details.place-of-import", _ => "london")
+      .formParam("enter-declaration-details.importer-name", _ => "john")
+      .formParam("enter-declaration-details.importer-email-address", _ => "test@test.com")
+      .formParam("enter-declaration-details.importer-phone-number", _ => "0783635281")
+      .formParam("enter-declaration-details.declarant-name", _ => "steeve")
+      .formParam("enter-declaration-details.declarant-email-address", _ => "steeve@test.com")
+      .formParam("enter-declaration-details.declarant-phone-number", _ => "0783635281")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/who-is-the-declarant": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/who-is-the-declarant": String))
 
   def getWhoIsDeclarantPage: HttpRequestBuilder =
     http("get who is declarant page")
@@ -136,10 +136,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postWhoIsDeclarantPage: HttpRequestBuilder =
     http("post who is declarant page")
       .post(s"$baseUrl/$route/single/who-is-the-declarant": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-who-is-making-the-claim", "0")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-who-is-making-the-claim", _ => "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-your-details-as-registered-with-cds": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/enter-your-details-as-registered-with-cds": String))
 
   def getEnterYourDetailsAsRegisteredWithCdsPage: HttpRequestBuilder =
     http("get enter your details as registered with cds page")
@@ -151,18 +151,18 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postEnterYourDetailsAsRegisteredWithCdsPage: HttpRequestBuilder =
     http("post enter your details as registered with cds page")
       .post(s"$baseUrl/$route/single/enter-your-details-as-registered-with-cds": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-claimant-details-as-registered-with-cds.individual-full-name", "James")
-      .formParam("enter-claimant-details-as-registered-with-cds.individual-email", "james@test.com")
-      .formParam("nonUkAddress-line1", "Wharry court")
-      .formParam("nonUkAddress-line2", "")
-      .formParam("nonUkAddress-line3", "")
-      .formParam("nonUkAddress-line4", "London")
-      .formParam("postcode", "ne7 7ty")
-      .formParam("countryCode", "GB")
-      .formParam("enter-claimant-details-as-registered-with-cds.add-company-details", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-claimant-details-as-registered-with-cds.individual-full-name", _ => "James")
+      .formParam("enter-claimant-details-as-registered-with-cds.individual-email", _ => "james@test.com")
+      .formParam("nonUkAddress-line1", _ => "Wharry court")
+      .formParam("nonUkAddress-line2", _ => "")
+      .formParam("nonUkAddress-line3", _ => "")
+      .formParam("nonUkAddress-line4", _ => "London")
+      .formParam("postcode", _ => "ne7 7ty")
+      .formParam("countryCode", _ => "GB")
+      .formParam("enter-claimant-details-as-registered-with-cds.add-company-details", _ => "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-your-contact-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/enter-your-contact-details": String))
 
   def getEnterYourContactDetailsPage: HttpRequestBuilder =
     http("get enter your contact details page")
@@ -174,18 +174,18 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postEnterYourContactDetailsPage: HttpRequestBuilder =
     http("post enter your contact details page")
       .post(s"$baseUrl/$route/single/enter-your-contact-details": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-your-contact-details.contact-name", "Infotech")
-      .formParam("enter-your-contact-details.contact-email", "test@test.com")
-      .formParam("enter-your-contact-details.contact-phone-number", "00371790133")
-      .formParam("nonUkAddress-line1", " 39 street")
-      .formParam("nonUkAddress-line2", "")
-      .formParam("nonUkAddress-line3", "")
-      .formParam("nonUkAddress-line4", "Denver")
-      .formParam("postcode", "cv4 4ah")
-      .formParam("countryCode", "IT")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-your-contact-details.contact-name", _ => "Infotech")
+      .formParam("enter-your-contact-details.contact-email", _ => "test@test.com")
+      .formParam("enter-your-contact-details.contact-phone-number", _ => "00371790133")
+      .formParam("nonUkAddress-line1", _ => " 39 street")
+      .formParam("nonUkAddress-line2", _ => "")
+      .formParam("nonUkAddress-line3", _ => "")
+      .formParam("nonUkAddress-line4", _ => "Denver")
+      .formParam("postcode", _ => "cv4 4ah")
+      .formParam("countryCode", _ => "IT")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-reason-for-claim-and-basis": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/enter-reason-for-claim-and-basis": String))
 
   def getEnterReasonForClaimAndBasisPage: HttpRequestBuilder =
     http("get enter reason for claim and basis page")
@@ -197,11 +197,11 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postEnterReasonForClaimAndBasisPage: HttpRequestBuilder =
     http("post enter reason for claim and basis page")
       .post(s"$baseUrl/$route/single/enter-reason-for-claim-and-basis": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-reason-and-basis-for-claim.basis", "2")
-      .formParam("select-reason-and-basis-for-claim.reason", "1")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-reason-and-basis-for-claim.basis", _ => "2")
+      .formParam("select-reason-and-basis-for-claim.reason", _ => "1")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-commodity-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/enter-commodity-details": String))
 
   def getEnterCommodityDetailsPage: HttpRequestBuilder =
     http("get enter commodity details page")
@@ -213,10 +213,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postEnterCommodityDetailsPage: HttpRequestBuilder =
     http("post enter commodity details page")
       .post(s"$baseUrl/$route/single/enter-commodity-details": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-commodities-details", "phones")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-commodities-details", _ => "phones")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/select-duties": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/select-duties": String))
 
   def getSelectDutiesPage: HttpRequestBuilder =
     http("get select duties page")
@@ -228,16 +228,16 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postSelectDutiesPage: HttpRequestBuilder =
     http("post select duties page")
       .post(s"$baseUrl/$route/single/select-duties": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("select-duties[]", "A00")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-duties[]", _ => "A00")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/start-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/start-claim": String))
 
   def getStartClaimPage: HttpRequestBuilder =
     http("get start claim page")
       .get(s"$baseUrl/$route/single/start-claim": String)
       .check(status.is(303))
-      .check(header("Location").saveAs("action3"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("action3"))
 
   def getEnterClaimPage: HttpRequestBuilder =
     http("get enter claim page")
@@ -254,11 +254,11 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
         val Location = session.attributes("action3")
         s"$baseUrl$Location"
       }
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-claim.paid-amount", "1000")
-      .formParam("enter-claim.claim-amount", "123")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-claim.paid-amount", _ => "1000")
+      .formParam("enter-claim.claim-amount", _ => "123")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/check-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/check-claim": String))
 
   def getCheckClaimPage: HttpRequestBuilder =
     http("get check claim page")
@@ -269,10 +269,10 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postCheckClaimPage: HttpRequestBuilder =
     http("post check claim page")
       .post(s"$baseUrl/$route/single/check-claim": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("check-claim-summary", "0")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-claim-summary", _ => "0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/enter-bank-account-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/enter-bank-account-details": String))
 
   def getEnterBankAccountDetailsPage: HttpRequestBuilder =
     http("get enter bank account details page")
@@ -284,13 +284,13 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def PostEnterBankAccountDetailsPage: HttpRequestBuilder =
     http("post enter bank account details page")
       .post(s"$baseUrl/$route/single/enter-bank-account-details": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("enter-bank-details.account-name", "NatWest")
-      .formParam("enter-bank-details[]", "true")
-      .formParam("enter-bank-details.sort-code", "123456")
-      .formParam("enter-bank-details.account-number", "12345678")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-bank-details.account-name", _ => "NatWest")
+      .formParam("enter-bank-details[]", _ => "true")
+      .formParam("enter-bank-details.sort-code", _ => "123456")
+      .formParam("enter-bank-details.account-number", _ => "12345678")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route/single/supporting-evidence/upload-supporting-evidence": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route/single/supporting-evidence/upload-supporting-evidence": String))
 
   def getUploadDocumentsChooseFilePage: HttpRequestBuilder =
     http("get upload documents choose file page")
@@ -336,7 +336,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
       .bodyPart(StringBodyPart("policy", "${policy}"))
       .bodyPart(RawFileBodyPart("file", "data/pixel.jpg"))
       .check(status.is(303))
-      .check(header("Location").saveAs("UpscanResponseSuccess"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("UpscanResponseSuccess"))
 
   def getScanProgressWaitPage: HttpRequestBuilder =
     http("get scan progress wait page")
@@ -346,9 +346,9 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
       .post(s"$baseUrl" + "${actionlll}")
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").saveAs("scanPage"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("scanPage"))
 
   def postScanProgressWaitPage1: List[ActionBuilder] =
     asLongAs(session => session("selectPage").asOption[String].isEmpty)(
@@ -356,7 +356,7 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
         http(" post scan progressing wait page1")
           .get(s"$baseUrl" + "${scanPage}")
           .check(status.in(303, 200))
-          .check(header("Location").optional.saveAs("selectPage"))
+          .check(header("Location".asInstanceOf[CharSequence]).optional.saveAs("selectPage"))
       )
     ).actionBuilders
 
@@ -391,9 +391,9 @@ object EntryNumberRequests extends ServicesConfiguration with RequestUtils {
   def postCheckAnswersAcceptSendPage: HttpRequestBuilder =
     http("post check answers and send page")
       .post(s"$baseUrl/$route1/single/check-answers-accept-send": String)
-      .formParam("csrfToken", "${csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claim-submitted": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/claim-submitted": String))
 
   def getClaimSubmittedPage: HttpRequestBuilder =
     http("get submitted page")

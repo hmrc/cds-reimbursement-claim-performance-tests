@@ -30,10 +30,8 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
 
   val baseUrl: String = baseUrlFor("upload-customs-documents-frontend")
   val route: String   = "upload-customs-documents"
-
   val harnessBaseUrl: String = baseUrlFor("upload-customs-documents-test-harness-frontend")
   val harnessRoute: String   = "upload-customs-documents-test-harness"
-
   val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
   def saveCsrfToken() = regex(_ => CsrfPattern).saveAs("csrfToken")
@@ -53,11 +51,11 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
   def postTheInitializationRequest: HttpRequestBuilder =
     http("Post initialize file upload")
       .post(s"$harnessBaseUrl/$harnessRoute": String)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("url", baseUrl)
-      .formParam("userAgent", "cds-reimbursement-claim-frontend")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("url", _ => baseUrl)
+      .formParam("userAgent", _ => "cds-reimbursement-claim-frontend")
       .formParam(
-        "json",
+        "json", _ =>
         s"""
         |{
         |  "config" : {
@@ -83,7 +81,7 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
         |}""".stripMargin
       )
       .check(status.is(303))
-      .check(header("Location").is(s"$baseUrl/$route": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"$baseUrl/$route": String))
 
   def setJSDetectionCookie: AddCookieBuilder =
     addCookie(
@@ -156,7 +154,7 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
       .bodyPart(StringBodyPart("policy", "${policy" + index + "}"))
       .bodyPart(RawFileBodyPart("file", fileName))
       .check(status.is(303))
-      .check(header("Location").saveAs(s"UpscanUploadResponse$index"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs(s"UpscanUploadResponse$index"))
 
   def getUpscanUploadResponse(index: Int): HttpRequestBuilder =
     http(s"Upscan upload $index redirect")

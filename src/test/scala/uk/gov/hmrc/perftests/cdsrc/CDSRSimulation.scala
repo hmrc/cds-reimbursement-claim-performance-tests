@@ -44,7 +44,7 @@ class CDSRSimulation extends PerformanceTestRunner {
       List(getMRNAuthLoginPage, loginWithAuthLoginStubMRN(eoriValue))
 
   val RejectedGoodsSingleMRNJourney: List[ActionBuilder] =
-   LoginTheUser("user1","GB000000000000001") ++
+    LoginTheUser("user1", "GB000000000000001") ++
       List[ActionBuilder](
         getMRNCdsrStartPage,
         getTheMRNCheckEoriDetailsPage,
@@ -96,8 +96,10 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsClaimSubmittedPage
       )
 
-  setup("Rejected-Goods-Single-MRN-journey", "Rejected Goods Single MRN journey") withActions
-    (RejectedGoodsSingleMRNJourney: _*)
+  setup(
+    "Rejected-Goods-Single-MRN-journey",
+    "Rejected Goods Single MRN journey"
+  ).withActions(RejectedGoodsSingleMRNJourney *)
 
   val RejectedGoodsMultipleMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
@@ -161,8 +163,10 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsMultipleClaimSubmittedPage
       )
 
-  setup("Rejected-Goods-Multiple-MRN-journey", "Rejected Goods Multiple MRN journey") withActions
-    (RejectedGoodsMultipleMRNJourney: _*)
+  setup(
+    "Rejected-Goods-Multiple-MRN-journey",
+    "Rejected Goods Multiple MRN journey"
+  ).withActions(RejectedGoodsMultipleMRNJourney *)
 
   val RejectedGoodsScheduledMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
@@ -183,7 +187,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsScheduledDeclarantEoriEntryPage,
         getRejectedGoodsScheduledCheckDeclarationPage,
         postRejectedGoodsScheduledCheckDeclarationPage,
-        getRejectedGoodsScheduledUploadMrnListPage,
+        getRejectedGoodsScheduledUploadMrnListPage
       ) ++
       List[ActionBuilder](
         getRejectedGoodsScheduledChooseBasisForClaimPage,
@@ -244,7 +248,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postRejectedGoodsUploadCustomsDocumentsChooseFilePage,
         getRejectedGoodsSingleScanProgressWaitPage,
         getRejectedGoodsScheduledContactDetailsPage,
-        postRejectedGoodsScheduledChangeContactDetailsPage,
+        postRejectedGoodsScheduledChangeContactDetailsPage
       ) ++
       getFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -253,9 +257,10 @@ class CDSRSimulation extends PerformanceTestRunner {
         getRejectedGoodsScheduledClaimSubmittedPage
       )
 
-  setup("Rejected-Goods-Scheduled-MRN-journey", "Rejected Goods Scheduled MRN journey") withActions
-    (RejectedGoodsScheduledMRNJourney: _*)
-
+  setup(
+    "Rejected-Goods-Scheduled-MRN-journey",
+    "Rejected Goods Scheduled MRN journey"
+  ).withActions(RejectedGoodsScheduledMRNJourney *)
 
   val OverPaymentsSingleMRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
@@ -308,8 +313,10 @@ class CDSRSimulation extends PerformanceTestRunner {
         getOverpaymentsClaimSubmittedPage
       )
 
-  setup("OverPayments-Single-MRN-journey", "Overpayments Single Movement reference number journey") withActions
-    (OverPaymentsSingleMRNJourney: _*)
+  setup(
+    "OverPayments-Single-MRN-journey",
+    "Overpayments Single Movement reference number journey"
+  ).withActions(OverPaymentsSingleMRNJourney *)
 
   val OverPaymentsBulkMultipleV2MRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
@@ -354,7 +361,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsUploadCustomsDocumentsChooseFilePage,
         getOverpaymentsScanProgressWaitPage,
         getOverpaymentsMultipleChangeContactDetailsPage,
-        postOverpaymentsMultipleChangeContactDetailsPage,
+        postOverpaymentsMultipleChangeContactDetailsPage
       ) ++
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -364,10 +371,9 @@ class CDSRSimulation extends PerformanceTestRunner {
       )
 
   setup(
-   "OverPayments-Bulk-Multiple-V2-MRN-journey",
+    "OverPayments-Bulk-Multiple-V2-MRN-journey",
     "Overpayments Bulk Multiple journey"
-  ) withActions
-    (OverPaymentsBulkMultipleV2MRNJourney: _*)
+  ).withActions(OverPaymentsBulkMultipleV2MRNJourney *)
 
   val OverPaymentsBulkScheduledV2MRNJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000002") ++
@@ -388,7 +394,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsScheduledDeclarantEoriEntryPage,
         getOverpaymentsScheduledMrnCheckDeclarationPage,
         postOverpaymentsScheduledMrnCheckDeclarationPage,
-        getOverpaymentsScheduledUploadMrnListPage,
+        getOverpaymentsScheduledUploadMrnListPage
       ) ++
       List[ActionBuilder](
         getOverpaymentsScheduledChooseBasisForClaimPage,
@@ -468,7 +474,7 @@ class CDSRSimulation extends PerformanceTestRunner {
         postOverpaymentsUploadCustomsDocumentsChooseFilePage,
         getOverpaymentsScanProgressWaitPage,
         getOverpaymentsScheduledContactDetailsPage,
-        postOverpaymentsScheduledChangeContactDetailsPage,
+        postOverpaymentsScheduledChangeContactDetailsPage
       ) ++
       getOverpaymentsFileVerificationStatusPage ++
       List[ActionBuilder](
@@ -480,9 +486,7 @@ class CDSRSimulation extends PerformanceTestRunner {
   setup(
     "OverPayments-Bulk-Scheduled-V2-MRN-journey",
     "Overpayments Bulk Scheduled journey"
-  ) withActions
-    (OverPaymentsBulkScheduledV2MRNJourney: _*)
-
+  ).withActions(OverPaymentsBulkScheduledV2MRNJourney *)
 
   val SecuritiesSingleBod4Journey: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
@@ -507,15 +511,17 @@ class CDSRSimulation extends PerformanceTestRunner {
         getSecuritiesChoosePayeeTypePage,
         getSecuritiesEnterBankAccountDetailsPage,
         postSecuritiesEnterBankAccountDetailsPage,
-        getSecuritiesClaimantDetailsPage,
+        getSecuritiesClaimantDetailsPage
       ) ++
       List[ActionBuilder](
         getSecuritiesCheckYourAnswersPage,
         postSecuritiesCheckYourAnswersPage,
         getSecuritiesClaimSubmittedPage
       )
-  setup("Securities-Single-MRN-BOD4-journey", "Securities Single MRN with BOD4 journey") withActions
-    (SecuritiesSingleBod4Journey: _*)
+  setup(
+    "Securities-Single-MRN-BOD4-journey",
+    "Securities Single MRN with BOD4 journey"
+  ).withActions(SecuritiesSingleBod4Journey *)
 
   val SecuritiesSingleBOD3Journey: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
@@ -538,15 +544,17 @@ class CDSRSimulation extends PerformanceTestRunner {
         getSecuritiesChoosePayeeTypePage,
         getSecuritiesEnterBankAccountDetailsPage,
         postSecuritiesEnterBankAccountDetailsPage,
-        getSecuritiesClaimantDetailsPage,
+        getSecuritiesClaimantDetailsPage
       ) ++
       List[ActionBuilder](
         getSecuritiesCheckYourAnswersPage,
         postSecuritiesCheckYourAnswersPage,
         getSecuritiesClaimSubmittedPage
       )
-  setup("Securities-Single-MRN-BOD3-journey", "Securities Single MRN with BOD3 journey") withActions
-    (SecuritiesSingleBOD3Journey: _*)
+  setup(
+    "Securities-Single-MRN-BOD3-journey",
+    "Securities Single MRN with BOD3 journey"
+  ).withActions(SecuritiesSingleBOD3Journey *)
 
   val SecuritiesSingleTemporaryAdmissionsJourney: List[ActionBuilder] =
     LoginTheUser("user1", "GB000000000000001") ++
@@ -593,8 +601,10 @@ class CDSRSimulation extends PerformanceTestRunner {
         postSecuritiesCheckYourAnswersPage,
         getSecuritiesClaimSubmittedPage
       )
-  setup("Securities-Single-MRN-TA-journey", "Securities Single MRN with Temporary Admissions journey") withActions
-    (SecuritiesSingleTemporaryAdmissionsJourney: _*)
+  setup(
+    "Securities-Single-MRN-TA-journey",
+    "Securities Single MRN with Temporary Admissions journey"
+  ).withActions(SecuritiesSingleTemporaryAdmissionsJourney *)
 
   runSimulation()
 }

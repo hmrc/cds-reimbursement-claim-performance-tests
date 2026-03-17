@@ -50,10 +50,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsSelectClaimTypePage: HttpRequestBuilder =
     http("post rejected goods select claim type page")
       .post(s"$baseUrl/$route/choose-claim-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("choose-claim-type", "RejectedGoods")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("choose-claim-type", _ => "RejectedGoods")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/choose-how-many-mrns": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/choose-how-many-mrns": String))
 
   def getRejectedGoodsChooseHowManyMrnsPage: HttpRequestBuilder =
     http("get the rejected goods choose how many mrns page")
@@ -64,10 +64,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsChooseHowManyMrnsPage: HttpRequestBuilder =
     http("post the rejected goods choose how many mrns page")
       .post(s"$baseUrl/$route1/choose-how-many-mrns": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("rejected-goods.choose-how-many-mrns", "Individual")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("rejected-goods.choose-how-many-mrns", _ => "Individual")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/have-your-documents-ready": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/have-your-documents-ready": String))
 
   def getRejectedGoodsHaveYourDocumentsReady: HttpRequestBuilder =
     http("get the rejected goods supporting documents ready page")
@@ -78,7 +78,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsHaveYourDocumentsReady: HttpRequestBuilder =
     http("post the rejected goods supporting documents ready page")
       .post(s"$baseUrl/$route1/single/have-your-documents-ready": String)
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
 
   def getRejectedGoodsMRNPage: HttpRequestBuilder =
@@ -91,10 +91,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsMRNPage: HttpRequestBuilder =
     http("post The MRN page")
       .post(s"$baseUrl/$route1/single/enter-movement-reference-number": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-movement-reference-number", "10ABCDEFGHIJKLMNO0")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-movement-reference-number", _ => "10ABCDEFGHIJKLMNO0")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-importer-eori": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-importer-eori": String))
 
   def getRejectedGoodsImporterEoriEntryPage: HttpRequestBuilder =
     http("get the MRN importer eori entry page")
@@ -106,10 +106,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsImporterEoriEntryPage: HttpRequestBuilder =
     http("post the MRN importer eori entry page")
       .post(s"$baseUrl/$route1/single/enter-importer-eori": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-importer-eori-number", "GB123456789012345")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-importer-eori-number", _ => "GB123456789012345")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-declarant-eori": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-declarant-eori": String))
 
   def getRejectedGoodsDeclarantEoriEntryPage: HttpRequestBuilder =
     http("get the MRN declarant eori entry page")
@@ -121,10 +121,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsDeclarantEoriEntryPage: HttpRequestBuilder =
     http("post the MRN declarant eori entry page")
       .post(s"$baseUrl/$route1/single/enter-declarant-eori": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-declarant-eori-number", "GB123456789012345")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-declarant-eori-number", _ => "GB123456789012345")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-mrn": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-mrn": String))
 
   def getRejectedGoodsCheckDeclarationPage: HttpRequestBuilder =
     http("get the MRN check declaration details page")
@@ -137,7 +137,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
     http("post the MRN check declaration details page")
       .post(s"$baseUrl/$route1/single/check-mrn": String)
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-basis-for-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-basis-for-claim": String))
 
   def getRejectedGoodsChooseBasisForClaimPage: HttpRequestBuilder =
     http("get the rejected goods choose basis for claim page")
@@ -149,10 +149,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsChooseBasisForClaimPage: HttpRequestBuilder =
     http("post rejected goods choose basis for claim page")
       .post(s"$baseUrl/$route1/single/choose-basis-for-claim": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-basis-for-claim.rejected-goods", "SpecialCircumstances")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-basis-for-claim.rejected-goods", _ => "SpecialCircumstances")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-special-circumstances": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-special-circumstances": String))
 
   def getRejectedGoodsSpecialCircumstancesPage: HttpRequestBuilder =
     http("get the rejected goods special circumstances page")
@@ -164,10 +164,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsSpecialCircumstancesPage: HttpRequestBuilder =
     http("post rejected goods special circumstances page")
       .post(s"$baseUrl/$route1/single/enter-special-circumstances": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-special-circumstances.rejected-goods", "reason")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-special-circumstances.rejected-goods", _ => "reason")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-disposal-method": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-disposal-method": String))
 
   def getRejectedGoodsChooseDisposalMethodPage: HttpRequestBuilder =
     http("get the rejected goods choose disposal method page")
@@ -179,10 +179,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsChooseDisposalMethodPage: HttpRequestBuilder =
     http("post rejected goods choose disposal method page")
       .post(s"$baseUrl/$route1/single/choose-disposal-method": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-method-of-disposal.rejected-goods", "PlacedInCustomsWarehouse")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-method-of-disposal.rejected-goods", _ => "PlacedInCustomsWarehouse")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-rejected-goods-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-rejected-goods-details": String))
 
   def getRejectedGoodsEnterRejectedDetailsPage: HttpRequestBuilder =
     http("get the rejected goods enter rejected goods details page")
@@ -194,10 +194,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsEnterRejectedDetailsPage: HttpRequestBuilder =
     http("post rejected goods enter rejected goods details page")
       .post(s"$baseUrl/$route1/single/enter-rejected-goods-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-rejected-goods-details.rejected-goods", "Any")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-rejected-goods-details.rejected-goods", _ => "Any")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/select-duties": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/select-duties": String))
 
   def getRejectedGoodsSelectDutiesPage: HttpRequestBuilder =
     http("get the rejected goods select duties page")
@@ -209,16 +209,16 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsSelectDutiesPage: HttpRequestBuilder =
     http("post rejected goods select duties page")
       .post(s"$baseUrl/$route1/single/select-duties": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("select-duties[]", "A90")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("select-duties[]", _ => "A90")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-claim": String))
 
   def getRejectedGoodsEnterClaimPage: HttpRequestBuilder =
     http("get the rejected goods enter claim page")
       .get(s"$baseUrl/$route1/single/enter-claim": String)
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-claim/A90": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-claim/A90": String))
 
   def getRejectedGoodsEnterClaimDutyPage: HttpRequestBuilder =
     http("get the rejected goods enter claim tax duty page")
@@ -230,10 +230,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsEnterClaimDutyPage: HttpRequestBuilder =
     http("post rejected goods enter claim duty page")
       .post(s"$baseUrl/$route1/single/enter-claim/A90": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-claim.rejected-goods.claim-amount", "£90")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-claim.rejected-goods.claim-amount", _ => "£90")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-claim": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-claim": String))
 
   def getRejectedGoodsCheckClaimPage: HttpRequestBuilder =
     http("get the rejected goods check claim page")
@@ -243,10 +243,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsCheckClaimPage: HttpRequestBuilder =
     http("post rejected goods check claim page")
       .post(s"$baseUrl/$route1/single/check-claim": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("check-claim.rejected-goods", "true")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("check-claim.rejected-goods", _ => "true")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-inspection-date": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-inspection-date": String))
 
   def getRejectedGoodsInspectionDatePage: HttpRequestBuilder =
     http("get the rejected goods inspection date page")
@@ -258,12 +258,14 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsInspectionDatePage: HttpRequestBuilder =
     http("post rejected goods inspection date page")
       .post(s"$baseUrl/$route1/single/enter-inspection-date": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-inspection-date.rejected-goods.day", "19")
-      .formParam("enter-inspection-date.rejected-goods.month", "10")
-      .formParam("enter-inspection-date.rejected-goods.year", "2025")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-inspection-date.rejected-goods.day", _ => "19")
+      .formParam("enter-inspection-date.rejected-goods.month", _ => "10")
+      .formParam("enter-inspection-date.rejected-goods.year", _ => "2025")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/inspection-address/choose-type": String))
+      .check(
+        header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/inspection-address/choose-type": String)
+      )
 
   def getRejectedGoodsInspectionAddressChoosePage: HttpRequestBuilder =
     http("get the rejected goods inspection address choose type page")
@@ -274,10 +276,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsInspectionAddressChoosePage: HttpRequestBuilder =
     http("post rejected goods inspection address choose type page")
       .post(s"$baseUrl/$route1/single/inspection-address/choose-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("inspection-address.type", "Declarant")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("inspection-address.type", _ => "Declarant")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-payee-type": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-payee-type": String))
 
   def getRejectedGoodsChoosePayeeTypePage: HttpRequestBuilder =
     http("get the rejected goods choose payee type page")
@@ -289,9 +291,9 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsChoosePayeeTypePage: HttpRequestBuilder =
     http("post the rejected goods choose payee type page")
       .post(s"$baseUrl/$route1/single/choose-payee-type": String)
-      .formParam("choose-payee-type", "Declarant")
+      .formParam("choose-payee-type", _ => "Declarant")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-repayment-method": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-repayment-method": String))
 
   def getRejectedGoodsRepaymentMethodPage: HttpRequestBuilder =
     http("get the rejected goods choose repayment method page")
@@ -303,10 +305,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsRepaymentMethodPage: HttpRequestBuilder =
     http("post rejected goods choose repayment method page")
       .post(s"$baseUrl/$route1/single/choose-repayment-method": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("reimbursement-method-bank-transfer", "1")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("reimbursement-method-bank-transfer", _ => "1")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/enter-bank-account-details": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/enter-bank-account-details": String))
 
   def getRejectedGoodsEnterBankDetailsPage: HttpRequestBuilder =
     http("get the rejected goods enter bank details page")
@@ -318,12 +320,12 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsEnterBankDetailsPage: HttpRequestBuilder =
     http("post rejected goods enter bank details page")
       .post(s"$baseUrl/$route1/single/enter-bank-account-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-bank-account-details.account-name", "Mybank")
-      .formParam("enter-bank-account-details.sort-code", "123456")
-      .formParam("enter-bank-account-details.account-number", "26152639")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-bank-account-details.account-name", _ => "Mybank")
+      .formParam("enter-bank-account-details.sort-code", _ => "123456")
+      .formParam("enter-bank-account-details.account-number", _ => "26152639")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-file-type": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-file-type": String))
 
   def getRejectedGoodsChooseFileTypePage: HttpRequestBuilder =
     http("get the rejected goods choose file type page")
@@ -335,10 +337,10 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsChooseFileTypesPage: HttpRequestBuilder =
     http("post rejected goods choose file type page")
       .post(s"$baseUrl/$route1/single/choose-file-type": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("choose-file-type", "ImportAndExportDeclaration")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("choose-file-type", _ => "ImportAndExportDeclaration")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/choose-files": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/choose-files": String))
 
   def getRejectedGoodsChooseFilesPage: HttpRequestBuilder =
     http("get the rejected goods choose files page")
@@ -395,7 +397,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
       .bodyPart(StringBodyPart("policy", "#{policy}"))
       .bodyPart(RawFileBodyPart("file", "data/pixel.jpg"))
       .check(status.is(303))
-      .check(header("Location").saveAs("UpscanResponseSuccess"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("UpscanResponseSuccess"))
 
   def getRejectedGoodsSingleScanProgressWaitPage: HttpRequestBuilder =
     http("get scan progress wait page")
@@ -405,9 +407,9 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsSingleScanProgressWaitPage: HttpRequestBuilder =
     http("post scan progress wait page")
       .post(s"$baseUrl" + "#{actionlll}")
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").saveAs("scanPage"))
+      .check(header("Location".asInstanceOf[CharSequence]).saveAs("scanPage"))
 
   def postRejectedGoodsSingleScanProgressWaitPage1: List[ActionBuilder] =
     asLongAs(session => session("selectPage").asOption[String].isEmpty)(
@@ -415,7 +417,7 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
         http(" post scan progressing wait page1")
           .get(s"$baseUrl" + "#{scanPage}")
           .check(status.in(303, 200))
-          .check(header("Location").optional.saveAs("selectPage"))
+          .check(header("Location".asInstanceOf[CharSequence]).optional.saveAs("selectPage"))
       )
     ).actionBuilders
 
@@ -429,15 +431,18 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsDocumentsSummaryPage: HttpRequestBuilder =
     http("post rejected goods upload documents page")
       .post(s"$baseUrl/$route/upload-documents/summary": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("supporting-evidence.check-your-answers", "false")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("supporting-evidence.check-your-answers", _ => "false")
       .check(status.is(303))
 
   def getRejectedGoodsContinueToHostPage: HttpRequestBuilder =
     http("get the rejected goods continue to host page")
       .get(s"$baseUrl/upload-customs-documents/continue-to-host": String)
       .check(status.is(303))
-      .check(header("Location").is(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String))
+      .check(
+        header("Location".asInstanceOf[CharSequence])
+          .is(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
+      )
 
   def getRejectedGoodsClaimantDetailsPage: HttpRequestBuilder =
     http("get the contact details page")
@@ -449,25 +454,26 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsChangeContactDetailsPage: HttpRequestBuilder =
     http("post the rejected goods change contact details page")
       .post(s"$baseUrl/$route1/single/claimant-details/change-contact-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
-      .formParam("enter-contact-details.contact-name", "Online Sales LTD")
-      .formParam("enter-contact-details.contact-email", "someemail@mail.com")
-      .formParam("enter-contact-details.contact-phone-number", "+4420723934397")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("enter-contact-details.contact-name", _ => "Online Sales LTD")
+      .formParam("enter-contact-details.contact-email", _ => "someemail@mail.com")
+      .formParam("enter-contact-details.contact-phone-number", _ => "+4420723934397")
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/claimant-details/lookup-address": String))
+      .check(
+        header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/claimant-details/lookup-address": String)
+      )
 
   def getRejectedGoodsClaimantDetailsPage1: HttpRequestBuilder =
     http("get the rejected goods claimant details page from details contact page")
       .get(s"$baseUrl/$route1/single/claimant-details": String)
       .check(status.in(200, 303))
-  //.check(bodyString.transform(_.contains("Who should we contact about this claim?")).is(true))
 
   def postRejectedGoodsClaimDetailsPage: HttpRequestBuilder =
     http("post rejected goods claim details page")
       .post(s"$baseUrl/$route1/single/claimant-details": String)
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
-      .check(header("Location").is(s"/$route1/single/check-your-answers": String))
+      .check(header("Location".asInstanceOf[CharSequence]).is(s"/$route1/single/check-your-answers": String))
 
   def getRejectedGoodsCheckYourAnswersPage: HttpRequestBuilder =
     http("get the rejected goods check your answers page")
@@ -477,12 +483,11 @@ object RejectedGoodsSingleRequests extends ServicesConfiguration with RequestUti
   def postRejectedGoodsCheckYourAnswersPage: HttpRequestBuilder =
     http("post rejected goods submit claim page")
       .post(s"$baseUrl/$route1/single/submit-claim": String)
-      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("csrfToken", session => session("csrfToken").as[String])
       .check(status.is(303))
 
   def getRejectedGoodsClaimSubmittedPage: HttpRequestBuilder =
     http("get rejected goods claim submitted page")
       .get(s"$baseUrl/$route1/single/claim-submitted": String)
       .check(status.is(303))
-
 }
